@@ -1,0 +1,122 @@
+// ~/.config/waybar/config.jsonc — Shadow Materia
+// Módulos sem hardware correspondente (bateria/brilho no desktop) somem sozinhos.
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 6,
+  "margin-top": 4,
+  "margin-left": 6,
+  "margin-right": 6,
+
+  "modules-left":   ["custom/arch", "sway/workspaces", "sway/mode", "sway/scratchpad"],
+  "modules-center": ["clock"],
+  "modules-right":  ["idle_inhibitor", "pulseaudio", "backlight", "network", "bluetooth",
+                     "cpu", "memory", "temperature", "battery", "tray", "custom/power"],
+
+  "custom/arch": {
+    "format": "󰣇",
+    "tooltip": false,
+    "on-click": "rofi -show drun"
+  },
+
+  "sway/workspaces": {
+    "disable-scroll": false,
+    "all-outputs": false,
+    "format": "{name}"
+  },
+
+  "sway/mode": { "format": "󰩨 {}" },
+
+  "sway/scratchpad": {
+    "format": "󰖲 {count}",
+    "show-empty": false,
+    "tooltip-format": "{app}: {title}"
+  },
+
+  "clock": {
+    "format": "{:%a %d/%m  %H:%M}",
+    "locale": "pt_BR.UTF-8",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "mode": "month",
+      "format": {
+        "months":   "<span color='#8ab4f8'><b>{}</b></span>",
+        "weekdays": "<span color='#999999'>{}</span>",
+        "today":    "<span color='#5294e2'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": { "activated": "󰅶", "deactivated": "󰾪" },
+    "tooltip-format-activated": "Tela não apaga",
+    "tooltip-format-deactivated": "Bloqueio automático ativo"
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 mudo",
+    "format-bluetooth": "󰂰 {volume}%",
+    "format-icons": { "headphone": "󰋋", "default": ["󰕿", "󰖀", "󰕾"] },
+    "on-click": "pavucontrol",
+    "on-click-right": "swayosd-client --output-volume mute-toggle",
+    "scroll-step": 5
+  },
+
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "on-scroll-up": "swayosd-client --brightness raise",
+    "on-scroll-down": "swayosd-client --brightness lower"
+  },
+
+  "network": {
+    "format-wifi": "󰤨 {essid}",
+    "format-ethernet": "󰈀 {ipaddr}",
+    "format-linked": "󰈀 sem IP",
+    "format-disconnected": "󰤭 offline",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ifname}: {ipaddr}/{cidr}\nGW {gwaddr}",
+    "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}\nGW {gwaddr}",
+    "on-click": "nm-connection-editor",
+    "max-length": 28
+  },
+
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-connected": "󰂱 {num_connections}",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "blueman-manager"
+  },
+
+  "cpu":    { "format": "󰻠 {usage}%", "interval": 3, "on-click": "ghostty -e btop" },
+  "memory": { "format": "󰍛 {percentage}%", "interval": 5, "tooltip-format": "{used:0.1f} / {total:0.1f} GiB" },
+
+  "temperature": {
+    "thermal-zone": 0,
+    "critical-threshold": 85,
+    "format": "󰔏 {temperatureC}°",
+    "format-critical": "󰸁 {temperatureC}°"
+  },
+
+  "battery": {
+    "states": { "warning": 25, "critical": 12 },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰚥 {capacity}%",
+    "format-icons": ["󰁺", "󰁼", "󰁾", "󰂀", "󰁹"],
+    "tooltip-format": "{timeTo}\n{power:.1f} W"
+  },
+
+  "tray": { "icon-size": 16, "spacing": 8 },
+
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip": false,
+    "on-click": "~/.config/sway/scripts/powermenu.sh"
+  }
+}

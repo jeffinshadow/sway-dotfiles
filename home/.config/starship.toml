@@ -1,0 +1,74 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = true
+palette = "shadow_materia"
+
+# uma linha: capsulas -> digita na sequencia (homenagem ao prompt de 2023)
+format = "[](azul)$os$username$hostname[](bg:superficie fg:azul)$directory$git_branch$git_status$status$character"
+
+right_format = "$cmd_duration$time"
+
+[palettes.shadow_materia]
+fundo = "#181818"
+superficie = "#282828"
+azul = "#5294e2"
+azul_claro = "#8ab4f8"
+verde = "#81c995"
+vermelho = "#f28b82"
+ambar = "#fdd663"
+roxo = "#c58af9"
+cinza = "#8a8a8a"
+
+[os]
+disabled = false
+format = "[ $symbol ]($style)"
+style = "bg:azul fg:fundo"
+
+[os.symbols]
+Arch = "󰣇"
+
+[username]
+show_always = true
+format = "[$user ]($style)"
+style_user = "bg:azul fg:fundo bold"
+style_root = "bg:vermelho fg:fundo bold"
+
+[hostname]
+ssh_only = true
+format = "[@$hostname ]($style)"
+style = "bg:azul fg:fundo"
+
+[directory]
+format = "[ 󰋜 $path ]($style)"
+style = "bg:superficie fg:azul_claro"
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = " 󰌾"
+
+[git_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
+style = "bg:superficie fg:roxo"
+
+[git_status]
+format = "[$all_status$ahead_behind]($style)"
+style = "bg:superficie fg:vermelho"
+
+[status]
+disabled = false
+format = "[ ✘ $status ]($style)"
+style = "bg:superficie fg:vermelho"
+
+[character]
+success_symbol = "[ ](fg:superficie)"
+error_symbol = "[ ](fg:vermelho)"
+
+[cmd_duration]
+min_time = 2000
+format = "[󱎫 $duration]($style) "
+style = "ambar"
+
+[time]
+disabled = false
+format = "[󰥔 $time]($style)"
+style = "cinza"
+time_format = "%H:%M"

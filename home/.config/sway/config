@@ -1,0 +1,11 @@
+# ~/.config/sway/config — Shadow Materia
+#
+# Tudo fica em config.d/, carregado em ordem alfabética.
+# config.d/90-host.conf é um symlink criado pelo install.sh apontando pra
+# hosts/<hostname>/sway.conf do repo de dotfiles (monitores, energia, etc.).
+
+# Integração com systemd/dbus que o pacote do Arch fornece
+# (exporta WAYLAND_DISPLAY etc. pros serviços --user e portais)
+include /etc/sway/config.d/*
+
+include ~/.config/sway/config.d/*.conf

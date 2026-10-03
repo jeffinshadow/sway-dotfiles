@@ -1,0 +1,81 @@
+/* ~/.config/waybar/style.css — Shadow Materia
+   Herda o painel do KDE: fundo #181818, "pílulas" #282828, raio 6. */
+@define-color base      #181818;
+@define-color surface   #282828;
+@define-color surface2  #333333;
+@define-color accent    #5294e2;
+@define-color accent_lt #8ab4f8;
+@define-color text      #dedede;
+@define-color text_dim  #999999;
+@define-color red       #f28b82;
+@define-color amber     #fdd663;
+@define-color green     #81c995;
+
+* {
+  font-family: "Google Sans", "Symbols Nerd Font";
+  font-size: 13px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+
+window#waybar {
+  background: @base;
+  color: @text;
+  border-radius: 8px;
+}
+
+tooltip {
+  background: @surface;
+  border: 1px solid @surface2;
+  border-radius: 6px;
+}
+tooltip label { color: @text; }
+
+#custom-arch,
+#workspaces,
+#mode,
+#scratchpad,
+#clock,
+#idle_inhibitor,
+#pulseaudio,
+#backlight,
+#network,
+#bluetooth,
+#cpu,
+#memory,
+#temperature,
+#battery,
+#tray,
+#custom-power {
+  background: @surface;
+  border-radius: 6px;
+  padding: 0 10px;
+  margin: 4px 0;
+}
+
+#custom-arch { color: @accent; font-size: 16px; margin-left: 4px; }
+#custom-power { color: @red; margin-right: 4px; }
+
+#workspaces { padding: 0 2px; }
+#workspaces button {
+  color: @text_dim;
+  padding: 0 8px;
+  border-radius: 6px;
+  background: transparent;
+}
+#workspaces button:hover { background: @surface2; color: @text; box-shadow: none; }
+#workspaces button.focused { color: @base; background: @accent; }
+#workspaces button.urgent  { color: @base; background: @red; }
+
+#mode { color: @base; background: @amber; }
+
+#clock { color: @text; font-weight: 600; }
+
+#idle_inhibitor.activated { color: @amber; }
+#pulseaudio.muted, #network.disconnected { color: @text_dim; }
+#temperature.critical { color: @red; }
+
+#battery.charging, #battery.plugged { color: @green; }
+#battery.warning:not(.charging)  { color: @amber; }
+#battery.critical:not(.charging) { color: @base; background: @red; }

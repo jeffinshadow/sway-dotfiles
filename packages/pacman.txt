@@ -1,0 +1,27 @@
+# Pacotes que os dotfiles usam (repositórios oficiais).
+# Só o ambiente — drivers e ferramentas de cada máquina ficam no deploy dela.
+
+# Sway e sessão
+sway swaybg swayidle swaylock waybar rofi mako kanshi swayosd
+xorg-xwayland xdg-desktop-portal-wlr xdg-desktop-portal-gtk
+polkit-gnome gnome-keyring seahorse libsecret
+grim slurp swappy wl-clipboard cliphist wl-mirror jq libnotify
+brightnessctl playerctl gammastep
+network-manager-applet blueman pavucontrol
+xdg-user-dirs xdg-utils xdg-terminal-exec
+nwg-look nwg-displays
+
+# Tema e fontes
+adw-gtk-theme papirus-icon-theme qt6ct qt5-wayland qt6-wayland
+noto-fonts noto-fonts-emoji noto-fonts-cjk inter-font
+ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono
+
+# Apps GTK
+ghostty ghostty-nautilus
+nautilus nautilus-python sushi gvfs gvfs-smb gvfs-mtp gvfs-nfs
+file-roller loupe papers gnome-text-editor gnome-calculator
+webp-pixbuf-loader ffmpegthumbnailer
+
+# Shell
+zsh zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search
+zsh-completions starship fastfetch btop

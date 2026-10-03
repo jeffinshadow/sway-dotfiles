@@ -1,0 +1,74 @@
+/* Shadow Materia — paleta (mesmos nomes de cor do libadwaita/adw-gtk3) */
+@define-color accent_color          #8ab4f8;
+@define-color accent_bg_color       #5294e2;
+@define-color accent_fg_color       #ffffff;
+
+@define-color destructive_color     #f28b82;
+@define-color destructive_bg_color  #c5524a;
+@define-color destructive_fg_color  #ffffff;
+@define-color success_color         #81c995;
+@define-color success_bg_color      #3f8a57;
+@define-color success_fg_color      #ffffff;
+@define-color warning_color         #fdd663;
+@define-color warning_bg_color      #b88a00;
+@define-color warning_fg_color      #ffffff;
+@define-color error_color           #f28b82;
+@define-color error_bg_color        #c5524a;
+@define-color error_fg_color        #ffffff;
+
+@define-color window_bg_color       #181818;
+@define-color window_fg_color       #dedede;
+@define-color view_bg_color         #181818;
+@define-color view_fg_color         #dedede;
+@define-color headerbar_bg_color    #181818;
+@define-color headerbar_fg_color    #dedede;
+@define-color headerbar_border_color #dedede;
+@define-color headerbar_backdrop_color #181818;
+@define-color headerbar_shade_color rgba(0, 0, 0, 0.36);
+@define-color sidebar_bg_color      #1e1e1e;
+@define-color sidebar_fg_color      #dedede;
+@define-color sidebar_backdrop_color #1e1e1e;
+@define-color sidebar_shade_color   rgba(0, 0, 0, 0.36);
+@define-color secondary_sidebar_bg_color #1b1b1b;
+@define-color secondary_sidebar_fg_color #dedede;
+@define-color card_bg_color         #282828;
+@define-color card_fg_color         #dedede;
+@define-color card_shade_color      rgba(0, 0, 0, 0.36);
+@define-color dialog_bg_color       #202020;
+@define-color dialog_fg_color       #dedede;
+@define-color popover_bg_color      #282828;
+@define-color popover_fg_color      #dedede;
+@define-color popover_shade_color   rgba(0, 0, 0, 0.25);
+@define-color thumbnail_bg_color    #282828;
+@define-color thumbnail_fg_color    #dedede;
+@define-color shade_color           rgba(0, 0, 0, 0.36);
+@define-color scrollbar_outline_color rgba(0, 0, 0, 0.5);
+
+/* libadwaita ≥ 1.6 também lê as cores como variáveis CSS */
+:root {
+  --accent-color: #8ab4f8;
+  --accent-bg-color: #5294e2;
+  --accent-fg-color: #ffffff;
+  --window-bg-color: #181818;
+  --window-fg-color: #dedede;
+  --view-bg-color: #181818;
+  --view-fg-color: #dedede;
+  --headerbar-bg-color: #181818;
+  --headerbar-fg-color: #dedede;
+  --headerbar-backdrop-color: #181818;
+  --sidebar-bg-color: #1e1e1e;
+  --sidebar-fg-color: #dedede;
+  --sidebar-backdrop-color: #1e1e1e;
+  --secondary-sidebar-bg-color: #1b1b1b;
+  --card-bg-color: #282828;
+  --card-fg-color: #dedede;
+  --dialog-bg-color: #202020;
+  --dialog-fg-color: #dedede;
+  --popover-bg-color: #282828;
+  --popover-fg-color: #dedede;
+  --thumbnail-bg-color: #282828;
+  --destructive-bg-color: #c5524a;
+  --success-bg-color: #3f8a57;
+  --warning-bg-color: #b88a00;
+  --error-bg-color: #c5524a;
+}

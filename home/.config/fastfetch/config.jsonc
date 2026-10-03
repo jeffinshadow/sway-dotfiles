@@ -1,0 +1,38 @@
+// ~/.config/fastfetch/config.jsonc
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "source": "~/.config/fastfetch/shadow.png",
+    "type": "kitty",
+    "width": 40,
+    "padding": { "top": 2, "left": 2, "right": 3 }
+  },
+  "display": {
+    "separator": "  ",
+    "color": { "keys": "white" }
+  },
+  "modules": [
+    "break",
+    { "type": "custom", "format": "\u001b[1mdragão xinês sem galantia\u001b[0m" },
+    { "type": "custom", "format": "\u001b[38;2;24;24;24m────────────────────────────────\u001b[0m" },
+    { "type": "custom", "format": "\u001b[1m󰇺  Hardware\u001b[0m" },
+    { "type": "board", "key": "󰌢", "format": "{2} {1} ({3})" },
+    { "type": "cpu",     "key": "󰻠" },
+    { "type": "gpu",     "key": "󰢮" },
+    { "type": "memory",  "key": "󰑭" },
+    { "type": "disk",    "key": "󰋊" },
+    { "type": "display", "key": "󰍹" },
+    { "type": "custom", "format": "\u001b[38;2;24;24;24m────────────────────────────────\u001b[0m" },
+    { "type": "custom", "format": "\u001b[1m󰆍  Software\u001b[0m" },
+    { "type": "kernel",       "key": "󰌽" },
+    { "type": "os",           "key": "󰣇" },
+    { "type": "de",           "key": "󰧨" },
+    { "type": "theme", "key": "󰏘", "format": "{1}" },
+    { "type": "icons",        "key": "󰀻" },
+    { "type": "terminalfont", "key": "󰛖" },
+    { "type": "packages",     "key": "󰏖" },
+    { "type": "media", "key": "󰝚", "format": "{1} - {3}" },
+    "break",
+    "colors"
+  ]
+}

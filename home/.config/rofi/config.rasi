@@ -1,0 +1,17 @@
+/* ~/.config/rofi/config.rasi */
+configuration {
+    modi:                "drun,run,window";
+    show-icons:          true;
+    icon-theme:          "Papirus-Dark";
+    font:                "Google Sans 11";
+    terminal:            "ghostty";
+    drun-display-format: "{name}";
+    display-drun:        "󰀻";
+    display-run:         "";
+    display-window:      "󰖯";
+    disable-history:     false;
+    sort:                true;
+    sorting-method:      "fzf";
+    matching:            "fuzzy";
+}
+@theme "shadow-materia"

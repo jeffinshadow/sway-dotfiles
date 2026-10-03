@@ -1,0 +1,15 @@
+# ~/.config/kanshi/config — perfis de monitor (usado no notebook)
+# Descubra nomes/modos com: swaymsg -t get_outputs
+# Ajuste visual e salve com: nwg-displays
+
+# Só a tela do notebook
+profile notebook {
+    output eDP-1 enable mode 1920x1080 scale 1.0 position 0,0
+}
+
+# Notebook + 1 monitor/projetor qualquer: externo à direita.
+# Pra espelhar (apresentação) use $mod+p (wl-mirror).
+profile externo {
+    output eDP-1 enable mode 1920x1080 scale 1.0 position 0,0
+    output * enable position 1920,0
+}

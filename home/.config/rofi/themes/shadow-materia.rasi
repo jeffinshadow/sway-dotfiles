@@ -1,0 +1,67 @@
+/* ~/.config/rofi/shadow-materia.rasi
+   Port do materia.rasi do i3 antigo pra paleta atual. Centralizado. */
+* {
+    base:      #181818;
+    surface:   #282828;
+    surface2:  #333333;
+    accent:    #5294e2;
+    accent-lt: #8ab4f8;
+    fg:        #dedede;
+    fg-dim:    #999999;
+
+    background-color: transparent;
+    text-color:       @fg;
+    spacing:          0;
+}
+
+window {
+    location:         center;
+    anchor:           center;
+    width:            560px;
+    background-color: @base;
+    border:           2px;
+    border-color:     @surface2;
+    border-radius:    10px;
+    padding:          12px;
+}
+
+mainbox { children: [ inputbar, message, listview ]; spacing: 10px; }
+
+inputbar {
+    children:         [ prompt, entry ];
+    background-color: @surface;
+    border-radius:    8px;
+    padding:          10px 12px;
+    spacing:          10px;
+}
+prompt { text-color: @accent; }
+entry  { placeholder: "Buscar…"; placeholder-color: @fg-dim; cursor: text; }
+
+message { background-color: @surface; border-radius: 8px; padding: 8px 12px; }
+textbox { text-color: @fg; }
+
+listview {
+    lines:     8;
+    columns:   1;
+    cycle:     false;
+    scrollbar: false;
+    spacing:   2px;
+    fixed-height: true;
+}
+
+element {
+    padding:       8px 10px;
+    border-radius: 6px;
+    spacing:       10px;
+}
+element normal.normal,
+element alternate.normal { background-color: transparent; text-color: @fg; }
+element selected.normal  { background-color: @accent; text-color: @base; }
+element normal.active,
+element alternate.active { text-color: @accent-lt; }
+element selected.active  { background-color: @accent-lt; text-color: @base; }
+element normal.urgent,
+element alternate.urgent { text-color: #f28b82; }
+
+element-icon { size: 1.3em; vertical-align: 0.5; }
+element-text { vertical-align: 0.5; text-color: inherit; }

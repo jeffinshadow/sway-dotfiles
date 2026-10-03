@@ -1,0 +1,32 @@
+# ~/.config/swaylock/config — Shadow Materia
+image=~/.local/share/wallpapers/shadow-principal.png
+scaling=fill
+color=181818
+font=Google Sans
+font-size=22
+indicator-radius=90
+indicator-thickness=8
+show-failed-attempts
+ignore-empty-password
+
+inside-color=181818cc
+inside-clear-color=181818cc
+inside-ver-color=181818cc
+inside-wrong-color=181818cc
+ring-color=282828
+ring-clear-color=8ab4f8
+ring-ver-color=5294e2
+ring-wrong-color=f28b82
+key-hl-color=5294e2
+bs-hl-color=f28b82
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+separator-color=00000000
+text-color=dedede
+text-clear-color=dedede
+text-ver-color=dedede
+text-wrong-color=f28b82
+layout-bg-color=00000000
+layout-text-color=dedede
