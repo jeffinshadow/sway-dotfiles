@@ -16,8 +16,9 @@
 
   "custom/arch": {
     "format": "󰣇",
-    "tooltip": false,
-    "on-click": "rofi -show drun"
+    "tooltip-format": "Atalhos (Super+F1)\nBotão direito: apps",
+    "on-click": "~/.config/sway/scripts/keybinds.sh",
+    "on-click-right": "rofi -show drun"
   },
 
   "sway/workspaces": {

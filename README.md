@@ -61,6 +61,7 @@ Rodar de novo é seguro.
 
 | Tecla | Ação |
 |---|---|
+| `Super+F1` ou clique no logo do Arch | Esta cola de atalhos (gerada do config) |
 | `Super+Enter` | Terminal |
 | `Super+d` | Rofi (apps) · `Super+Tab` janelas |
 | `Super+n` / `Super+b` | Nautilus / Firefox |
