@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # keybinds.sh — cola de atalhos no rofi, gerada a partir do config do sway.
 # Só aparecem os atalhos documentados com "#:" (ver config.d/30-binds.conf).
+# Liga/desliga: rofi aberto (ou travado) → fecha e sai
+pkill -x rofi && exit 0
+
 set -euo pipefail
 export LC_ALL=C.UTF-8   # gawk conta caracteres (não bytes) no alinhamento
 
