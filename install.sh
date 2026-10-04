@@ -122,6 +122,19 @@ link "$HOSTDIR/ghostty"   "$HOME/.config/ghostty/host"
 ok "Perfil de máquina: $(basename "$HOSTDIR")"
 
 # ------------------------------------------------------------------
+# Gancho do git: todo 'git pull' que trouxer mudanças roda o install.sh
+# de novo (--yes), então arquivos novos ganham link sozinhos.
+# ------------------------------------------------------------------
+if [[ -d "$DOT/.git/hooks" ]]; then
+    cat > "$DOT/.git/hooks/post-merge" <<HOOK
+#!/bin/sh
+# Gerado pelo install.sh — liga arquivos novos depois de 'git pull'
+exec "$DOT/install.sh" --yes --host "$HOST"
+HOOK
+    chmod +x "$DOT/.git/hooks/post-merge"
+fi
+
+# ------------------------------------------------------------------
 # Extras (cada um só roda se a ferramenta existir)
 # ------------------------------------------------------------------
 command -v fc-cache &>/dev/null && fc-cache -f >/dev/null && ok "Cache de fontes atualizado."
@@ -140,7 +153,10 @@ else
 fi
 
 # Pastas azuis no Papirus (mexe em /usr/share/icons → precisa de sudo)
-if command -v papirus-folders &>/dev/null; then
+papirus_azul() {
+    [[ "$(readlink -f /usr/share/icons/Papirus-Dark/64x64/places/folder.svg 2>/dev/null)" == *folder-blue* ]]
+}
+if command -v papirus-folders &>/dev/null && ! papirus_azul; then
     if sudo -n true 2>/dev/null || ! $YES; then
         sudo papirus-folders -C blue --theme Papirus-Dark >/dev/null && ok "Papirus: pastas azuis."
     else
