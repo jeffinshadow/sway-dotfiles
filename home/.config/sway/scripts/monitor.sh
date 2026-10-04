@@ -13,6 +13,10 @@ MIRROR_ID="at.yrlf.wl_mirror"
 aviso() { notify-send -a monitor -i video-display "Monitor externo" "$1"; }
 
 outputs=$(swaymsg -t get_outputs -r)
+if ! jq -e --arg i "$INTERNA" 'any(.[]; .name == $i)' <<<"$outputs" >/dev/null; then
+    aviso "Esta máquina não tem tela interna ($INTERNA): nada a alternar."
+    exit 0
+fi
 ext=$(jq -r --arg i "$INTERNA" '[.[] | select(.name != $i)][0].name // empty' <<<"$outputs")
 if [[ -z "$ext" ]]; then
     aviso "Nenhum monitor externo conectado."

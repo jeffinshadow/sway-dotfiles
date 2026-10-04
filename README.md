@@ -9,7 +9,7 @@ Servem pra qualquer máquina. O que muda entre elas fica em `hosts/<hostname>/`.
 | Máquina | Perfil |
 |---|---|
 | `shadowtec-latios` | Latitude 7280: escala 1.0 com texto 1.15×, waybar maior, kanshi, tampa, suspensão |
-| `shadowtec-giratina` | Desktop/servidor: sem suspensão, mouse flat, monitores a definir |
+| `shadowtec-giratina` | Desktop/servidor 24/7: monitor 1080p a 100 Hz (atrás de um KVM), sem suspensão, mouse flat |
 | qualquer outra | `hosts/default` |
 
 ## Instalação
@@ -44,6 +44,7 @@ Rodar de novo é seguro.
 | Ícones / cursor | Papirus-Dark (pastas azuis) / Bibata Modern Ice |
 | Fontes | Google Sans (UI) / Google Sans Code (mono) |
 | Shell | zsh + starship + fastfetch |
+| Multiplexador | tmux (abre/reanexa a sessão `main` sozinho em todo SSH) |
 
 ## Paleta
 

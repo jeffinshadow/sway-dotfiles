@@ -24,4 +24,4 @@ webp-pixbuf-loader ffmpegthumbnailer
 
 # Shell
 zsh zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search
-zsh-completions starship fastfetch btop
+zsh-completions starship fastfetch btop tmux

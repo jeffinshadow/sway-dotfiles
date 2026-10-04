@@ -4,7 +4,11 @@
 pkill -x rofi && exit 0
 
 opts=$'󰌾  Bloquear\n󰤄  Suspender\n󰍃  Sair do Sway\n󰜉  Reiniciar\n󰐥  Desligar'
-choice=$(printf '%s' "$opts" | rofi -dmenu -i -p "Energia" -theme-str 'window {width: 320px;} listview {lines: 5;}')
+# Máquina com suspensão mascarada (servidor): some com a opção
+if [[ "$(systemctl is-enabled suspend.target 2>/dev/null)" == masked ]]; then
+    opts=$(grep -v Suspender <<<"$opts")
+fi
+choice=$(printf '%s' "$opts" | rofi -dmenu -i -p "Energia" -theme-str "window {width: 320px;} listview {lines: $(grep -c "" <<<"$opts");}")
 case "$choice" in
     *Bloquear)  swaylock -f ;;
     *Suspender) systemctl suspend ;;
