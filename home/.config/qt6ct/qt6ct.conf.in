@@ -6,7 +6,7 @@ standard_dialogs=xdgdesktopportal
 style=Fusion
 
 [Fonts]
-fixed="Google Sans Code NF,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+fixed="Google Sans Code,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
 general="Google Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
 
 [Interface]

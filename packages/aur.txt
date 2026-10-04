@@ -1,5 +1,5 @@
 # Pacotes do AUR (instalados com paru, se existir)
 ttf-google-sans
-ttf-google-sans-code-nf
+ttf-google-sans-code-vf
 bibata-cursor-theme-bin
 papirus-folders

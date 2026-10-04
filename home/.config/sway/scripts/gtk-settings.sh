@@ -13,7 +13,7 @@ gs cursor-theme        'Bibata-Modern-Ice'
 gs cursor-size         24
 gs font-name           'Google Sans 10'
 gs document-font-name  'Google Sans 10'
-gs monospace-font-name 'Google Sans Code NF 10'
+gs monospace-font-name 'Google Sans Code 10'
 gs font-antialiasing   'rgba'
 gs font-hinting        'slight'
 gs text-scaling-factor "${SHADOW_TEXT_SCALE:-1.0}"

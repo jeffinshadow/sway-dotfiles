@@ -42,7 +42,7 @@ Rodar de novo é seguro.
 | Tema GTK4 | libadwaita + paleta em `gtk-4.0/gtk.css` |
 | Tema Qt | qt6ct + Fusion + paleta `ShadowMateria.conf` |
 | Ícones / cursor | Papirus-Dark (pastas azuis) / Bibata Modern Ice |
-| Fontes | Google Sans (UI) / Google Sans Code NF (mono) |
+| Fontes | Google Sans (UI) / Google Sans Code (mono) |
 | Shell | zsh + starship + fastfetch |
 
 ## Paleta

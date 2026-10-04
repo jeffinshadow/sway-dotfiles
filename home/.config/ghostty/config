@@ -1,7 +1,8 @@
 # ~/.config/ghostty/config — Shadow Materia
-# Ghostty: GTK4, protocolo de imagens do kitty, glyphs Nerd Font nativos.
+# Ghostty: GTK4, protocolo de imagens do kitty. Os ícones Nerd Font que a
+# Google Sans Code não tem, o ghostty desenha sozinho.
 
-font-family = Google Sans Code NF
+font-family = Google Sans Code
 font-size = 11
 font-feature = calt
 font-feature = liga
