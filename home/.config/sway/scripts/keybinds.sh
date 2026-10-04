@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # keybinds.sh — cola de atalhos no rofi, gerada a partir do config do sway.
-# Só aparecem os atalhos documentados com "#:" (ver config.d/30-binds.conf).
+# Só aparecem os atalhos documentados com "#:" (ver config.d/30-binds.conf),
+# acima de bindsym, floating_modifier ou tiling_drag.
 # Liga/desliga: rofi aberto (ou travado) → fecha e sai
 pkill -x rofi && exit 0
 
@@ -30,7 +31,7 @@ function esc(s) { gsub(/&/, "\\&amp;", s); gsub(/</, "\\&lt;", s); gsub(/>/, "\\
 /^[ \t]*#:/ {
     sub(/^[ \t]*#:[ \t]*/, ""); desc = $0; next
 }
-/^[ \t]*bindsym/ && desc != "" {
+/^[ \t]*(bindsym|floating_modifier|tiling_drag)/ && desc != "" {
     key = ""
     for (i = 2; i <= NF; i++) if ($i !~ /^--/) { key = $i; break }
     if (index(desc, " | ")) {
