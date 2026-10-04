@@ -45,8 +45,6 @@ tooltip label { color: @text; }
 #idle_inhibitor,
 #pulseaudio,
 #backlight,
-#network,
-#bluetooth,
 #cpu,
 #memory,
 #temperature,
@@ -78,7 +76,7 @@ tooltip label { color: @text; }
 #clock { color: @text; font-weight: 600; }
 
 #idle_inhibitor.activated { color: @amber; }
-#pulseaudio.muted, #network.disconnected { color: @text_dim; }
+#pulseaudio.muted { color: @text_dim; }
 #temperature.critical { color: @red; }
 
 #battery.charging, #battery.plugged { color: @green; }

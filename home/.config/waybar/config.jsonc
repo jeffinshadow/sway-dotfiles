@@ -10,7 +10,7 @@
 
   "modules-left":   ["custom/arch", "sway/workspaces", "sway/mode", "sway/scratchpad"],
   "modules-center": ["clock"],
-  "modules-right":  ["idle_inhibitor", "pulseaudio", "backlight", "network", "bluetooth",
+  "modules-right":  ["idle_inhibitor", "pulseaudio", "backlight",
                      "cpu", "memory", "temperature", "battery", "tray", "custom/power"],
 
   "custom/arch": {
@@ -70,27 +70,6 @@
     "format-icons": ["󰃞", "󰃟", "󰃠"],
     "on-scroll-up": "swayosd-client --brightness raise",
     "on-scroll-down": "swayosd-client --brightness lower"
-  },
-
-  "network": {
-    "format-wifi": "󰤨 {essid}",
-    "format-ethernet": "󰈀 {ipaddr}",
-    "format-linked": "󰈀 sem IP",
-    "format-disconnected": "󰤭 offline",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ifname}: {ipaddr}/{cidr}\nGW {gwaddr}",
-    "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}\nGW {gwaddr}",
-    "on-click": "nm-connection-editor",
-    "max-length": 28
-  },
-
-  "bluetooth": {
-    "format": "󰂯",
-    "format-disabled": "󰂲",
-    "format-off": "󰂲",
-    "format-connected": "󰂱 {num_connections}",
-    "tooltip-format-connected": "{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}",
-    "on-click": "blueman-manager"
   },
 
   "cpu":    { "format": "󰻠 {usage}%", "interval": 3, "on-click": "ghostty -e btop" },
