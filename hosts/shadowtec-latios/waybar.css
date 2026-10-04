@@ -1,0 +1,27 @@
+/* latios — 12.5" FHD: texto ~1.2x maior (o text-scaling-factor do GTK
+   não alcança a waybar, que usa tamanhos em px). */
+window#waybar,
+window#waybar * {
+  font-size: 15px;
+}
+window#waybar #custom-arch {
+  font-size: 19px;
+}
+window#waybar #custom-arch,
+window#waybar #workspaces,
+window#waybar #mode,
+window#waybar #scratchpad,
+window#waybar #clock,
+window#waybar #idle_inhibitor,
+window#waybar #pulseaudio,
+window#waybar #backlight,
+window#waybar #network,
+window#waybar #bluetooth,
+window#waybar #cpu,
+window#waybar #memory,
+window#waybar #temperature,
+window#waybar #battery,
+window#waybar #tray,
+window#waybar #custom-power {
+  padding: 2px 11px;
+}

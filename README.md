@@ -8,7 +8,7 @@ Servem pra qualquer máquina. O que muda entre elas fica em `hosts/<hostname>/`.
 
 | Máquina | Perfil |
 |---|---|
-| `shadowtec-latios` | Latitude 7280: escala 1.0 com texto 1.15×, kanshi, tampa, suspensão |
+| `shadowtec-latios` | Latitude 7280: escala 1.0 com texto 1.15×, waybar maior, kanshi, tampa, suspensão |
 | `shadowtec-giratina` | Desktop/servidor: sem suspensão, mouse flat, monitores a definir |
 | qualquer outra | `hosts/default` |
 
@@ -82,5 +82,6 @@ Rodar de novo é seguro.
 ```bash
 cp -r hosts/default hosts/<hostname>
 $EDITOR hosts/<hostname>/sway.conf    # monitores, escala de texto, energia
+$EDITOR hosts/<hostname>/waybar.css   # tamanho da barra
 ./install.sh
 ```

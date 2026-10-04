@@ -119,6 +119,7 @@ if [[ ! -d "$HOSTDIR" ]]; then
 fi
 link "$HOSTDIR/sway.conf" "$HOME/.config/sway/config.d/90-host.conf"
 link "$HOSTDIR/ghostty"   "$HOME/.config/ghostty/host"
+link "$HOSTDIR/waybar.css" "$HOME/.config/waybar/host.css"
 ok "Perfil de máquina: $(basename "$HOSTDIR")"
 
 # ------------------------------------------------------------------

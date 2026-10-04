@@ -1,5 +1,10 @@
 /* ~/.config/waybar/style.css — Shadow Materia
-   Herda o painel do KDE: fundo #181818, "pílulas" #282828, raio 6. */
+   Herda o painel do KDE: fundo #181818, "pílulas" #282828, raio 6.
+
+   Tamanhos por máquina: host.css (symlink pra hosts/<hostname>/waybar.css,
+   criado pelo install.sh). As regras de lá usam seletores mais específicos
+   (window#waybar ...), então vencem as daqui mesmo vindo antes. */
+@import url("host.css");
 @define-color base      #181818;
 @define-color surface   #282828;
 @define-color surface2  #333333;
