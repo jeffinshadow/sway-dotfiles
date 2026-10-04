@@ -71,7 +71,7 @@ Rodar de novo é seguro.
 | `Super+s` / `w` / `e` | Empilhado / abas / alterna divisão |
 | `Super+r` | Modo redimensionar |
 | `Super+Shift+v` | Histórico do clipboard |
-| `Super+p` | Espelhar tela (projetor) |
+| `Super+p` | Monitor externo: estender ↔ espelhar |
 | `Super+x` | Bloquear |
 | `Super+Shift+e` | Menu de energia |
 | `Super+.` | Dispensar notificação |

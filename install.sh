@@ -96,6 +96,15 @@ while IFS= read -r -d '' f; do
 done < <(cd "$DOT/home" && find . \( -type f -o -type l \) -print0)
 ok "$count arquivos ligados."
 
+# Links órfãos: arquivos que saíram do repo deixam symlinks quebrados
+# apontando pra ele. Só remove links quebrados que apontam pro $DOT.
+orfaos=0
+while IFS= read -r -d '' l; do
+    rm -f "$l"; orfaos=$((orfaos + 1))
+done < <(find "$HOME" -maxdepth 1 -xtype l -lname "$DOT/*" -print0 2>/dev/null
+         find "$HOME/.config" "$HOME/.local" -xtype l -lname "$DOT/*" -print0 2>/dev/null)
+((orfaos)) && ok "$orfaos links órfãos removidos."
+
 # Templates (*.in): precisam do caminho real do $HOME, então são copiados
 while IFS= read -r -d '' f; do
     rel="${f#./}"; dst="$HOME/${rel%.in}"
