@@ -25,6 +25,7 @@ style = "bg:azul fg:fundo"
 
 [os.symbols]
 Arch = "󰣇"
+CachyOS = "󰣇"   # o padrão do starship é 🎗️
 
 [username]
 show_always = true
