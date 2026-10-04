@@ -97,7 +97,11 @@
   "memory": { "format": "󰍛 {percentage}%", "interval": 5, "tooltip-format": "{used:0.1f} / {total:0.1f} GiB" },
 
   "temperature": {
-    "thermal-zone": 0,
+    // Pacote da CPU (coretemp, Intel). hwmon-path-abs não depende da
+    // numeração hwmonN, que muda entre boots. thermal_zone0 no Dell é um
+    // sensor ACPI do chassi (fica ~25° parado).
+    "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+    "input-filename": "temp1_input",
     "critical-threshold": 85,
     "format": "󰔏 {temperatureC}°",
     "format-critical": "󰸁 {temperatureC}°"
