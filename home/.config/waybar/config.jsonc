@@ -16,9 +16,9 @@
 
   "custom/arch": {
     "format": "󰣇",
-    "tooltip-format": "Atalhos (Super+F1)\nBotão direito: apps",
-    "on-click": "~/.config/sway/scripts/keybinds.sh",
-    "on-click-right": "pkill -x rofi || rofi -show drun"
+    "tooltip-format": "Apps\nBotão direito: atalhos (Super+F1)",
+    "on-click": "pkill -x rofi || rofi -show drun",
+    "on-click-right": "~/.config/sway/scripts/keybinds.sh"
   },
 
   "sway/workspaces": {
