@@ -6,9 +6,9 @@
   "layer": "top",
   "position": "top",
   "spacing": 8,
-  "margin-top": 5,
-  "margin-left": 8,
-  "margin-right": 8,
+  "margin-top": 10,      // = gaps inner do sway
+  "margin-left": 10,
+  "margin-right": 10,
 
   "modules-left":   ["custom/arch", "sway/workspaces", "sway/mode", "sway/scratchpad"],
   "modules-center": ["clock"],
