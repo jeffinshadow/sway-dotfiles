@@ -18,7 +18,7 @@
 
 * {
   font-family: "Google Sans", "Symbols Nerd Font";
-  font-size: 13px;
+  font-size: 17px;
   min-height: 0;
   border: none;
   border-radius: 0;
@@ -27,13 +27,13 @@
 window#waybar {
   background: @base;
   color: @text;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 tooltip {
   background: @surface;
   border: 1px solid @surface2;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 tooltip label { color: @text; }
 
@@ -58,30 +58,30 @@ tooltip label { color: @text; }
 #tray,
 #custom-power {
   background: @surface;
-  border-radius: 6px;
-  padding: 0 10px;
-  margin: 4px 0;
+  border-radius: 8px;
+  padding: 0 13px;
+  margin: 5px 0;
 }
 
 /* Logo da shadowtec como fundo (o waybar não recolore SVG: é branco).
    O texto (nome da máquina) começa depois dele, pelo padding-left. */
 #custom-arch {
   color: @text;
-  font-size: 16px;
-  margin-left: 4px;
+  font-size: 21px;
+  margin-left: 5px;
   background-image: url("shadowtec.svg");
   background-repeat: no-repeat;
-  background-size: 20px 20px;
-  background-position: 8px center;
-  padding-left: 33px;
+  background-size: 26px 26px;
+  background-position: 10px center;
+  padding-left: 43px;
 }
-#custom-power { color: @red; margin-right: 4px; }
+#custom-power { color: @red; margin-right: 5px; }
 
-#workspaces { padding: 0 2px; }
+#workspaces { padding: 0 3px; }
 #workspaces button {
   color: @text_dim;
-  padding: 0 8px;
-  border-radius: 6px;
+  padding: 0 10px;
+  border-radius: 8px;
   background: transparent;
 }
 #workspaces button:hover { background: @surface2; color: @text; box-shadow: none; }

@@ -2,10 +2,10 @@
    não alcança a waybar, que usa tamanhos em px). */
 window#waybar,
 window#waybar * {
-  font-size: 15px;
+  font-size: 20px;
 }
 window#waybar #custom-arch {
-  font-size: 19px;
+  font-size: 25px;
 }
 window#waybar #custom-arch,
 window#waybar #workspaces,
@@ -27,9 +27,9 @@ window#waybar #custom-docker,
 window#waybar #custom-tunnel,
 window#waybar #tray,
 window#waybar #custom-power {
-  padding: 2px 11px;
+  padding: 3px 14px;
 }
 window#waybar #custom-arch {
-  background-size: 22px 22px;
-  padding-left: 35px;
+  background-size: 29px 29px;
+  padding-left: 46px;
 }
