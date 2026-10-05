@@ -39,3 +39,4 @@ text/csv=libreoffice-calc.desktop
 application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-impress.desktop
 application/vnd.ms-powerpoint=libreoffice-impress.desktop
 application/vnd.oasis.opendocument.presentation=libreoffice-impress.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
