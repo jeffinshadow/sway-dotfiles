@@ -43,7 +43,7 @@
   },
 
   "clock": {
-    "format": "{:%a %d/%m  %H:%M}",
+    "format": "{:L%a %d/%m  %H:%M}",   // L = usa o "locale" (dia em português)
     "locale": "pt_BR.UTF-8",
     "tooltip-format": "<tt>{calendar}</tt>",
     "calendar": {
@@ -146,7 +146,7 @@
     "tooltip-format": "{timeTo}\n{power:.1f} W"
   },
 
-  "tray": { "icon-size": 21, "spacing": 10 },
+  "tray": { "icon-size": 20, "spacing": 10 },
 
   "custom/power": {
     "format": "󰐥",

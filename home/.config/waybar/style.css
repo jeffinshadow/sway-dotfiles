@@ -18,7 +18,7 @@
 
 * {
   font-family: "Google Sans", "Symbols Nerd Font";
-  font-size: 17px;
+  font-size: 15px;
   min-height: 0;
   border: none;
   border-radius: 0;
@@ -59,21 +59,22 @@ tooltip label { color: @text; }
 #custom-power {
   background: @surface;
   border-radius: 8px;
-  padding: 0 13px;
-  margin: 5px 0;
+  padding: 1px 12px;
+  margin: 4px 0;
 }
 
 /* Logo da shadowtec como fundo (o waybar não recolore SVG: é branco).
    O texto (nome da máquina) começa depois dele, pelo padding-left. */
 #custom-arch {
   color: @text;
-  font-size: 21px;
+  font-size: 18px;
   margin-left: 5px;
   background-image: url("shadowtec.svg");
   background-repeat: no-repeat;
-  background-size: 26px 26px;
-  background-position: 10px center;
-  padding-left: 43px;
+  background-size: 22px 22px;
+  background-position: 9px center;
+  padding-left: 37px;
+  min-height: 26px;   /* > logo: senão o bloco fica mais baixo e corta o dragão */
 }
 #custom-power { color: @red; margin-right: 5px; }
 
