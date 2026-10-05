@@ -49,6 +49,12 @@ tooltip label { color: @text; }
 #memory,
 #temperature,
 #battery,
+#gamemode,
+#custom-gpu,
+#disk,
+#custom-jogos,
+#custom-docker,
+#custom-tunnel,
 #tray,
 #custom-power {
   background: @surface;
@@ -82,3 +88,8 @@ tooltip label { color: @text; }
 #battery.charging, #battery.plugged { color: @green; }
 #battery.warning:not(.charging)  { color: @amber; }
 #battery.critical:not(.charging) { color: @base; background: @red; }
+
+#gamemode { color: @green; }
+#custom-tunnel { color: @green; }
+#custom-gpu.critical, #disk.critical, #custom-tunnel.critical, #custom-docker.critical { color: @red; }
+#disk.warning, #custom-jogos.warning, #custom-docker.warning { color: @amber; }

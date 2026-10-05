@@ -19,6 +19,12 @@ window#waybar #cpu,
 window#waybar #memory,
 window#waybar #temperature,
 window#waybar #battery,
+window#waybar #gamemode,
+window#waybar #custom-gpu,
+window#waybar #disk,
+window#waybar #custom-jogos,
+window#waybar #custom-docker,
+window#waybar #custom-tunnel,
 window#waybar #tray,
 window#waybar #custom-power {
   padding: 2px 11px;

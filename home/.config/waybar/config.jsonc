@@ -1,5 +1,7 @@
 // ~/.config/waybar/config.jsonc — Shadow Materia
 // Módulos sem hardware correspondente (bateria/brilho no desktop) somem sozinhos.
+// Os custom/* (scripts/) também: sem GPU AMD, docker, disco de jogos ou
+// túnel o script não imprime nada e o módulo não aparece.
 {
   "layer": "top",
   "position": "top",
@@ -10,8 +12,10 @@
 
   "modules-left":   ["custom/arch", "sway/workspaces", "sway/mode", "sway/scratchpad"],
   "modules-center": ["clock"],
-  "modules-right":  ["idle_inhibitor", "pulseaudio", "backlight",
-                     "cpu", "memory", "temperature", "battery", "tray", "custom/power"],
+  "modules-right":  ["idle_inhibitor", "gamemode", "pulseaudio", "backlight",
+                     "cpu", "memory", "temperature", "custom/gpu",
+                     "disk", "custom/jogos", "custom/docker", "custom/tunnel",
+                     "battery", "tray", "custom/power"],
 
   "custom/arch": {
     "format": "󰣇",
@@ -84,6 +88,49 @@
     "critical-threshold": 85,
     "format": "󰔏 {temperatureC}°",
     "format-critical": "󰸁 {temperatureC}°"
+  },
+
+  "custom/gpu": {
+    "exec": "~/.config/waybar/scripts/gpu.sh",
+    "return-type": "json",
+    "interval": 3,
+    "on-click": "lact gui"
+  },
+
+  "disk": {
+    "path": "/",
+    "format": "󰋊 {percentage_used}%",
+    "interval": 60,
+    "states": { "warning": 85, "critical": 95 },
+    "tooltip-format": "Sistema (/)\n{used} usados de {total} · {free} livres",
+    "on-click": "ghostty -e ncdu -x /"
+  },
+
+  "custom/jogos": {
+    "exec": "~/.config/waybar/scripts/jogos.sh",
+    "return-type": "json",
+    "interval": 60
+  },
+
+  "custom/docker": {
+    "exec": "~/.config/waybar/scripts/docker.sh",
+    "return-type": "json",
+    "interval": 10,
+    "on-click": "ghostty -e docker stats"
+  },
+
+  "custom/tunnel": {
+    "exec": "~/.config/waybar/scripts/tunnel.sh",
+    "return-type": "json",
+    "interval": 15
+  },
+
+  "gamemode": {
+    "format": "{glyph}",
+    "glyph": "󰓅",
+    "use-icon": false,
+    "hide-not-running": true,
+    "tooltip-format": "Gamemode ativo ({count} jogo(s))"
   },
 
   "battery": {
