@@ -21,7 +21,7 @@
     { "type": "custom", "format": "\u001b[1m󰆍  Software\u001b[0m" },
     { "type": "kernel",       "key": "󰌽" },
     { "type": "os",           "key": "󰣇" },
-    { "type": "de",           "key": "󰧨" },
+    { "type": "wm",           "key": "󱂬" },   // sway é WM; o módulo "de" fica vazio
     { "type": "command", "key": "󰏘", "text": "echo shadow-materia" },
     { "type": "icons",        "key": "󰀻" },
     { "type": "terminalfont", "key": "󰛖" },
