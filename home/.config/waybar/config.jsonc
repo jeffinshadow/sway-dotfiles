@@ -18,11 +18,11 @@
                      "battery", "tray", "custom/power"],
 
   "custom/arch": {
-    // Logo + nome da máquina sem o "shadowtec-": com o KVM as duas telas
+    // Logo da shadowtec (shadowtec.svg) + nome da máquina sem o "shadowtec-": com o KVM as duas telas
     // são quase iguais, isso diz em qual se está.
     "exec": "cut -d- -f2- /etc/hostname",
     "interval": "once",
-    "format": "󰣇 <span size='smaller' weight='bold' color='#dedede'>{}</span>",
+    "format": "<span size='smaller' weight='bold'>{}</span>",   // logo: style.css
     "tooltip-format": "Apps\nBotão direito: atalhos (Super+F1)",
     "on-click": "pkill -x rofi || rofi -show drun",
     "on-click-right": "~/.config/sway/scripts/keybinds.sh"

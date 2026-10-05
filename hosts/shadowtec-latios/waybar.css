@@ -29,3 +29,7 @@ window#waybar #tray,
 window#waybar #custom-power {
   padding: 2px 11px;
 }
+window#waybar #custom-arch {
+  background-size: 22px 22px;
+  padding-left: 35px;
+}

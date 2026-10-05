@@ -63,7 +63,18 @@ tooltip label { color: @text; }
   margin: 4px 0;
 }
 
-#custom-arch { color: @accent; font-size: 16px; margin-left: 4px; }
+/* Logo da shadowtec como fundo (o waybar não recolore SVG: é branco).
+   O texto (nome da máquina) começa depois dele, pelo padding-left. */
+#custom-arch {
+  color: @text;
+  font-size: 16px;
+  margin-left: 4px;
+  background-image: url("shadowtec.svg");
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: 8px center;
+  padding-left: 33px;
+}
 #custom-power { color: @red; margin-right: 4px; }
 
 #workspaces { padding: 0 2px; }
