@@ -1,35 +1,38 @@
 /* latios — 12.5" FHD: texto ~1.2x maior (o text-scaling-factor do GTK
-   não alcança a waybar, que usa tamanhos em px). */
-window#waybar,
-window#waybar * {
+   não alcança a waybar, que usa tamanhos em px).
+   Só na tela interna: a waybar põe o nome da saída como classe na janela
+   (window#waybar.eDP-1). Monitor externo fica com os tamanhos do style.css,
+   iguais aos da giratina (é o mesmo monitor, via KVM). */
+window#waybar.eDP-1,
+window#waybar.eDP-1 * {
   font-size: 20px;
 }
-window#waybar #custom-arch {
+window#waybar.eDP-1 #custom-arch {
   font-size: 25px;
 }
-window#waybar #custom-arch,
-window#waybar #workspaces,
-window#waybar #mode,
-window#waybar #scratchpad,
-window#waybar #clock,
-window#waybar #idle_inhibitor,
-window#waybar #pulseaudio,
-window#waybar #backlight,
-window#waybar #cpu,
-window#waybar #memory,
-window#waybar #temperature,
-window#waybar #battery,
-window#waybar #gamemode,
-window#waybar #custom-gpu,
-window#waybar #disk,
-window#waybar #custom-jogos,
-window#waybar #custom-docker,
-window#waybar #custom-tunnel,
-window#waybar #tray,
-window#waybar #custom-power {
+window#waybar.eDP-1 #custom-arch,
+window#waybar.eDP-1 #workspaces,
+window#waybar.eDP-1 #mode,
+window#waybar.eDP-1 #scratchpad,
+window#waybar.eDP-1 #clock,
+window#waybar.eDP-1 #idle_inhibitor,
+window#waybar.eDP-1 #pulseaudio,
+window#waybar.eDP-1 #backlight,
+window#waybar.eDP-1 #cpu,
+window#waybar.eDP-1 #memory,
+window#waybar.eDP-1 #temperature,
+window#waybar.eDP-1 #battery,
+window#waybar.eDP-1 #gamemode,
+window#waybar.eDP-1 #custom-gpu,
+window#waybar.eDP-1 #disk,
+window#waybar.eDP-1 #custom-jogos,
+window#waybar.eDP-1 #custom-docker,
+window#waybar.eDP-1 #custom-tunnel,
+window#waybar.eDP-1 #tray,
+window#waybar.eDP-1 #custom-power {
   padding: 3px 14px;
 }
-window#waybar #custom-arch {
+window#waybar.eDP-1 #custom-arch {
   background-size: 29px 29px;
   padding-left: 46px;
   min-height: 33px;
