@@ -84,5 +84,6 @@ Rodar de novo é seguro.
 cp -r hosts/default hosts/<hostname>
 $EDITOR hosts/<hostname>/sway.conf    # monitores, escala de texto, energia
 $EDITOR hosts/<hostname>/waybar.css   # tamanho da barra
+cp foto.png hosts/<hostname>/wallpaper.png   # opcional (sem ele: shadow-principal)
 ./install.sh
 ```

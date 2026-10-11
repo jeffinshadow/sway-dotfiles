@@ -129,6 +129,12 @@ fi
 link "$HOSTDIR/sway.conf" "$HOME/.config/sway/config.d/90-host.conf"
 link "$HOSTDIR/ghostty"   "$HOME/.config/ghostty/host"
 link "$HOSTDIR/waybar.css" "$HOME/.config/waybar/host.css"
+# Papel de parede da máquina (sway + swaylock); sem um, fica o principal
+if [[ -f "$HOSTDIR/wallpaper.png" ]]; then
+    link "$HOSTDIR/wallpaper.png" "$HOME/.local/share/wallpapers/host.png"
+else
+    link "$DOT/home/.local/share/wallpapers/shadow-principal.png" "$HOME/.local/share/wallpapers/host.png"
+fi
 ok "Perfil de máquina: $(basename "$HOSTDIR")"
 
 # ------------------------------------------------------------------
