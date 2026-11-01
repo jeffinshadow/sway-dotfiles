@@ -18,5 +18,8 @@ gs font-antialiasing   'rgba'
 gs font-hinting        'slight'
 gs text-scaling-factor "${SHADOW_TEXT_SCALE:-1.0}"
 
+# GNOME Text Editor: esquema Shadow Materia (~/.local/share/gtksourceview-5)
+gsettings set org.gnome.TextEditor style-scheme 'shadow-materia' 2>/dev/null || true
+
 # Nautilus: terminal padrão pro "Abrir no terminal"
 gsettings set org.gnome.desktop.default-applications.terminal exec 'ghostty' 2>/dev/null || true

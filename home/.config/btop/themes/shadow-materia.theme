@@ -1,0 +1,59 @@
+# Shadow Materia (paleta híbrida M3 — PALETA-HIBRIDA.md) para o btop
+# Ativado pelo install.sh (color_theme = "shadow-materia" no btop.conf)
+
+theme[main_bg]="#131314"
+theme[main_fg]="#F0EDEE"
+theme[title]="#F0EDEE"
+# Teclas de atalho destacadas nos títulos
+theme[hi_fg]="#8AB8F0"
+# Linha selecionada na lista de processos
+theme[selected_bg]="#183A61"
+theme[selected_fg]="#F0EDEE"
+theme[inactive_fg]="#49494B"
+theme[graph_text]="#ACABAD"
+theme[meter_bg]="#2C2C2D"
+theme[proc_misc]="#8AB8F0"
+
+# Bordas das caixas
+theme[cpu_box]="#5294E2"
+theme[mem_box]="#78CA9F"
+theme[net_box]="#B98EFF"
+theme[proc_box]="#62C7E0"
+theme[div_line]="#323235"
+
+# Gradientes (início → meio → fim)
+theme[temp_start]="#78CA9F"
+theme[temp_mid]="#F2DA66"
+theme[temp_end]="#F28B82"
+
+theme[cpu_start]="#62C7E0"
+theme[cpu_mid]="#5294E2"
+theme[cpu_end]="#B98EFF"
+
+theme[free_start]="#41946B"
+theme[free_mid]="#78CA9F"
+theme[free_end]="#A0E0BD"
+
+theme[cached_start]="#5C88BD"
+theme[cached_mid]="#8AB8F0"
+theme[cached_end]="#ADD1FE"
+
+theme[available_start]="#998409"
+theme[available_mid]="#F2DA66"
+theme[available_end]="#FFF5C6"
+
+theme[used_start]="#CB6860"
+theme[used_mid]="#F28B82"
+theme[used_end]="#FEAEA6"
+
+theme[download_start]="#9A6FDD"
+theme[download_mid]="#B98EFF"
+theme[download_end]="#CCB2FE"
+
+theme[upload_start]="#2091A9"
+theme[upload_mid]="#62C7E0"
+theme[upload_end]="#92DEF2"
+
+theme[process_start]="#5294E2"
+theme[process_mid]="#B98EFF"
+theme[process_end]="#F28B82"

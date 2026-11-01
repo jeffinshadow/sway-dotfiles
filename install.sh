@@ -151,6 +151,30 @@ HOOK
 fi
 
 # ------------------------------------------------------------------
+# Temas Shadow Materia nos apps que guardam a escolha no próprio config
+# (o arquivo do tema vem pelos symlinks; aqui só se liga ele)
+# ------------------------------------------------------------------
+# btop reescreve o btop.conf ao sair: por isso não é symlink, só a linha
+btopconf="$HOME/.config/btop/btop.conf"
+if [[ -f "$btopconf" ]]; then
+    sed -i 's/^color_theme = .*/color_theme = "shadow-materia"/' "$btopconf"
+else
+    mkdir -p "$(dirname "$btopconf")"
+    echo 'color_theme = "shadow-materia"' > "$btopconf"
+fi
+ok "btop: tema shadow-materia."
+
+# Vesktop (Discord): o Vencord junta o que estiver salvo com os padrões
+if command -v vesktop &>/dev/null && command -v jq &>/dev/null; then
+    vset="$HOME/.config/vesktop/settings/settings.json"
+    mkdir -p "$(dirname "$vset")"
+    [[ -s "$vset" ]] || echo '{}' > "$vset"
+    tmp="$(mktemp)"
+    jq '.enabledThemes = ((.enabledThemes // []) + ["shadow-materia.css"] | unique)' "$vset" > "$tmp" \
+        && mv "$tmp" "$vset" && ok "Vesktop: tema shadow-materia."
+fi
+
+# ------------------------------------------------------------------
 # Extras (cada um só roda se a ferramenta existir)
 # ------------------------------------------------------------------
 command -v fc-cache &>/dev/null && fc-cache -f >/dev/null && ok "Cache de fontes atualizado."

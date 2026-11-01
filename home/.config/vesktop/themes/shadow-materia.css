@@ -1,0 +1,98 @@
+/**
+ * @name Shadow Materia
+ * @description Paleta híbrida M3 do desktop (grafite + azul #5294E2). Ver PALETA-HIBRIDA.md.
+ * @author jeffinshadow
+ * @version 1.0
+ */
+
+/* Ativado pelo install.sh (enabledThemes no settings do Vencord).
+   O Discord renomeia as variáveis de vez em quando: as antigas e as do
+   "visual refresh" estão aqui; o que ele não usar é ignorado. */
+.theme-dark,
+.visual-refresh.theme-dark,
+:root {
+  /* Superfícies: fundo → contêiner → alto → mais alto */
+  --background-tertiary: #0C0D0E;
+  --background-secondary: #161718;
+  --background-secondary-alt: #1A1A1C;
+  --background-primary: #131314;
+  --background-floating: #222324;
+  --background-nested-floating: #2C2C2D;
+  --background-mobile-primary: #131314;
+  --background-mobile-secondary: #161718;
+  --background-accent: #3B5170;
+  --background-modifier-hover: #222324;
+  --background-modifier-active: #2C2C2D;
+  --background-modifier-selected: #183A61;
+  --background-modifier-accent: #323235;
+  --channeltextarea-background: #1A1A1C;
+  --modal-background: #222324;
+  --modal-footer-background: #1A1A1C;
+  --chat-background: #131314;
+  --deprecated-card-bg: #1A1A1C;
+
+  --background-base-lowest: #0C0D0E;
+  --background-base-lower: #161718;
+  --background-base-low: #131314;
+  --background-surface-high: #222324;
+  --background-surface-higher: #2C2C2D;
+  --background-surface-highest: #2C2C2D;
+  --bg-base-primary: #131314;
+  --bg-base-secondary: #161718;
+  --bg-base-tertiary: #0C0D0E;
+  --bg-surface-raised: #222324;
+  --bg-surface-overlay: #222324;
+  --chat-background-default: #131314;
+  --input-background: #1A1A1C;
+
+  /* Texto */
+  --header-primary: #F0EDEE;
+  --header-secondary: #ACABAD;
+  --text-normal: #F0EDEE;
+  --text-default: #F0EDEE;
+  --text-strong: #F0EDEE;
+  --text-muted: #919093;
+  --text-subtle: #ACABAD;
+  --text-link: #8AB8F0;
+  --text-positive: #78CA9F;
+  --text-warning: #F2DA66;
+  --text-danger: #F28B82;
+  --channels-default: #919093;
+  --channel-icon: #919093;
+  --interactive-normal: #ACABAD;
+  --interactive-hover: #F0EDEE;
+  --interactive-active: #F0EDEE;
+  --interactive-muted: #49494B;
+
+  /* Divisores e bordas */
+  --border-subtle: #323235;
+  --border-faint: #323235;
+  --border-strong: #49494B;
+
+  /* Marca/ação = primário; status = pastéis da paleta */
+  --brand-500: #5294E2;
+  --brand-560: #4587D4;
+  --brand-600: #1A6AB5;
+  --brand-experiment: #5294E2;
+  --brand-experiment-560: #4587D4;
+  --brand-experiment-600: #1A6AB5;
+  --button-filled-brand-background: #5294E2;
+  --button-filled-brand-background-hover: #4587D4;
+  --button-filled-brand-text: #0B0D10;
+  --control-brand-foreground: #8AB8F0;
+  --status-positive: #78CA9F;
+  --status-warning: #F2DA66;
+  --status-danger: #F28B82;
+  --mention-foreground: #8AB8F0;
+  --mention-background: #183A61;
+  --info-help-background: #262F3C;
+  --info-help-foreground: #8AB8F0;
+
+  --scrollbar-thin-thumb: #49494B;
+  --scrollbar-auto-thumb: #49494B;
+  --scrollbar-auto-track: #161718;
+  --focus-primary: #5294E2;
+}
+
+/* Menções e seleção: contêiner primário sólido (sem transparência) */
+::selection { background: #183A61; color: #F0EDEE; }
