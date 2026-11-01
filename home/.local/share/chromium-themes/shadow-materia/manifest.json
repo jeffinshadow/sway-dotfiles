@@ -1,0 +1,123 @@
+{
+  "manifest_version": 3,
+  "name": "Shadow Materia",
+  "version": "1.0",
+  "description": "Paleta híbrida M3 do desktop (grafite + azul #5294E2). Ver PALETA-HIBRIDA.md nos dotfiles.",
+  "theme": {
+    "colors": {
+      "frame": [
+        12,
+        13,
+        14
+      ],
+      "frame_inactive": [
+        12,
+        13,
+        14
+      ],
+      "frame_incognito": [
+        22,
+        23,
+        24
+      ],
+      "frame_incognito_inactive": [
+        22,
+        23,
+        24
+      ],
+      "background_tab": [
+        12,
+        13,
+        14
+      ],
+      "background_tab_inactive": [
+        12,
+        13,
+        14
+      ],
+      "background_tab_incognito": [
+        22,
+        23,
+        24
+      ],
+      "toolbar": [
+        26,
+        26,
+        28
+      ],
+      "toolbar_text": [
+        240,
+        237,
+        238
+      ],
+      "toolbar_button_icon": [
+        172,
+        171,
+        173
+      ],
+      "tab_text": [
+        240,
+        237,
+        238
+      ],
+      "tab_background_text": [
+        172,
+        171,
+        173
+      ],
+      "tab_background_text_inactive": [
+        145,
+        144,
+        147
+      ],
+      "tab_background_text_incognito": [
+        172,
+        171,
+        173
+      ],
+      "bookmark_text": [
+        172,
+        171,
+        173
+      ],
+      "omnibox_background": [
+        34,
+        35,
+        36
+      ],
+      "omnibox_text": [
+        240,
+        237,
+        238
+      ],
+      "ntp_background": [
+        19,
+        19,
+        20
+      ],
+      "ntp_text": [
+        240,
+        237,
+        238
+      ],
+      "ntp_link": [
+        138,
+        184,
+        240
+      ],
+      "ntp_header": [
+        82,
+        148,
+        226
+      ],
+      "button_background": [
+        44,
+        44,
+        45
+      ]
+    },
+    "properties": {
+      "ntp_logo_alternate": 1
+    }
+  }
+}

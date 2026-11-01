@@ -45,7 +45,7 @@ Rodar de novo é seguro.
 | Fontes | Google Sans (UI) / Google Sans Code (mono) |
 | Shell | zsh + starship + fastfetch |
 | Multiplexador | tmux (abre/reanexa a sessão `main` sozinho em todo SSH) |
-| Temas de apps | Paleta Shadow Materia também no btop, vim (`colorscheme shadow-materia`), GNOME Text Editor, foot, Vesktop/Discord, fzf e tmux. Firefox, Chromium, LibreOffice, VLC e afins seguem o GTK/qt6ct |
+| Temas de apps | Paleta Shadow Materia também no btop, vim (`colorscheme shadow-materia`), GNOME Text Editor, foot, Vesktop/Discord, fzf e tmux. Firefox (`apps/firefox`: userChrome/userContent, ligados em cada perfil) e Chromium (extensão de tema via `chromium-flags.conf`) também. LibreOffice, VLC e afins seguem o GTK/qt6ct |
 
 ## Paleta
 

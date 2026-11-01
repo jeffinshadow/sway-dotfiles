@@ -1,0 +1,112 @@
+/* userChrome.css — Shadow Materia (paleta híbrida M3, PALETA-HIBRIDA.md)
+   Interface do Firefox: abas, barra de endereço, menus, painéis, barra lateral.
+   Ligado em cada perfil pelo install.sh (com o user.js que habilita o arquivo).
+   !important: o tema "System theme" e os temas leves definem as mesmas
+   variáveis direto no :root. Nomes conferidos no Firefox 159. */
+
+:root {
+  /* Superfícies: barra de abas no fundo mais fundo, toolbar no contêiner */
+  --toolbox-background-color: #0C0D0E !important;
+  --toolbox-background-color-inactive: #0C0D0E !important;
+  --toolbox-background-color-gradient-leading: #0C0D0E !important;
+  --toolbox-background-color-gradient-trailing: #0C0D0E !important;
+  --toolbox-text-color: #F0EDEE !important;
+  --toolbox-text-color-inactive: #ACABAD !important;
+  --toolbar-background-color: #1A1A1C !important;
+  --toolbar-text-color: #F0EDEE !important;
+  --toolbar-color-scheme: dark !important;
+  --toolbarseparator-color: #323235 !important;
+  --tabs-navbar-separator-color: transparent !important;
+  --chrome-content-separator-color: #323235 !important;
+  --tabpanel-background-color: #131314 !important;
+
+  /* Abas */
+  --tab-background-color-selected: #1A1A1C !important;
+  --tab-text-color-selected: #F0EDEE !important;
+  --tab-background-color-hover: #222324 !important;
+  --tab-text-color-hover: #F0EDEE !important;
+  --tab-text-color: #ACABAD !important;
+  --tab-selected-color-scheme: dark !important;
+  --tab-border-color-selected: transparent !important;
+  --tab-attention-dot-color: #8AB8F0 !important;
+  --tab-dragover-outline-color: #5294E2 !important;
+  --tab-icon-fill-loading: #5294E2 !important;
+
+  /* Botões da toolbar */
+  --toolbarbutton-icon-fill: #ACABAD !important;
+  --toolbarbutton-icon-fill-hover: #F0EDEE !important;
+  --toolbarbutton-icon-fill-active: #F0EDEE !important;
+  --toolbarbutton-icon-fill-attention: #8AB8F0 !important;
+  --toolbarbutton-icon-fill-attention-text: #0B0D10 !important;
+  --toolbarbutton-background-color-hover: #2C2C2D !important;
+  --toolbarbutton-background-color-active: #183A61 !important;
+  --toolbarbutton-badge-background-color: #5294E2 !important;
+
+  /* Barra de endereço e campos */
+  --toolbar-field-background-color: #222324 !important;
+  --toolbar-field-text-color: #F0EDEE !important;
+  --toolbar-field-border-color: transparent !important;
+  --toolbar-field-background-color-focus: #131314 !important;
+  --toolbar-field-text-color-focus: #F0EDEE !important;
+  --toolbar-field-border-color-focus: #5294E2 !important;
+  --urlbar-box-background-color: #2C2C2D !important;
+  --urlbar-box-background-color-hover: #323235 !important;
+  --urlbar-box-background-color-active: #183A61 !important;
+  --urlbar-box-text-color: #ACABAD !important;
+  --urlbar-box-text-color-hover: #F0EDEE !important;
+  --urlbarview-background-color-hover: #2C2C2D !important;
+  --urlbarview-background-color-selected: #183A61 !important;
+  --urlbarview-text-color-selected: #F0EDEE !important;
+  --urlbarview-text-color-secondary: #919093 !important;
+  --urlbarview-text-color-action: #8AB8F0 !important;
+  --urlbarview-separator-color: #323235 !important;
+
+  /* Menus e painéis (flutuantes: contêiner alto) */
+  --panel-background-color: #222324 !important;
+  --panel-text-color: #F0EDEE !important;
+  --panel-border-color: #323235 !important;
+  --panel-separator-color: #323235 !important;
+  --panel-icon-fill: #ACABAD !important;
+  --panel-footer-background-color: #1A1A1C !important;
+  --arrowpanel-background: #222324 !important;
+  --arrowpanel-color: #F0EDEE !important;
+  --arrowpanel-border-color: #323235 !important;
+  --panel-banner-item-background-color: #183A61 !important;
+  --panel-banner-item-hover-bgcolor: #1F4877 !important;
+  --panel-banner-item-color: #F0EDEE !important;
+
+  /* Barra lateral */
+  --sidebar-background-color: #161718 !important;
+  --sidebar-text-color: #F0EDEE !important;
+  --sidebar-border-color: #323235 !important;
+  --sidebar-box-color: #F0EDEE !important;
+  --sidebar-box-border-color: #323235 !important;
+
+  /* Tokens do design system (menus, diálogos, botões) */
+  --color-accent-primary: #5294E2 !important;
+  --color-accent-primary-hover: #8AB8F0 !important;
+  --color-accent-primary-active: #8AB8F0 !important;
+  --color-accent-primary-selected: #183A61 !important;
+  --color-accent-attention: #8AB8F0 !important;
+  --button-text-color-primary: #0B0D10 !important;
+  --button-background-color-primary: #5294E2 !important;
+  --button-background-color-primary-hover: #8AB8F0 !important;
+  --button-background-color-primary-active: #8AB8F0 !important;
+  --button-background-color: #2C2C2D !important;
+  --button-background-color-hover: #323235 !important;
+  --button-background-color-active: #49494B !important;
+  --button-text-color: #F0EDEE !important;
+  --background-color-canvas: #131314 !important;
+  --background-color-box: #222324 !important;
+  --text-color: #F0EDEE !important;
+  --text-color-deemphasized: #ACABAD !important;
+  --text-color-error: #F28B82 !important;
+  --border-color: #323235 !important;
+  --border-color-interactive: #49494B !important;
+  --border-color-deemphasized: #323235 !important;
+  --focus-outline-color: #5294E2 !important;
+  --link-color: #8AB8F0 !important;
+}
+
+/* Seleção de texto na interface: contêiner primário sólido */
+::selection { background-color: #183A61; color: #F0EDEE; }

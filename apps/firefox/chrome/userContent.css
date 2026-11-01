@@ -1,0 +1,33 @@
+/* userContent.css — Shadow Materia nas páginas internas do Firefox
+   (nova aba, configurações, about:*). Sites seguem o próprio tema escuro. */
+
+@-moz-document url-prefix("about:"), url-prefix("chrome://") {
+  :root {
+    --background-color-canvas: #131314 !important;
+    --background-color-box: #1A1A1C !important;
+    --text-color: #F0EDEE !important;
+    --text-color-deemphasized: #ACABAD !important;
+    --border-color: #323235 !important;
+    --border-color-interactive: #49494B !important;
+    --color-accent-primary: #5294E2 !important;
+    --color-accent-primary-hover: #8AB8F0 !important;
+    --color-accent-primary-active: #8AB8F0 !important;
+    --button-text-color-primary: #0B0D10 !important;
+    --focus-outline-color: #5294E2 !important;
+    --link-color: #8AB8F0 !important;
+    --in-content-page-background: #131314 !important;
+    --in-content-page-color: #F0EDEE !important;
+    --in-content-box-background: #1A1A1C !important;
+    --in-content-border-color: #323235 !important;
+
+    /* Nova aba / página inicial */
+    --newtab-background-color: #131314 !important;
+    --newtab-background-color-secondary: #1A1A1C !important;
+    --newtab-text-primary-color: #F0EDEE !important;
+    --newtab-text-secondary-color: #ACABAD !important;
+    --newtab-element-hover-color: #222324 !important;
+    --newtab-border-color: #323235 !important;
+    --newtab-primary-action-background: #5294E2 !important;
+  }
+  ::selection { background-color: #183A61; color: #F0EDEE; }
+}

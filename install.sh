@@ -164,6 +164,19 @@ else
 fi
 ok "btop: tema shadow-materia."
 
+# Firefox: o nome da pasta do perfil muda por máquina, então liga
+# user.js + chrome/userChrome.css + chrome/userContent.css em todo perfil
+# que já foi aberto (tem prefs.js). Vale ao reabrir o Firefox.
+nff=0
+for prof in "$HOME"/.config/mozilla/firefox/*/ "$HOME"/.mozilla/firefox/*/; do
+    [[ -f "$prof/prefs.js" ]] || continue
+    link "$DOT/apps/firefox/user.js" "${prof%/}/user.js"
+    link "$DOT/apps/firefox/chrome/userChrome.css"  "${prof%/}/chrome/userChrome.css"
+    link "$DOT/apps/firefox/chrome/userContent.css" "${prof%/}/chrome/userContent.css"
+    nff=$((nff + 1))
+done
+((nff)) && ok "Firefox: tema shadow-materia em $nff perfil(s)."
+
 # Vesktop (Discord): o Vencord junta o que estiver salvo com os padrões
 if command -v vesktop &>/dev/null && command -v jq &>/dev/null; then
     vset="$HOME/.config/vesktop/settings/settings.json"
