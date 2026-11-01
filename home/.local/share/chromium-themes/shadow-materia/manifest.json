@@ -1,19 +1,19 @@
 {
   "manifest_version": 3,
   "name": "Shadow Materia",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Paleta híbrida M3 do desktop (grafite + azul #5294E2). Ver PALETA-HIBRIDA.md nos dotfiles.",
   "theme": {
     "colors": {
       "frame": [
-        12,
-        13,
-        14
+        22,
+        23,
+        24
       ],
       "frame_inactive": [
-        12,
-        13,
-        14
+        22,
+        23,
+        24
       ],
       "frame_incognito": [
         22,
@@ -26,14 +26,14 @@
         24
       ],
       "background_tab": [
-        12,
-        13,
-        14
+        22,
+        23,
+        24
       ],
       "background_tab_inactive": [
-        12,
-        13,
-        14
+        22,
+        23,
+        24
       ],
       "background_tab_incognito": [
         22,

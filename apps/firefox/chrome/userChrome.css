@@ -5,14 +5,15 @@
    variáveis direto no :root. Nomes conferidos no Firefox 159. */
 
 :root {
-  /* Superfícies: barra de abas no fundo mais fundo, toolbar no contêiner */
-  --toolbox-background-color: #0C0D0E !important;
-  --toolbox-background-color-inactive: #0C0D0E !important;
-  --toolbox-background-color-gradient-leading: #0C0D0E !important;
-  --toolbox-background-color-gradient-trailing: #0C0D0E !important;
+  /* Superfícies: barra de abas e toolbar no mesmo tom ("lateral"); só a
+     aba selecionada e o campo de endereço destacam (contêiner alto) */
+  --toolbox-background-color: #161718 !important;
+  --toolbox-background-color-inactive: #161718 !important;
+  --toolbox-background-color-gradient-leading: #161718 !important;
+  --toolbox-background-color-gradient-trailing: #161718 !important;
   --toolbox-text-color: #F0EDEE !important;
   --toolbox-text-color-inactive: #ACABAD !important;
-  --toolbar-background-color: #1A1A1C !important;
+  --toolbar-background-color: #161718 !important;
   --toolbar-text-color: #F0EDEE !important;
   --toolbar-color-scheme: dark !important;
   --toolbarseparator-color: #323235 !important;
@@ -21,9 +22,9 @@
   --tabpanel-background-color: #131314 !important;
 
   /* Abas */
-  --tab-background-color-selected: #1A1A1C !important;
+  --tab-background-color-selected: #222324 !important;
   --tab-text-color-selected: #F0EDEE !important;
-  --tab-background-color-hover: #222324 !important;
+  --tab-background-color-hover: #1A1A1C !important;
   --tab-text-color-hover: #F0EDEE !important;
   --tab-text-color: #ACABAD !important;
   --tab-selected-color-scheme: dark !important;
