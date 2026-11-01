@@ -22,6 +22,11 @@ nautilus nautilus-python sushi gvfs gvfs-smb gvfs-mtp gvfs-nfs
 file-roller loupe papers gnome-text-editor gnome-calculator
 webp-pixbuf-loader ffmpegthumbnailer
 
+# Apps que o mimeapps.list usa como padrão (vídeo/áudio, Office, RDP/VNC)
+vlc vlc-plugins-all
+libreoffice-fresh libreoffice-fresh-pt-br
+remmina freerdp
+
 # Shell
 zsh zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search
-zsh-completions starship fastfetch btop tmux
+zsh-completions starship fastfetch btop tmux fzf zoxide

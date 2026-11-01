@@ -24,6 +24,16 @@ bindkey '^[[1;5D' backward-word
 
 eval "$(starship init zsh)"
 
+# fzf: Ctrl+R busca no histórico, Ctrl+T insere arquivo, Alt+C entra em pasta
+if command -v fzf &>/dev/null; then
+    export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --border=rounded --info=inline \
+--color=bg:#131314,bg+:#183A61,fg:#ACABAD,fg+:#F0EDEE,hl:#8AB8F0,hl+:#8AB8F0 \
+--color=border:#323235,prompt:#5294E2,pointer:#5294E2,marker:#78CA9F,info:#919093,header:#919093,spinner:#B98EFF"
+    source <(fzf --zsh)
+fi
+# zoxide: "z proj" pula pra pasta mais usada que bate; "zi" escolhe no fzf
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
+
 fastfetch() { echo; command fastfetch "$@"; }
 
 alias ls='ls --color=auto'

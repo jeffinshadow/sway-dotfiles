@@ -11,11 +11,30 @@
   "margin-right": 10,
 
   "modules-left":   ["custom/arch", "sway/workspaces", "sway/mode", "sway/scratchpad", "custom/rec"],
-  "modules-center": ["clock"],
+  // Relógio à direita: no meio ele colava nos módulos quando a barra
+  // enchia (latios, fonte maior). CPU/memória/temperatura/GPU/disco ficam
+  // no grupo "sistema" e abrem ao passar o mouse.
   "modules-right":  ["idle_inhibitor", "gamemode", "pulseaudio", "backlight",
-                     "cpu", "memory", "temperature", "custom/gpu",
-                     "disk", "custom/jogos", "custom/docker", "custom/tunnel",
-                     "battery", "tray", "custom/dnd", "custom/power"],
+                     "group/sistema", "custom/jogos", "custom/docker", "custom/tunnel",
+                     "battery", "tray", "custom/dnd", "clock", "custom/power"],
+
+  "group/sistema": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "sistema-item",
+      "transition-left-to-right": false
+    },
+    // O primeiro (líder) fica sempre visível e herda o pior alerta dos outros
+    "modules": ["custom/sistema", "cpu", "memory", "temperature", "custom/gpu", "disk"]
+  },
+
+  "custom/sistema": {
+    "exec": "~/.config/waybar/scripts/sistema.sh",
+    "return-type": "json",
+    "interval": 5,
+    "on-click": "ghostty -e btop"
+  },
 
   "custom/arch": {
     // Logo da shadowtec (shadowtec.svg) + nome da máquina sem o "shadowtec-": com o KVM as duas telas
