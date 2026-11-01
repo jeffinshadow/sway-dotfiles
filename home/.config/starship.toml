@@ -8,15 +8,15 @@ format = "[](azul)$os$username$hostname[](bg:superficie fg:azul)$directory$git_b
 right_format = "$cmd_duration$time"
 
 [palettes.shadow_materia]
-fundo = "#181818"
-superficie = "#282828"
-azul = "#5294e2"
-azul_claro = "#8ab4f8"
-verde = "#81c995"
-vermelho = "#f28b82"
-ambar = "#fdd663"
-roxo = "#c58af9"
-cinza = "#8a8a8a"
+fundo = "#131314"
+superficie = "#222324"
+azul = "#5294E2"
+azul_claro = "#8AB8F0"
+verde = "#78CA9F"
+vermelho = "#F28B82"
+ambar = "#F2DA66"
+roxo = "#B98EFF"
+cinza = "#919093"
 
 [os]
 disabled = false

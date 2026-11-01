@@ -1,20 +1,24 @@
 /* ~/.config/waybar/style.css — Shadow Materia
-   Herda o painel do KDE: fundo #181818, "pílulas" #282828, raio 6.
+   Paleta híbrida M3 (PALETA-HIBRIDA.md): barra no "fundo mais fundo",
+   pílulas no contêiner, hover no contêiner mais alto.
 
    Tamanhos por máquina: host.css (symlink pra hosts/<hostname>/waybar.css,
    criado pelo install.sh). As regras de lá usam seletores mais específicos
    (window#waybar ...), então vencem as daqui mesmo vindo antes. */
 @import url("host.css");
-@define-color base      #181818;
-@define-color surface   #282828;
-@define-color surface2  #333333;
-@define-color accent    #5294e2;
-@define-color accent_lt #8ab4f8;
-@define-color text      #dedede;
-@define-color text_dim  #999999;
-@define-color red       #f28b82;
-@define-color amber     #fdd663;
-@define-color green     #81c995;
+@define-color base      #0C0D0E;
+@define-color surface   #1A1A1C;
+@define-color surface2  #2C2C2D;
+@define-color outline   #323235;
+@define-color accent    #5294E2;
+@define-color accent_lt #8AB8F0;
+@define-color on_accent #0B0D10;
+@define-color text      #F0EDEE;
+@define-color text_dim  #919093;
+@define-color red       #F28B82;
+@define-color on_red    #370303;
+@define-color amber     #F2DA66;
+@define-color green     #78CA9F;
 
 * {
   font-family: "Google Sans", "Symbols Nerd Font";
@@ -31,8 +35,8 @@ window#waybar {
 }
 
 tooltip {
-  background: @surface;
-  border: 1px solid @surface2;
+  background: @surface2;
+  border: 1px solid @outline;
   border-radius: 8px;
 }
 tooltip label { color: @text; }
@@ -86,10 +90,10 @@ tooltip label { color: @text; }
   background: transparent;
 }
 #workspaces button:hover { background: @surface2; color: @text; box-shadow: none; }
-#workspaces button.focused { color: @base; background: @accent; }
-#workspaces button.urgent  { color: @base; background: @red; }
+#workspaces button.focused { color: @on_accent; background: @accent; }
+#workspaces button.urgent  { color: @on_red; background: @red; }
 
-#mode { color: @base; background: @amber; }
+#mode { color: @on_accent; background: @amber; }
 
 #clock { color: @text; font-weight: 600; }
 
@@ -99,7 +103,7 @@ tooltip label { color: @text; }
 
 #battery.charging, #battery.plugged { color: @green; }
 #battery.warning:not(.charging)  { color: @amber; }
-#battery.critical:not(.charging) { color: @base; background: @red; }
+#battery.critical:not(.charging) { color: @on_red; background: @red; }
 
 #gamemode { color: @green; }
 #custom-tunnel { color: @green; }

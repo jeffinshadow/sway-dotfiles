@@ -25,7 +25,7 @@ function esc(s) { gsub(/&/, "\\&amp;", s); gsub(/</, "\\&lt;", s); gsub(/>/, "\\
 
 /^[ \t]*#::/ {
     sub(/^[ \t]*#::[ \t]*/, "")
-    printf "<span color=\"#5294e2\"><b>%s</b></span>\n", esc($0)
+    printf "<span color=\"#5294E2\"><b>%s</b></span>\n", esc($0)
     next
 }
 /^[ \t]*#:/ {
@@ -41,7 +41,7 @@ function esc(s) { gsub(/&/, "\\&amp;", s); gsub(/</, "\\&lt;", s); gsub(/>/, "\\
         key = pretty(key)
     }
     pad = 34 - length(key); if (pad < 2) pad = 2
-    printf "   <span font_family=\"monospace\" color=\"#8ab4f8\">%s%*s</span>%s\n", esc(key), pad, "", esc(desc)
+    printf "   <span font_family=\"monospace\" color=\"#8AB8F0\">%s%*s</span>%s\n", esc(key), pad, "", esc(desc)
     desc = ""
     next
 }

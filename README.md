@@ -31,7 +31,7 @@ Rodar de novo é seguro.
 | Papel | Escolha |
 |---|---|
 | Compositor | Sway (puro) |
-| Barra | Waybar: pílulas `#282828` sobre `#181818`, raio 6 |
+| Barra | Waybar: pílulas `#1A1A1C` sobre `#0C0D0E`, raio 8 |
 | Lançador | Rofi 2 (Wayland nativo), centralizado |
 | Terminal | Ghostty: GTK4, imagens (protocolo kitty), Nerd Font |
 | Arquivos | Nautilus |
@@ -48,15 +48,21 @@ Rodar de novo é seguro.
 
 ## Paleta
 
+Shadow Materia híbrida (Material 3): referência completa, inclusive o tema
+claro, em [PALETA-HIBRIDA.md](PALETA-HIBRIDA.md). Resumo do escuro:
+
 | Cor | Hex | Uso |
 |---|---|---|
-| Base | `#181818` | Fundo de janela, barra, terminal |
-| Superfície | `#282828` | Botões, cards, pílulas, popovers |
-| Superfície 2 | `#333333` | Hover, bordas inativas |
-| Destaque | `#5294e2` | Seleção, foco, workspace ativa |
-| Destaque claro | `#8ab4f8` | Texto/links em destaque, cursor |
-| Texto | `#dedede` | Corpo |
-| Semânticas | `#f28b82` `#fdd663` `#81c995` `#c58af9` | Erro, aviso, ok, roxo |
+| Fundo mais fundo | `#0C0D0E` | Barra |
+| Fundo | `#131314` | Fundo de janela, terminal, rofi |
+| Contêiner | `#1A1A1C` | Cards, campos, pílulas |
+| Contêiner alto / mais alto | `#222324` / `#2C2C2D` | Menus, popovers / avisos, hover |
+| Divisores | `#323235` / `#49494B` | Bordas inativas / bordas de campo |
+| Primário | `#5294E2` | Foco, workspace ativa (texto sobre ele: `#0B0D10`) |
+| Primário claro | `#8AB8F0` | Links, ícones ativos, cursor |
+| Contêiner primário | `#183A61` | Seleção (sólida, sem transparência) |
+| Texto / apagado | `#F0EDEE` / `#919093` | Corpo / rótulos |
+| Status | `#F28B82` `#F2DA66` `#78CA9F` `#B98EFF` `#62C7E0` | Erro, aviso, ok, roxo, ciano |
 
 ## Atalhos principais
 

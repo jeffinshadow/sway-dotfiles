@@ -1,9 +1,9 @@
 # ~/.config/mako/config — Shadow Materia
 font=Google Sans 10
-background-color=#282828
-text-color=#dedede
-border-color=#333333
-progress-color=over #5294e2
+background-color=#2C2C2D
+text-color=#F0EDEE
+border-color=#323235
+progress-color=source #183A61
 border-size=1
 border-radius=8
 padding=12
@@ -17,11 +17,11 @@ anchor=top-right
 layer=overlay
 
 [urgency=low]
-border-color=#333333
-text-color=#999999
+border-color=#323235
+text-color=#919093
 
 [urgency=critical]
-border-color=#f28b82
+border-color=#F28B82
 default-timeout=0
 
 [mode=do-not-disturb]

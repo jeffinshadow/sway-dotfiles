@@ -1,13 +1,18 @@
 /* ~/.config/rofi/shadow-materia.rasi
-   Port do materia.rasi do i3 antigo pra paleta atual. Centralizado. */
+   Port do materia.rasi do i3 antigo pra paleta híbrida M3
+   (PALETA-HIBRIDA.md). Centralizado. */
 * {
-    base:      #181818;
-    surface:   #282828;
-    surface2:  #333333;
-    accent:    #5294e2;
-    accent-lt: #8ab4f8;
-    fg:        #dedede;
-    fg-dim:    #999999;
+    base:      #131314;
+    surface:   #1A1A1C;
+    surface2:  #222324;
+    outline:   #323235;
+    accent:    #5294E2;
+    accent-lt: #8AB8F0;
+    accent-ct: #183A61;
+    on-accent: #0B0D10;
+    fg:        #F0EDEE;
+    fg-dim:    #919093;
+    red:       #F28B82;
 
     background-color: transparent;
     text-color:       @fg;
@@ -20,7 +25,7 @@ window {
     width:            560px;
     background-color: @base;
     border:           2px;
-    border-color:     @surface2;
+    border-color:     @outline;
     border-radius:    10px;
     padding:          12px;
 }
@@ -56,12 +61,12 @@ element {
 }
 element normal.normal,
 element alternate.normal { background-color: transparent; text-color: @fg; }
-element selected.normal  { background-color: @accent; text-color: @base; }
+element selected.normal  { background-color: @accent-ct; text-color: @fg; }
 element normal.active,
 element alternate.active { text-color: @accent-lt; }
-element selected.active  { background-color: @accent-lt; text-color: @base; }
+element selected.active  { background-color: @accent-ct; text-color: @accent-lt; }
 element normal.urgent,
-element alternate.urgent { text-color: #f28b82; }
+element alternate.urgent { text-color: @red; }
 
 element-icon { size: 1.3em; vertical-align: 0.5; }
 element-text { vertical-align: 0.5; text-color: inherit; }
