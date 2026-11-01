@@ -93,7 +93,7 @@ tooltip label { color: @text; }
   background: transparent;
 }
 #workspaces button:hover { background: @surface2; color: @text; box-shadow: none; }
-#workspaces button.focused { color: #FFFFFF; background: @accent_dk; }
+#workspaces button.focused { color: @text; background: @accent_dk; }
 #workspaces button.urgent  { color: @on_red; background: @red; }
 
 #mode { color: @on_accent; background: @amber; }
