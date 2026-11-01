@@ -59,6 +59,8 @@ tooltip label { color: @text; }
 #custom-jogos,
 #custom-docker,
 #custom-tunnel,
+#custom-rec,
+#custom-dnd,
 #tray,
 #custom-power {
   background: @surface;
@@ -94,6 +96,11 @@ tooltip label { color: @text; }
 #workspaces button.urgent  { color: @on_red; background: @red; }
 
 #mode { color: @on_accent; background: @amber; }
+
+/* Gravando: pílula vermelha; não perturbe: sino âmbar */
+#custom-rec { color: @on_red; background: @red; font-weight: 600; }
+#custom-dnd { color: @text_dim; }
+#custom-dnd.dnd { color: @amber; }
 
 #clock { color: @text; font-weight: 600; }
 

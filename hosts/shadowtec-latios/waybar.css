@@ -28,6 +28,8 @@ window#waybar.eDP-1 #disk,
 window#waybar.eDP-1 #custom-jogos,
 window#waybar.eDP-1 #custom-docker,
 window#waybar.eDP-1 #custom-tunnel,
+window#waybar.eDP-1 #custom-rec,
+window#waybar.eDP-1 #custom-dnd,
 window#waybar.eDP-1 #tray,
 window#waybar.eDP-1 #custom-power {
   padding: 3px 14px;

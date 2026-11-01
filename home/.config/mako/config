@@ -1,27 +1,34 @@
 # ~/.config/mako/config — Shadow Materia
-font=Google Sans 10
-background-color=#2C2C2D
+# Pra ser notada: fundo azulado ("contêiner de destaque", destaca do
+# grafite das janelas), borda azul de 2px, título maior e em negrito.
+font=Google Sans 11
+format=<b><span size="larger">%s</span></b>\n%b
+background-color=#262F3C
 text-color=#F0EDEE
-border-color=#323235
+border-color=#5294E2
 progress-color=source #183A61
-border-size=1
-border-radius=8
-padding=12
+border-size=2
+border-radius=10
+padding=14,16
 margin=10
-width=360
+width=400
 icons=1
 max-icon-size=48
 icon-path=/usr/share/icons/Papirus-Dark
-default-timeout=6000
+default-timeout=8000
 anchor=top-right
 layer=overlay
 
+# Baixa prioridade: discreta como antes
 [urgency=low]
-border-color=#323235
-text-color=#919093
+background-color=#222324
+border-color=#49494B
+text-color=#ACABAD
 
+# Crítica: borda vermelha mais grossa e fica até dispensar (Super+.)
 [urgency=critical]
 border-color=#F28B82
+border-size=3
 default-timeout=0
 
 [mode=do-not-disturb]

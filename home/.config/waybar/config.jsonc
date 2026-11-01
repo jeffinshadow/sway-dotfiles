@@ -10,12 +10,12 @@
   "margin-left": 10,
   "margin-right": 10,
 
-  "modules-left":   ["custom/arch", "sway/workspaces", "sway/mode", "sway/scratchpad"],
+  "modules-left":   ["custom/arch", "sway/workspaces", "sway/mode", "sway/scratchpad", "custom/rec"],
   "modules-center": ["clock"],
   "modules-right":  ["idle_inhibitor", "gamemode", "pulseaudio", "backlight",
                      "cpu", "memory", "temperature", "custom/gpu",
                      "disk", "custom/jogos", "custom/docker", "custom/tunnel",
-                     "battery", "tray", "custom/power"],
+                     "battery", "tray", "custom/dnd", "custom/power"],
 
   "custom/arch": {
     // Logo da shadowtec (shadowtec.svg) + nome da máquina sem o "shadowtec-": com o KVM as duas telas
@@ -31,7 +31,31 @@
   "sway/workspaces": {
     "disable-scroll": false,
     "all-outputs": false,
-    "format": "{name}"
+    // Número + ícone de cada janela aberta (app_id no Wayland, class no X)
+    "format": "{name} {windows}",
+    "format-window-separator": " ",
+    "window-rewrite-default": "󰖯",
+    "window-rewrite": {
+      "class<firefox>": "󰈹",
+      "class<chromium|google-chrome>": "󰊯",
+      "class<com.mitchellh.ghostty|foot|kitty>": "󰆍",
+      "class<org.gnome.Nautilus>": "󰉋",
+      "class<org.telegram.desktop>": "",
+      "class<vesktop|discord>": "󰙯",
+      "class<steam>": "󰓓",
+      "class<steam_app_.*|gamescope>": "󰊓",
+      "class<gimp.*>": "",
+      "class<org.inkscape.Inkscape>": "",
+      "class<vlc>": "󰕼",
+      "class<code|code-oss|codium>": "󰨞",
+      "class<pavucontrol|org.pulseaudio.pavucontrol>": "󰕾",
+      "class<org.gnome.Papers|org.gnome.Evince>": "󰈦",
+      "class<org.gnome.Loupe>": "󰋩",
+      "class<org.gnome.Calculator>": "󰃬",
+      "class<org.gnome.TextEditor>": "󰧭",
+      "class<io.missioncenter.MissionCenter|io.github.ilya_zlobintsev.LACT>": "󰄪",
+      "class<anydesk>": "󰢹"
+    }
   },
 
   "sway/mode": { "format": "󰩨 {}" },
@@ -147,6 +171,25 @@
   },
 
   "tray": { "icon-size": 20, "spacing": 10 },
+
+  "custom/rec": {
+    // Só aparece gravando (sway/scripts/record.sh, Super+Print)
+    "exec": "~/.config/waybar/scripts/rec.sh",
+    "return-type": "json",
+    "interval": 1,
+    "signal": 9,
+    "on-click": "~/.config/sway/scripts/record.sh"
+  },
+
+  "custom/dnd": {
+    // Não perturbe do mako (Super+Shift+n)
+    "exec": "~/.config/waybar/scripts/dnd.sh",
+    "return-type": "json",
+    "interval": 30,
+    "signal": 8,
+    "on-click": "~/.config/sway/scripts/dnd.sh",
+    "on-click-right": "makoctl restore"
+  },
 
   "custom/power": {
     "format": "󰐥",

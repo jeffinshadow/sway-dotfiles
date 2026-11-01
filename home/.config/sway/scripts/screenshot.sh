@@ -13,7 +13,8 @@ case "${1:-full}" in
         out=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
         grim -o "$out" "$file" ;;
     area)
-        grim -g "$(slurp)" - | swappy -f -
+        geom=$(slurp) || exit 0   # Esc no slurp: sai quieto
+        grim -g "$geom" - | swappy -f -
         exit 0 ;;
     window)
         geom=$(swaymsg -t get_tree | jq -r '.. | select(.focused? == true) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')

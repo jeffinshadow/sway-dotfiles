@@ -76,13 +76,17 @@ claro, em [PALETA-HIBRIDA.md](PALETA-HIBRIDA.md). Resumo do escuro:
 | `Super+j k l ç` (ou setas) | Foco · `+Shift` move |
 | `Super+h` / `Super+v` | Divisão horizontal / vertical |
 | `Super+s` / `w` / `e` | Empilhado / abas / alterna divisão |
-| `Super+r` | Modo redimensionar |
+| `Super+Shift+Espaço` ou `Super+Shift+f` | Flutuante ↔ lado a lado (flutuante abre a 65%×70%, centralizada, com aviso) |
+| `Super+r` | Modo redimensionar (passos de 40px; `Shift` = 10px) |
 | `Super+Shift+v` | Histórico do clipboard |
 | `Super+p` | Monitor externo: estender ↔ espelhar |
 | `Super+x` | Bloquear |
-| `Super+Shift+e` | Menu de energia |
-| `Super+.` | Dispensar notificação |
+| `Super+Shift+e` | Menu de energia (sair/reiniciar/desligar pedem confirmação) |
+| `Super+.` / `Super+Shift+.` | Dispensar / reabrir notificação |
+| `Super+Shift+n` | Não perturbe (sino na barra) |
 | `Print` / `Ctrl+Print` / `Shift+Print` | Captura: tela / área (swappy) / janela |
+| `Super+Print` / `Super+Shift+Print` | Gravar área / tela (de novo: parar; REC na barra) |
+| `Super+1…0` | Workspace (apertar a atual volta pra anterior) |
 
 ## Nova máquina
 
