@@ -1,6 +1,6 @@
 /* ~/.config/waybar/style.css — Shadow Materia
-   Paleta híbrida M3 (PALETA-HIBRIDA.md): barra no "fundo mais fundo",
-   pílulas no contêiner, hover no contêiner mais alto.
+   Paleta híbrida M3 (PALETA-HIBRIDA.md): barra transparente (só as
+   pílulas, no contêiner, sobre o papel de parede), hover no contêiner mais alto.
 
    Tamanhos por máquina: host.css (symlink pra hosts/<hostname>/waybar.css,
    criado pelo install.sh). As regras de lá usam seletores mais específicos
@@ -30,7 +30,7 @@
 }
 
 window#waybar {
-  background: @base;
+  background: transparent;   /* só as pílulas aparecem, sobre o papel de parede */
   color: @text;
 }
 

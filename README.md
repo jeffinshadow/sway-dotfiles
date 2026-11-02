@@ -31,7 +31,7 @@ Rodar de novo é seguro.
 | Papel | Escolha |
 |---|---|
 | Compositor | Sway (puro) |
-| Barra | Waybar: pílulas `#1A1A1C` sobre `#0C0D0E`, raio 8; barra encostada no topo; relógio à direita; CPU/memória/temperatura/disco no grupo "sistema" (abre com o mouse, fica âmbar/vermelho em alerta) |
+| Barra | Waybar: fundo transparente, só as pílulas `#1A1A1C` (raio 8) sobre o papel de parede; encostada no topo; relógio à direita; CPU/memória/temperatura/disco no grupo "sistema" (abre com o mouse, fica âmbar/vermelho em alerta) |
 | Lançador | Rofi 2 (Wayland nativo), centralizado |
 | Terminal | Ghostty: GTK4, imagens (protocolo kitty), Nerd Font |
 | Arquivos | Nautilus |
@@ -54,7 +54,7 @@ claro, em [PALETA-HIBRIDA.md](PALETA-HIBRIDA.md). Resumo do escuro:
 
 | Cor | Hex | Uso |
 |---|---|---|
-| Fundo mais fundo | `#0C0D0E` | Barra |
+| Fundo mais fundo | `#0C0D0E` | Atrás de tudo |
 | Fundo | `#131314` | Fundo de janela, terminal, rofi |
 | Contêiner | `#1A1A1C` | Cards, campos, pílulas |
 | Contêiner alto / mais alto | `#222324` / `#2C2C2D` | Menus, popovers / avisos, hover |
