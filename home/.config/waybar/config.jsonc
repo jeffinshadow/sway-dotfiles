@@ -6,9 +6,7 @@
   "layer": "top",
   "position": "top",
   "spacing": 8,
-  "margin-top": 10,      // = gaps inner do sway
-  "margin-left": 10,
-  "margin-right": 10,
+  // Encostada no topo, de ponta a ponta (fundo sólido; sem margem nem cantos)
 
   "modules-left":   ["custom/arch", "sway/workspaces", "sway/mode", "sway/scratchpad", "custom/rec"],
   // Relógio à direita: no meio ele colava nos módulos quando a barra

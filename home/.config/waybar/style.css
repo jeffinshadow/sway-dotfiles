@@ -32,7 +32,6 @@
 window#waybar {
   background: @base;
   color: @text;
-  border-radius: 10px;
 }
 
 tooltip {
@@ -76,7 +75,7 @@ tooltip label { color: @text; }
 #custom-arch {
   color: @text;
   font-size: 18px;
-  margin-left: 5px;
+  margin-left: 10px;   /* alinha com a borda das janelas (gap 10) */
   background-image: url("shadowtec.svg");
   background-repeat: no-repeat;
   background-size: 22px 22px;
@@ -84,7 +83,7 @@ tooltip label { color: @text; }
   padding-left: 37px;
   min-height: 26px;   /* > logo: senão o bloco fica mais baixo e corta o dragão */
 }
-#custom-power { color: @red; margin-right: 5px; }
+#custom-power { color: @red; margin-right: 10px; }
 
 #workspaces { padding: 0 3px; }
 #workspaces button {
