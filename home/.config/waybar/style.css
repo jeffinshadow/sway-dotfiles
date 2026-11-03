@@ -74,7 +74,7 @@ tooltip label { color: @text; }
    O texto (nome da máquina) começa depois dele, pelo padding-left. */
 #custom-arch {
   color: @text;
-  font-size: 20px;
+  font-size: 17px;
   margin-left: 10px;   /* alinha com a borda das janelas (gap 10) */
   background-image: url("shadowtec.svg");
   background-repeat: no-repeat;
