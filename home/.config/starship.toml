@@ -34,7 +34,7 @@ CachyOS = "\U00100000"   # o padrão do starship é 🎗️
 show_always = true
 format = "[$user ]($style)"
 style_user = "bg:azul fg:texto bold"
-style_root = "bg:vermelho fg:fundo bold"
+style_root = "bg:vermelho fg:texto bold"
 
 [hostname]
 ssh_only = true
