@@ -84,7 +84,9 @@ c=${cpu//\?/0}
 linhas+=("$(linha 󰻠 "$(barra "$c" 90 101)" "${cpu}%${tcpu:+  ·  ${tcpu}°}")")
 linhas+=("$(linha 󰍛 "$(barra "$m" 90 95)" "$(virgula "$mu") / $(virgula "$mt") GiB")")
 if [[ -n $gpu ]]; then
-    linhas+=("$(linha 󰢮 "$(barra "$gpu_uso" 101 101)" "${gpu_uso}%  ·  ${gpu_temp}°  ·  VRAM $(virgula "$vram") / $(virgula "$vtot") GiB")")
+    # Igual à linha da RAM (barra = VRAM usada), com a temperatura na frente
+    vp=$(awk -v u="$vram" -v t="$vtot" 'BEGIN {printf "%d", u*100/t}')
+    linhas+=("$(linha 󰢮 "$(barra "$vp" 90 95)" "$(virgula "$vram") / $(virgula "$vtot") GiB  ·  ${gpu_temp}°")")
 fi
 livre=$(df -h --output=avail / | tail -1 | tr -d ' ')
 linhas+=("$(linha 󰋊 "$(barra "$d" 85 95)" "${d}%  ·  ${livre/G/ GiB} livres")")
