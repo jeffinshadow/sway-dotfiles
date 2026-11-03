@@ -9,7 +9,7 @@ Servem pra qualquer máquina. O que muda entre elas fica em `hosts/<hostname>/`.
 | Máquina | Perfil |
 |---|---|
 | `shadowtec-latios` | Latitude 7280: escala 1.0 com texto 1.1× (igual à giratina), waybar maior, kanshi, tampa, suspensão |
-| `shadowtec-giratina` | Desktop/servidor 24/7: monitor 1080p a 100 Hz (atrás de um KVM), subpixel RGB + stem darkening, ghostty 10, sem suspensão, mouse flat |
+| `shadowtec-giratina` | Desktop/servidor 24/7: monitor 1080p a 100 Hz (atrás de um KVM), subpixel RGB, ghostty 10, sem suspensão, mouse flat |
 | qualquer outra | `hosts/default` |
 
 ## Instalação
