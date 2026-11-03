@@ -15,8 +15,8 @@
     "color": { "keys": "white" }
   },
   "modules": [
-    // 3 linhas vazias em cima: centraliza o texto na altura da imagem (22)
-    "break",
+    // 2 linhas vazias em cima: texto centralizado na imagem. O tamanho da
+    // imagem por máquina vem de hosts/<host>/fastfetch.args (ver .zshrc)
     "break",
     "break",
     { "type": "title", "format": "{#1}\udbc0\udc00  {host-name}" },   // dragão (U+100000, ShadowTec Symbols)

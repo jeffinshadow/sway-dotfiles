@@ -34,7 +34,14 @@ fi
 # zoxide: "z proj" pula pra pasta mais usada que bate; "zi" escolhe no fzf
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
-fastfetch() { echo; command fastfetch "$@"; }
+# fastfetch com os ajustes da máquina (tamanho da logo etc.), se houver:
+# ~/.config/fastfetch/host.args ← hosts/<hostname>/fastfetch.args
+fastfetch() {
+    local -a extra
+    [[ -r ~/.config/fastfetch/host.args ]] &&
+        extra=(${(z)"$(grep -v '^[[:space:]]*#' ~/.config/fastfetch/host.args)"})
+    echo; command fastfetch "${extra[@]}" "$@"
+}
 
 alias ls='ls --color=auto'
 alias ll='ls -lh --group-directories-first'

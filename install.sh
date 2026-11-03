@@ -133,6 +133,12 @@ fi
 link "$HOSTDIR/sway.conf" "$HOME/.config/sway/config.d/90-host.conf"
 link "$HOSTDIR/ghostty"   "$HOME/.config/ghostty/host"
 link "$HOSTDIR/waybar.css" "$HOME/.config/waybar/host.css"
+# Ajustes do fastfetch na máquina (opcional; argumentos de linha de comando)
+if [[ -f "$HOSTDIR/fastfetch.args" ]]; then
+    link "$HOSTDIR/fastfetch.args" "$HOME/.config/fastfetch/host.args"
+elif [[ -L "$HOME/.config/fastfetch/host.args" ]]; then
+    rm "$HOME/.config/fastfetch/host.args"
+fi
 # Variáveis de sessão da máquina (opcional; vale no próximo login)
 if [[ -f "$HOSTDIR/environment.conf" ]]; then
     link "$HOSTDIR/environment.conf" "$HOME/.config/environment.d/90-host.conf"

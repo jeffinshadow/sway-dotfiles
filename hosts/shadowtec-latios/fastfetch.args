@@ -1,0 +1,3 @@
+# Argumentos extras do fastfetch nesta máquina (lidos pela função no .zshrc)
+# Tela de 12,5": logo menor que a da giratina (o padrão é 44x22)
+--logo-width 38 --logo-height 19 --logo-padding-top 1
