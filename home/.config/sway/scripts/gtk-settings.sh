@@ -2,7 +2,7 @@
 # Aplica tema/fontes/cursor via gsettings. No Wayland, GTK3/GTK4/libadwaita
 # leem daqui (via xdg-desktop-portal-gtk), não do settings.ini.
 # Escala de texto por máquina: variável SHADOW_TEXT_SCALE, passada pelo
-# arquivo do host (hosts/<hostname>/sway.conf); padrão 1.0.
+# arquivo do host (hosts/<hostname>/sway.conf); padrão 1.1.
 set -u
 gs() { gsettings set org.gnome.desktop.interface "$@"; }
 
@@ -16,7 +16,7 @@ gs document-font-name  'Google Sans 10'
 gs monospace-font-name 'Google Sans Code 10'
 gs font-antialiasing   'rgba'
 gs font-hinting        'slight'
-gs text-scaling-factor "${SHADOW_TEXT_SCALE:-1.0}"
+gs text-scaling-factor "${SHADOW_TEXT_SCALE:-1.1}"
 
 # GNOME Text Editor: esquema Shadow Materia (~/.local/share/gtksourceview-5)
 gsettings set org.gnome.TextEditor style-scheme 'shadow-materia' 2>/dev/null || true
