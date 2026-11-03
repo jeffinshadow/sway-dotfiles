@@ -50,13 +50,8 @@ tooltip label { color: @text; }
 #idle_inhibitor,
 #pulseaudio,
 #backlight,
-#cpu,
-#memory,
-#temperature,
 #battery,
 #gamemode,
-#custom-gpu,
-#disk,
 #custom-docker,
 #custom-tunnel,
 #custom-rec,
@@ -106,7 +101,6 @@ tooltip label { color: @text; }
 
 #idle_inhibitor.activated { color: @amber; }
 #pulseaudio.muted { color: @text_dim; }
-#temperature.critical { color: @red; }
 
 #battery.charging, #battery.plugged { color: @green; }
 #battery.warning:not(.charging)  { color: @amber; }
@@ -116,7 +110,5 @@ tooltip label { color: @text; }
 #custom-tunnel { color: @green; }
 #custom-sistema.warning { color: @amber; }
 #custom-sistema.critical { color: @on_red; background: @red; }
-/* Grupo "sistema": os itens que abrem ficam com o mesmo espaçamento da barra */
-#sistema .sistema-item { margin-left: 8px; }
-#custom-gpu.critical, #disk.critical, #custom-tunnel.critical, #custom-docker.critical { color: @red; }
-#disk.warning, #custom-docker.warning { color: @amber; }
+#custom-tunnel.critical, #custom-docker.critical { color: @red; }
+#custom-docker.warning { color: @amber; }

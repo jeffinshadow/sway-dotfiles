@@ -31,7 +31,7 @@ Rodar de novo é seguro.
 | Papel | Escolha |
 |---|---|
 | Compositor | Sway (puro) |
-| Barra | Waybar: fundo transparente, só as pílulas `#1A1A1C` (raio 8) sobre o papel de parede; encostada no topo; relógio à direita; CPU/memória/temperatura/disco no grupo "sistema" (abre com o mouse, fica âmbar/vermelho em alerta) |
+| Barra | Waybar: fundo transparente, só as pílulas `#1A1A1C` (raio 8) sobre o papel de parede; encostada no topo; relógio à direita; pílula "sistema" com CPU/memória/GPU/discos no tooltip (fica âmbar/vermelho em alerta) |
 | Lançador | Rofi 2 (Wayland nativo), centralizado |
 | Terminal | Ghostty: GTK4, imagens (protocolo kitty), Nerd Font |
 | Arquivos | Nautilus |

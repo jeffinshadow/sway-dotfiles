@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-# Pílula "sistema" do waybar: líder do grupo que esconde CPU, memória,
-# temperatura, GPU e disco (abrem ao passar o mouse). Como os módulos ficam
-# escondidos, ela herda o pior estado deles: âmbar (warning) ou vermelho
-# (critical), com o motivo no tooltip. Limites iguais aos do config.jsonc.
-# O tooltip traz também o resumo de tudo: no monitor da webcam (LG 24") o
-# grupo não abre e o resumo fica só aqui (ver config.jsonc).
-export LC_ALL=C.UTF-8   # ${#var} conta caracteres, não bytes
+# Pílula "sistema" do waybar: CPU, memória, temperatura, GPU e discos ficam
+# no tooltip (ícone + barra + valores). A pílula assume o pior estado deles:
+# âmbar (warning) ou vermelho (critical), com o motivo no topo do tooltip.
+export LC_ALL=C.UTF-8   # awk com ponto decimal; a vírgula vem depois
 estado=0; motivos=()   # 0 normal, 1 warning, 2 critical
 pior() { (( $1 > estado )) && estado=$1; motivos+=("$2"); }
 
@@ -28,7 +25,7 @@ for h in /sys/class/hwmon/hwmon*; do
     break
 done
 
-# GPU AMD (giratina): mesma regra do gpu.sh
+# GPU AMD (giratina)
 gpu=""
 for d in /sys/class/drm/card*/device; do
     [[ -r $d/gpu_busy_percent && $(<"$d/vendor") == 0x1002 ]] || continue
@@ -69,12 +66,8 @@ barra() {
     printf "<span color='%s'>%s</span><span color='%s'>%s</span>" \
         "$cor" "$(rep "$cheio" ━)" "$TRILHO" "$(rep $(( 10 - cheio )) ━)"
 }
-# linha ÍCONE NOME BARRA TEXTO (nome alinhado em 8 colunas; ${#} conta
-# caracteres, o printf %-8s contaria bytes e o "ó" desalinha)
-linha() {
-    printf "<span color='%s'>%s</span>  %s%s %s  %s" \
-        "$AZUL" "$1" "$2" "$(rep $(( 8 - ${#2} )) ' ')" "$3" "$4"
-}
+# linha ÍCONE BARRA TEXTO
+linha() { printf "<span color='%s'>%s</span>  %s  %s" "$AZUL" "$1" "$2" "$3"; }
 
 linhas=()
 up=$(awk '{d=int($1/86400); h=int($1%86400/3600); m=int($1%3600/60);
@@ -88,17 +81,17 @@ if (( ${#motivos[@]} )); then
 fi
 
 c=${cpu//\?/0}
-linhas+=("$(linha 󰻠 CPU "$(barra "$c" 90 101)" "${cpu}%${tcpu:+  ·  ${tcpu}°}")")
-linhas+=("$(linha 󰍛 Memória "$(barra "$m" 90 95)" "$(virgula "$mu") / $(virgula "$mt") GiB")")
+linhas+=("$(linha 󰻠 "$(barra "$c" 90 101)" "${cpu}%${tcpu:+  ·  ${tcpu}°}")")
+linhas+=("$(linha 󰍛 "$(barra "$m" 90 95)" "$(virgula "$mu") / $(virgula "$mt") GiB")")
 if [[ -n $gpu ]]; then
-    linhas+=("$(linha 󰢮 GPU "$(barra "$gpu_uso" 101 101)" "${gpu_uso}%  ·  ${gpu_temp}°  ·  VRAM $(virgula "$vram") / $(virgula "$vtot") GiB")")
+    linhas+=("$(linha 󰢮 "$(barra "$gpu_uso" 101 101)" "${gpu_uso}%  ·  ${gpu_temp}°  ·  VRAM $(virgula "$vram") / $(virgula "$vtot") GiB")")
 fi
 livre=$(df -h --output=avail / | tail -1 | tr -d ' ')
-linhas+=("$(linha 󰋊 Disco "$(barra "$d" 85 95)" "${d}%  ·  ${livre/G/ GiB} livres")")
+linhas+=("$(linha 󰋊 "$(barra "$d" 85 95)" "${d}%  ·  ${livre/G/ GiB} livres")")
 if mountpoint -q /mnt/jogos 2>/dev/null; then
     read -r jp jl < <(df -h --output=pcent,avail /mnt/jogos | tail -1)
     jp=${jp%\%}
-    linhas+=("$(linha 󰊗 Jogos "$(barra "$jp" 90 101)" "${jp}%  ·  ${jl/G/ GiB} livres")")
+    linhas+=("$(linha 󰊗 "$(barra "$jp" 90 101)" "${jp}%  ·  ${jl/G/ GiB} livres")")
 fi
 linhas+=("" "<span color='$CINZA'>Clique: btop</span>")
 
