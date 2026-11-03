@@ -5,6 +5,7 @@
 # (critical), com o motivo no tooltip. Limites iguais aos do config.jsonc.
 # O tooltip traz também o resumo de tudo: no monitor da webcam (LG 24") o
 # grupo não abre e o resumo fica só aqui (ver config.jsonc).
+export LC_ALL=C.UTF-8   # ${#var} conta caracteres, não bytes
 estado=0; motivos=()   # 0 normal, 1 warning, 2 critical
 pior() { (( $1 > estado )) && estado=$1; motivos+=("$2"); }
 
@@ -33,7 +34,9 @@ for d in /sys/class/drm/card*/device; do
     [[ -r $d/gpu_busy_percent && $(<"$d/vendor") == 0x1002 ]] || continue
     t=$(( $(cat "$d"/hwmon/hwmon*/temp1_input) / 1000 ))
     (( t >= 90 )) && pior 2 "GPU a ${t}°"
-    gpu="$(<"$d/gpu_busy_percent")%  ·  ${t}°"
+    gpu=1; gpu_uso=$(<"$d/gpu_busy_percent"); gpu_temp=$t
+    vram=$(awk '{printf "%.1f", $1/1073741824}' "$d/mem_info_vram_used")
+    vtot=$(awk '{printf "%.1f", $1/1073741824}' "$d/mem_info_vram_total")
     break
 done
 
@@ -46,13 +49,54 @@ read -r m mu mt < <(awk '/MemTotal/ {t=$2} /MemAvailable/ {a=$2}
     END {printf "%d %.1f %.1f", (t-a)*100/t, (t-a)/1048576, t/1048576}' /proc/meminfo)
 (( m >= 95 )) && pior 2 "Memória ${m}%" || { (( m >= 90 )) && pior 1 "Memória ${m}%"; }
 
-# Resumo (vírgula decimal, como no resto da barra em pt_BR)
-linhas=("CPU      ${cpu}%${tcpu:+  ·  ${tcpu}°}"
-        "Memória  ${mu/./,} / ${mt/./,} GiB  (${m}%)")
-[[ -n $gpu ]] && linhas+=("GPU      $gpu")
-linhas+=("Disco    ${d}%  (/)")
+# ---- Resumo no tooltip (pango): ícone, nome, barra e valores ----------
+# Cores do style.css (Shadow Materia)
+AZUL='#8AB8F0'; CINZA='#919093'; TRILHO='#49494B'; AMBAR='#F2DA66'; VERMELHO='#F28B82'
+virgula() { echo "${1/./,}"; }
+# rep N TEXTO → TEXTO repetido N vezes
+rep() { local i out=""; for (( i = 0; i < $1; i++ )); do out+=$2; done; printf '%s' "$out"; }
+# barra PCT AVISO CRITICO → 10 células, cor pelo nível
+barra() {
+    local p=$1 cor=$AZUL cheio=$(( ($1 + 5) / 10 ))
+    (( p >= $3 )) && cor=$VERMELHO || { (( p >= $2 )) && cor=$AMBAR; }
+    (( cheio > 10 )) && cheio=10
+    printf "<span color='%s'>%s</span><span color='%s'>%s</span>" \
+        "$cor" "$(rep "$cheio" ━)" "$TRILHO" "$(rep $(( 10 - cheio )) ━)"
+}
+# linha ÍCONE NOME BARRA TEXTO (nome alinhado em 8 colunas; ${#} conta
+# caracteres, o printf %-8s contaria bytes e o "ó" desalinha)
+linha() {
+    printf "<span color='%s'>%s</span>  %s%s %s  %s" \
+        "$AZUL" "$1" "$2" "$(rep $(( 8 - ${#2} )) ' ')" "$3" "$4"
+}
+
+linhas=()
+up=$(awk '{d=int($1/86400); h=int($1%86400/3600); m=int($1%3600/60);
+    if (d) printf "%dd %dh", d, h; else if (h) printf "%dh %dmin", h, m; else printf "%dmin", m}' /proc/uptime)
+linhas+=("<b>$(cut -d- -f2- /etc/hostname)</b>  <span color='$CINZA'>ligada há $up</span>" "")
+
+if (( ${#motivos[@]} )); then
+    cor=$AMBAR; (( estado == 2 )) && cor=$VERMELHO
+    for m_ in "${motivos[@]}"; do linhas+=("<span color='$cor'>󰀦  $m_</span>"); done
+    linhas+=("")
+fi
+
+c=${cpu//\?/0}
+linhas+=("$(linha 󰻠 CPU "$(barra "$c" 90 101)" "${cpu}%${tcpu:+  ·  ${tcpu}°}")")
+linhas+=("$(linha 󰍛 Memória "$(barra "$m" 90 95)" "$(virgula "$mu") / $(virgula "$mt") GiB")")
+if [[ -n $gpu ]]; then
+    linhas+=("$(linha 󰢮 GPU "$(barra "$gpu_uso" 101 101)" "${gpu_uso}%  ·  ${gpu_temp}°  ·  VRAM $(virgula "$vram") / $(virgula "$vtot") GiB")")
+fi
+livre=$(df -h --output=avail / | tail -1 | tr -d ' ')
+linhas+=("$(linha 󰋊 Disco "$(barra "$d" 85 95)" "${d}%  ·  ${livre/G/ GiB} livres")")
+if mountpoint -q /mnt/jogos 2>/dev/null; then
+    read -r jp jl < <(df -h --output=pcent,avail /mnt/jogos | tail -1)
+    jp=${jp%\%}
+    linhas+=("$(linha 󰊗 Jogos "$(barra "$jp" 90 101)" "${jp}%  ·  ${jl/G/ GiB} livres")")
+fi
+linhas+=("" "<span color='$CINZA'>Clique: btop</span>")
 
 classe=(normal warning critical)
-(( ${#motivos[@]} )) && linhas=("${motivos[@]}" "" "${linhas[@]}")
-tip=$(printf '%s\\n' "${linhas[@]}" "" "Clique: btop"); tip=${tip%\\n}
+tip=$(printf '%s\\n' "${linhas[@]}"); tip=${tip%\\n}
+tip=${tip//\"/\\\"}
 printf '{"text":"󰊚","class":"%s","tooltip":"<tt>%s</tt>"}\n' "${classe[estado]}" "$tip"
