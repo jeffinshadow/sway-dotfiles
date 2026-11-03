@@ -50,30 +50,21 @@
   "sway/workspaces": {
     "disable-scroll": false,
     "all-outputs": false,
-    // Número + ícone de cada janela aberta (app_id no Wayland, class no X)
-    "format": "{name} {windows}",
-    "format-window-separator": " ",
-    "window-rewrite-default": "󰖯",
-    "window-rewrite": {
-      "class<firefox>": "󰈹",
-      "class<chromium|google-chrome>": "󰊯",
-      "class<com.mitchellh.ghostty.*|foot|kitty>": "󰆍",
-      "class<org.gnome.Nautilus>": "󰉋",
-      "class<org.telegram.desktop>": "",
-      "class<vesktop|discord>": "󰙯",
-      "class<steam>": "󰓓",
-      "class<steam_app_.*|gamescope>": "󰊓",
-      "class<gimp.*>": "",
-      "class<org.inkscape.Inkscape>": "",
-      "class<vlc>": "󰕼",
-      "class<code|code-oss|codium>": "󰨞",
-      "class<pavucontrol|org.pulseaudio.pavucontrol>": "󰕾",
-      "class<org.gnome.Papers|org.gnome.Evince>": "󰈦",
-      "class<org.gnome.Loupe>": "󰋩",
-      "class<org.gnome.Calculator>": "󰃬",
-      "class<org.gnome.TextEditor>": "󰧭",
-      "class<io.missioncenter.MissionCenter|io.github.ilya_zlobintsev.LACT>": "󰄪",
-      "class<anydesk>": "󰢹"
+    // Número + ícone fixo de cada workspace (como era no i3); os apps vão
+    // pra elas pelas regras do sway (config.d/40-rules.conf). Só aparecem
+    // as workspaces com janela.
+    "format": "{name} {icon}",
+    "format-icons": {
+      "1": "󰆍",    // terminal
+      "2": "󰈹",    // web
+      "3": "󰭹",    // chat
+      "4": "󰊴",    // jogos
+      "5": "󰏘",    // design
+      "6": "󰝚",    // mídia
+      "7": "󰉋",    // arquivos
+      "8": "󰈙",    // documentos
+      "10": "󰒓",   // sistema
+      "default": ""
     }
   },
 

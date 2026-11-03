@@ -88,7 +88,7 @@ claro, em [PALETA-HIBRIDA.md](PALETA-HIBRIDA.md). Resumo do escuro:
 | `Super+Shift+n` | Não perturbe (sino na barra) |
 | `Print` / `Ctrl+Print` / `Shift+Print` | Captura: tela / área (swappy) / janela |
 | `Super+Print` / `Super+Shift+Print` | Gravar área / tela (de novo: parar; REC na barra) |
-| `Super+1…0` | Workspace (apertar a atual volta pra anterior). Fixas: 1 terminal · 2 Firefox · 3 Chromium/Vesktop · 4 Steam/jogos |
+| `Super+1…0` | Workspace (apertar a atual volta pra anterior). Ícone fixo na barra e apps fixos: 1 terminal · 2 web · 3 chat · 4 jogos · 5 design · 6 mídia · 7 arquivos · 8 documentos · 9 livre · 10 sistema |
 
 ## Nova máquina
 
