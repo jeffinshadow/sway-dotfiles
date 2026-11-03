@@ -6,9 +6,9 @@
   "logo": {
     "type": "kitty-direct",
     "source": "~/.config/fastfetch/shadowtec.png",
-    "width": 38,
-    "height": 19,
-    "padding": { "top": 1, "left": 2, "right": 3 }
+    "width": 44,
+    "height": 22,
+    "padding": { "top": 1, "left": 1, "right": 2 }
   },
   "display": {
     "separator": "  ",
