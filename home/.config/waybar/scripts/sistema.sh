@@ -72,7 +72,10 @@ linha() { printf "<span color='%s'>%s</span>  %s  %s" "$AZUL" "$1" "$2" "$3"; }
 linhas=()
 up=$(awk '{d=int($1/86400); h=int($1%86400/3600); m=int($1%3600/60);
     if (d) printf "%dd %dh", d, h; else if (h) printf "%dh %dmin", h, m; else printf "%dmin", m}' /proc/uptime)
-linhas+=("<b>$(cut -d- -f2- /etc/hostname)</b>  <span color='$CINZA'>ligada há $up</span>" "")
+# Logo da shadowtec antes do nome: glyph da fonte ShadowTec Symbols
+# (home/.local/share/fonts, gerada por tools/shadowtec-font.py)
+logo="<span font_family='ShadowTec Symbols' size='larger'>"$'\U00100000'"</span>"
+linhas+=("$logo <b>$(cut -d- -f2- /etc/hostname)</b>  <span color='$CINZA'>ligada há $up</span>" "")
 
 if (( ${#motivos[@]} )); then
     cor=$AMBAR; (( estado == 2 )) && cor=$VERMELHO
