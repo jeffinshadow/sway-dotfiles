@@ -89,11 +89,11 @@ if [[ -n $gpu ]]; then
     linhas+=("$(linha 󰢮 "$(barra "$vp" 90 95)" "$(virgula "$vram") / $(virgula "$vtot") GiB  ·  ${gpu_temp}°")")
 fi
 livre=$(df -h --output=avail / | tail -1 | tr -d ' ')
-linhas+=("$(linha 󰋊 "$(barra "$d" 85 95)" "${d}%  ·  ${livre/G/ GiB} livres")")
+linhas+=("$(linha 󰋊 "$(barra "$d" 85 95)" "${livre/G/ GiB} livres")")
 if mountpoint -q /mnt/jogos 2>/dev/null; then
     read -r jp jl < <(df -h --output=pcent,avail /mnt/jogos | tail -1)
     jp=${jp%\%}
-    linhas+=("$(linha 󰊗 "$(barra "$jp" 90 101)" "${jp}%  ·  ${jl/G/ GiB} livres")")
+    linhas+=("$(linha 󰊗 "$(barra "$jp" 90 101)" "${jl/G/ GiB} livres")")
 fi
 linhas+=("" "<span color='$CINZA'>Clique: btop</span>")
 
