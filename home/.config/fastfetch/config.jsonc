@@ -8,7 +8,7 @@
   },
   "modules": [
     "break",
-    { "type": "title", "format": "{#1}{host-name}" },
+    { "type": "title", "format": "{#1}\udbc0\udc00  {host-name}" },   // dragão (U+100000, ShadowTec Symbols)
     { "type": "custom", "format": "\u001b[38;2;73;73;75m────────────────────────────────\u001b[0m" },
     { "type": "custom", "format": "\u001b[1m󰇺  Hardware\u001b[0m" },
     { "type": "board", "key": "󰌢", "format": "{2} {1} ({3})" },

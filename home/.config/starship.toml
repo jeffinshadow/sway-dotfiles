@@ -23,9 +23,11 @@ disabled = false
 format = "[ $symbol ]($style)"
 style = "bg:azul fg:fundo"
 
+# Dragão da shadowtec: glyph U+100000 da fonte ShadowTec Symbols
+# (home/.local/share/fonts). Onde a fonte não existe vira um quadradinho.
 [os.symbols]
-Arch = "󰣇"
-CachyOS = "󰣇"   # o padrão do starship é 🎗️
+Arch = "\U00100000"
+CachyOS = "\U00100000"   # o padrão do starship é 🎗️
 
 [username]
 show_always = true
