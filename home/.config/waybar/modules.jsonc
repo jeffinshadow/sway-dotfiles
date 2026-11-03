@@ -16,7 +16,7 @@
   // no grupo "sistema" e abrem ao passar o mouse.
   "modules-right":  ["idle_inhibitor", "gamemode", "pulseaudio", "backlight",
                      "group/sistema", "custom/jogos", "custom/docker", "custom/vpn", "custom/tunnel",
-                     "battery", "clock", "tray", "custom/dnd", "custom/power"],
+                     "battery", "tray", "clock", "custom/dnd", "custom/power"],
 
   "group/sistema": {
     "orientation": "inherit",
