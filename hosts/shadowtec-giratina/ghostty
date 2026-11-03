@@ -1,1 +1,3 @@
-# Ajustes do ghostty por máquina. Fonte: 11, do config geral (igual nas duas)
+# Ajustes do ghostty por máquina
+# 24" 1080p com stem darkening: 10 lê bem (o padrão é 11)
+font-size = 10
