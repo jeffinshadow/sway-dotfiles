@@ -3,7 +3,7 @@ add_newline = true
 palette = "shadow_materia"
 
 # uma linha: capsulas -> digita na sequencia (homenagem ao prompt de 2023)
-format = "[](azul)$os$username$hostname[](bg:superficie fg:azul)$directory$git_branch$git_status$status$character"
+format = "[](azul_escuro)$os$username$hostname[](bg:superficie fg:azul_escuro)$directory$git_branch$git_status$status$character"
 
 right_format = "$cmd_duration$time"
 
@@ -12,6 +12,7 @@ fundo = "#131314"
 superficie = "#222324"
 azul = "#5294E2"
 azul_claro = "#8AB8F0"
+azul_escuro = "#1A6AB5"   # mesmo da workspace ativa no waybar: texto branco passa AA
 verde = "#78CA9F"
 vermelho = "#F28B82"
 ambar = "#F2DA66"
@@ -22,7 +23,7 @@ texto = "#F0EDEE"
 [os]
 disabled = false
 format = "[ $symbol ]($style)"
-style = "bg:azul fg:texto"
+style = "bg:azul_escuro fg:texto"
 
 # Dragão da shadowtec: glyph U+100000 da fonte ShadowTec Symbols
 # (home/.local/share/fonts). Onde a fonte não existe vira um quadradinho.
@@ -33,13 +34,13 @@ CachyOS = "\U00100000"   # o padrão do starship é 🎗️
 [username]
 show_always = true
 format = "[$user ]($style)"
-style_user = "bg:azul fg:texto bold"
+style_user = "bg:azul_escuro fg:texto bold"
 style_root = "bg:vermelho fg:texto bold"
 
 [hostname]
 ssh_only = true
 format = "[@$hostname ]($style)"
-style = "bg:azul fg:texto"
+style = "bg:azul_escuro fg:texto"
 
 [directory]
 format = "[ 󰋜 $path ]($style)"
