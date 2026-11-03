@@ -74,14 +74,14 @@ tooltip label { color: @text; }
    O texto (nome da máquina) começa depois dele, pelo padding-left. */
 #custom-arch {
   color: @text;
-  font-size: 18px;
+  font-size: 20px;
   margin-left: 10px;   /* alinha com a borda das janelas (gap 10) */
   background-image: url("shadowtec.svg");
   background-repeat: no-repeat;
-  background-size: 22px 22px;
+  background-size: 24px 24px;
   background-position: 9px center;
-  padding-left: 37px;
-  min-height: 26px;   /* > logo: senão o bloco fica mais baixo e corta o dragão */
+  padding-left: 40px;
+  min-height: 33px;   /* > logo (senão corta o dragão); também dá a altura da barra */
 }
 #custom-power { color: @red; margin-right: 10px; }
 

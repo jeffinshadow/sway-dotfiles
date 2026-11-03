@@ -8,7 +8,7 @@ window#waybar.eDP-1 * {
   font-size: 20px;
 }
 window#waybar.eDP-1 #custom-arch {
-  font-size: 25px;
+  font-size: 27px;
 }
 window#waybar.eDP-1 #custom-arch,
 window#waybar.eDP-1 #workspaces,
@@ -36,7 +36,7 @@ window#waybar.eDP-1 #custom-power {
   padding: 3px 14px;
 }
 window#waybar.eDP-1 #custom-arch {
-  background-size: 29px 29px;
-  padding-left: 46px;
-  min-height: 33px;
+  background-size: 32px 32px;
+  padding-left: 52px;
+  min-height: 41px;
 }
