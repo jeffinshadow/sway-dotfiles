@@ -74,9 +74,9 @@ tooltip label { color: @text; }
    O texto (nome da máquina) começa depois dele, pelo padding-left. */
 #custom-arch {
   color: @text;
-  font-size: 17px;
+  font-size: 16px;
   margin-left: 10px;   /* alinha com a borda das janelas (gap 10) */
-  background-image: url("shadowtec.svg");
+  background-image: url("shadowtec-24.svg");   /* SVG com o tamanho exato: o GTK3 rasteriza no tamanho do arquivo e depois escala (24 a partir de 32 borrava) */
   background-repeat: no-repeat;
   background-size: 24px 24px;
   background-position: 9px center;

@@ -36,6 +36,7 @@ window#waybar.eDP-1 #custom-power {
   padding: 3px 14px;
 }
 window#waybar.eDP-1 #custom-arch {
+  background-image: url("shadowtec.svg");   /* 32 px, o tamanho do arquivo */
   background-size: 32px 32px;
   padding-left: 52px;
   min-height: 41px;
