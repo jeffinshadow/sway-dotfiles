@@ -17,11 +17,12 @@ vermelho = "#F28B82"
 ambar = "#F2DA66"
 roxo = "#B98EFF"
 cinza = "#919093"
+texto = "#F0EDEE"
 
 [os]
 disabled = false
 format = "[ $symbol ]($style)"
-style = "bg:azul fg:fundo"
+style = "bg:azul fg:texto"
 
 # Dragão da shadowtec: glyph U+100000 da fonte ShadowTec Symbols
 # (home/.local/share/fonts). Onde a fonte não existe vira um quadradinho.
@@ -32,13 +33,13 @@ CachyOS = "\U00100000"   # o padrão do starship é 🎗️
 [username]
 show_always = true
 format = "[$user ]($style)"
-style_user = "bg:azul fg:fundo bold"
+style_user = "bg:azul fg:texto bold"
 style_root = "bg:vermelho fg:fundo bold"
 
 [hostname]
 ssh_only = true
 format = "[@$hostname ]($style)"
-style = "bg:azul fg:fundo"
+style = "bg:azul fg:texto"
 
 [directory]
 format = "[ 󰋜 $path ]($style)"
