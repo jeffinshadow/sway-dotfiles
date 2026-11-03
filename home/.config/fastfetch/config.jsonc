@@ -1,11 +1,17 @@
 // ~/.config/fastfetch/config.jsonc
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-  // Dragão da shadowtec em blocos (gerado por tools/shadowtec-ascii.sh)
+  // Dragão da shadowtec em blocos (tools/shadowtec-ascii.sh). logo.txt é
+  // link pro tamanho da máquina (hosts/<host>/fastfetch-logo.txt). As
+  // linhas vão de $1 a $9 de cima pra baixo: cores iguais = cor única.
   "logo": {
     "type": "file",
-    "source": "~/.config/fastfetch/shadowtec.txt",
-    "color": { "1": "38;2;240;237;238" },
+    "source": "~/.config/fastfetch/logo.txt",
+    "color": {
+      "1": "38;2;240;237;238", "2": "38;2;240;237;238", "3": "38;2;240;237;238",
+      "4": "38;2;240;237;238", "5": "38;2;240;237;238", "6": "38;2;240;237;238",
+      "7": "38;2;240;237;238", "8": "38;2;240;237;238", "9": "38;2;240;237;238"
+    },
     "padding": { "top": 2, "left": 2, "right": 3 }
   },
   "display": {

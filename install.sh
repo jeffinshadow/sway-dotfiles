@@ -133,6 +133,12 @@ fi
 link "$HOSTDIR/sway.conf" "$HOME/.config/sway/config.d/90-host.conf"
 link "$HOSTDIR/ghostty"   "$HOME/.config/ghostty/host"
 link "$HOSTDIR/waybar.css" "$HOME/.config/waybar/host.css"
+# Logo do fastfetch no tamanho da máquina (sem um: o padrão, 34x17)
+if [[ -f "$HOSTDIR/fastfetch-logo.txt" ]]; then
+    link "$HOSTDIR/fastfetch-logo.txt" "$HOME/.config/fastfetch/logo.txt"
+else
+    link "$DOT/home/.config/fastfetch/shadowtec.txt" "$HOME/.config/fastfetch/logo.txt"
+fi
 # Variáveis de sessão da máquina (opcional; vale no próximo login)
 if [[ -f "$HOSTDIR/environment.conf" ]]; then
     link "$HOSTDIR/environment.conf" "$HOME/.config/environment.d/90-host.conf"
