@@ -15,6 +15,6 @@
     "include": ["~/.config/waybar/modules.jsonc"],
     "modules-right": ["idle_inhibitor", "gamemode", "pulseaudio", "backlight",
                       "custom/sistema", "custom/jogos", "custom/docker", "custom/vpn", "custom/tunnel",
-                      "battery", "tray", "custom/dnd", "clock", "custom/power"]
+                      "battery", "clock", "tray", "custom/dnd", "custom/power"]
   }
 ]
