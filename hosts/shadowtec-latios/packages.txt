@@ -1,0 +1,7 @@
+# Pacotes só da latios (somam com packages/pacman.txt no install.sh --packages)
+
+# Brilho da tela interna
+brightnessctl
+# Office e acesso remoto (padrões no mimeapps.list); a giratina não usa
+libreoffice-fresh libreoffice-fresh-pt-br
+remmina freerdp

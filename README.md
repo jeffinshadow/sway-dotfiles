@@ -70,16 +70,17 @@ claro, em [PALETA-HIBRIDA.md](PALETA-HIBRIDA.md). Resumo do escuro:
 | Tecla | Ação |
 |---|---|
 | `Super+F1` ou botão direito no logo do Arch | Esta cola de atalhos (gerada do config) |
-| `Super+Enter` | Terminal |
+| `Super+Enter` | Terminal · na latios, `Super+Shift+Enter` abre SSH na giratina |
 | `Super+d` | Rofi (apps) · `Super+Tab` janelas |
 | `Super+n` / `Super+b` | Nautilus / Firefox |
 | `Super+q` | Fechar janela |
 | `Super+j k l ç` (ou setas) | Foco · `+Shift` move |
-| `Super+h` / `Super+v` | Divisão horizontal / vertical |
+| `Super+h` / `Super+Shift+v` | Divisão horizontal / vertical |
 | `Super+s` / `w` / `e` | Empilhado / abas / alterna divisão |
 | `Super+Shift+Espaço` ou `Super+Shift+f` | Flutuante ↔ lado a lado (flutuante abre a 65%×70%, centralizada, com aviso) |
 | `Super+r` | Modo redimensionar (passos de 40px; `Shift` = 10px) |
-| `Super+Shift+v` | Histórico do clipboard |
+| `Super+v` | Histórico da área de transferência (nwg-clipman, como o Win+V) |
+| `Super+Shift+t` / `Super+Shift+p` | Copiar texto de uma área (OCR) / cor de um pixel (#hex) |
 | `Super+p` | Monitor externo: estender ↔ espelhar |
 | `Super+x` | Bloquear |
 | `Super+Shift+e` | Menu de energia (sair/reiniciar/desligar pedem confirmação) |
@@ -87,7 +88,7 @@ claro, em [PALETA-HIBRIDA.md](PALETA-HIBRIDA.md). Resumo do escuro:
 | `Super+Shift+n` | Não perturbe (sino na barra) |
 | `Print` / `Ctrl+Print` / `Shift+Print` | Captura: tela / área (swappy) / janela |
 | `Super+Print` / `Super+Shift+Print` | Gravar área / tela (de novo: parar; REC na barra) |
-| `Super+1…0` | Workspace (apertar a atual volta pra anterior) |
+| `Super+1…0` | Workspace (apertar a atual volta pra anterior). Fixas: 1 terminal · 2 Firefox · 3 Chromium/Vesktop · 4 Steam/jogos |
 
 ## Nova máquina
 
@@ -97,5 +98,6 @@ $EDITOR hosts/<hostname>/sway.conf    # monitores, escala de texto, energia
 $EDITOR hosts/<hostname>/waybar.css   # tamanho da barra
 cp foto.png hosts/<hostname>/wallpaper.png   # opcional (sem ele: shadow-principal)
 $EDITOR hosts/<hostname>/environment.conf    # opcional: variáveis de sessão (environment.d)
+$EDITOR hosts/<hostname>/packages.txt        # opcional: pacotes só dessa máquina
 ./install.sh
 ```

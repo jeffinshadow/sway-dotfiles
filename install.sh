@@ -54,6 +54,10 @@ if $DO_PACKAGES; then
     $YES && NOCONFIRM=(--noconfirm)
     log "Instalando pacotes oficiais..."
     mapfile -t PKGS < <(pkglist "$DOT/packages/pacman.txt")
+    # Extras da máquina (hosts/<hostname>/packages.txt), se houver
+    if [[ -f "$DOT/hosts/$HOST/packages.txt" ]]; then
+        mapfile -t -O "${#PKGS[@]}" PKGS < <(pkglist "$DOT/hosts/$HOST/packages.txt")
+    fi
     sudo pacman -S --needed "${NOCONFIRM[@]}" "${PKGS[@]}"
     if command -v paru &>/dev/null; then
         log "Instalando pacotes do AUR..."
