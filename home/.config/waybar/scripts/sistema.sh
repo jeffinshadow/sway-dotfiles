@@ -44,6 +44,12 @@ done
 d=$(df --output=pcent / | tail -1 | tr -dc 0-9)
 (( d >= 95 )) && pior 2 "Disco (/) ${d}% cheio" || { (( d >= 85 )) && pior 1 "Disco (/) ${d}% cheio"; }
 
+# Disco de jogos (giratina): o aviso que era do módulo próprio
+if mountpoint -q /mnt/jogos 2>/dev/null; then
+    j=$(df --output=pcent /mnt/jogos | tail -1 | tr -dc 0-9)
+    (( j >= 90 )) && pior 1 "Disco de jogos ${j}% cheio"
+fi
+
 # Memória
 read -r m mu mt < <(awk '/MemTotal/ {t=$2} /MemAvailable/ {a=$2}
     END {printf "%d %.1f %.1f", (t-a)*100/t, (t-a)/1048576, t/1048576}' /proc/meminfo)
@@ -99,4 +105,4 @@ linhas+=("" "<span color='$CINZA'>Clique: btop</span>")
 classe=(normal warning critical)
 tip=$(printf '%s\\n' "${linhas[@]}"); tip=${tip%\\n}
 tip=${tip//\"/\\\"}
-printf '{"text":"󰊚","class":"%s","tooltip":"<tt>%s</tt>"}\n' "${classe[estado]}" "$tip"
+printf '{"text":"󰨇","class":"%s","tooltip":"<tt>%s</tt>"}\n' "${classe[estado]}" "$tip"

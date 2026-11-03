@@ -57,7 +57,6 @@ tooltip label { color: @text; }
 #gamemode,
 #custom-gpu,
 #disk,
-#custom-jogos,
 #custom-docker,
 #custom-tunnel,
 #custom-rec,
@@ -120,4 +119,4 @@ tooltip label { color: @text; }
 /* Grupo "sistema": os itens que abrem ficam com o mesmo espaçamento da barra */
 #sistema .sistema-item { margin-left: 8px; }
 #custom-gpu.critical, #disk.critical, #custom-tunnel.critical, #custom-docker.critical { color: @red; }
-#disk.warning, #custom-jogos.warning, #custom-docker.warning { color: @amber; }
+#disk.warning, #custom-docker.warning { color: @amber; }

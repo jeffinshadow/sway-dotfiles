@@ -14,7 +14,7 @@
     "output": "LG Electronics LG FHD 0x00072E48",
     "include": ["~/.config/waybar/modules.jsonc"],
     "modules-right": ["idle_inhibitor", "gamemode", "pulseaudio", "backlight",
-                      "custom/sistema", "custom/jogos", "custom/docker", "custom/vpn", "custom/tunnel",
+                      "custom/sistema", "custom/docker", "custom/vpn", "custom/tunnel",
                       "battery", "tray", "clock", "custom/dnd", "custom/power"]
   }
 ]

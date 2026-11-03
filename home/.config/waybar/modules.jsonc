@@ -2,7 +2,7 @@
 // Barra e módulos. Quem escolhe em que monitor ela aparece (e as diferenças
 // por monitor) é o config.jsonc, que inclui este arquivo.
 // Módulos sem hardware correspondente (bateria/brilho no desktop) somem sozinhos.
-// Os custom/* (scripts/) também: sem GPU AMD, docker, disco de jogos ou
+// Os custom/* (scripts/) também: sem GPU AMD, docker ou
 // túnel o script não imprime nada e o módulo não aparece.
 {
   "layer": "top",
@@ -15,7 +15,7 @@
   // enchia (latios, fonte maior). CPU/memória/temperatura/GPU/disco ficam
   // no grupo "sistema" e abrem ao passar o mouse.
   "modules-right":  ["idle_inhibitor", "gamemode", "pulseaudio", "backlight",
-                     "group/sistema", "custom/jogos", "custom/docker", "custom/vpn", "custom/tunnel",
+                     "group/sistema", "custom/docker", "custom/vpn", "custom/tunnel",
                      "battery", "tray", "clock", "custom/dnd", "custom/power"],
 
   "group/sistema": {
@@ -142,12 +142,6 @@
     "states": { "warning": 85, "critical": 95 },
     "tooltip-format": "Sistema (/)\n{used} usados de {total} · {free} livres",
     "on-click": "ghostty --class=com.mitchellh.ghostty.ferramenta -e ncdu -x /"
-  },
-
-  "custom/jogos": {
-    "exec": "~/.config/waybar/scripts/jogos.sh",
-    "return-type": "json",
-    "interval": 60
   },
 
   "custom/docker": {
