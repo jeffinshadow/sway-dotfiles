@@ -15,6 +15,9 @@
     "color": { "keys": "white" }
   },
   "modules": [
+    // 3 linhas vazias em cima: centraliza o texto na altura da imagem (22)
+    "break",
+    "break",
     "break",
     { "type": "title", "format": "{#1}\udbc0\udc00  {host-name}" },   // dragão (U+100000, ShadowTec Symbols)
     { "type": "custom", "format": "\u001b[38;2;73;73;75m────────────────────────────────\u001b[0m" },
