@@ -19,11 +19,6 @@
     "color": { "keys": "white" }
   },
   "modules": [
-    // Linhas vazias nas bordas (4 em cima, 3 embaixo): centralizam o texto
-    // na altura da logo da giratina (50x25), sem espaço no meio do texto
-    "break",
-    "break",
-    "break",
     "break",
     { "type": "title", "format": "{#1}\udbc0\udc00  {host-name}" },   // dragão (U+100000, ShadowTec Symbols)
     { "type": "custom", "format": "\u001b[38;2;73;73;75m────────────────────────────────\u001b[0m" },
@@ -39,15 +34,11 @@
     { "type": "kernel",       "key": "󰌽" },
     { "type": "os",           "key": "󰣇" },
     { "type": "wm",           "key": "󱂬" },   // sway é WM; o módulo "de" fica vazio
-    { "type": "command", "key": "󰏘", "text": "echo shadow-materia" },
-    { "type": "icons",        "key": "󰀻" },
     { "type": "terminalfont", "key": "󰛖" },
     { "type": "packages",     "key": "󰏖" },
     { "type": "media", "key": "󰝚", "format": "{1:-38}{?3} - {3:-16}{?}" },   // corta com … (título longo do YouTube)
     "break",
     "colors",
-    "break",
-    "break",
     "break"
   ]
 }
