@@ -43,7 +43,7 @@
     { "type": "icons",        "key": "󰀻" },
     { "type": "terminalfont", "key": "󰛖" },
     { "type": "packages",     "key": "󰏖" },
-    { "type": "media", "key": "󰝚", "format": "{1} - {3}" },
+    { "type": "media", "key": "󰝚", "format": "{1:-38}{?3} - {3:-16}{?}" },   // corta com … (título longo do YouTube)
     "break",
     "colors",
     "break"
