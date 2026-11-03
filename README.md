@@ -99,6 +99,5 @@ $EDITOR hosts/<hostname>/waybar.css   # tamanho da barra
 cp foto.png hosts/<hostname>/wallpaper.png   # opcional (sem ele: shadow-principal)
 $EDITOR hosts/<hostname>/environment.conf    # opcional: variáveis de sessão (environment.d)
 $EDITOR hosts/<hostname>/packages.txt        # opcional: pacotes só dessa máquina
-tools/shadowtec-ascii.sh 34 17 hosts/<hostname>/fastfetch-logo.txt   # opcional: logo do fastfetch no tamanho certo
 ./install.sh
 ```
