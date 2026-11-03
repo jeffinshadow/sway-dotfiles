@@ -20,11 +20,11 @@
   },
   "modules": [
     "break",
+    "break",
     { "type": "title", "format": "{#1}\udbc0\udc00  {host-name}" },   // dragão (U+100000, ShadowTec Symbols)
     { "type": "custom", "format": "\u001b[38;2;73;73;75m────────────────────────────────\u001b[0m" },
     "break",
     { "type": "custom", "format": "\u001b[1m󰇺  Hardware\u001b[0m" },
-    "break",
     { "type": "board", "key": "󰌢", "format": "{2} {1} ({3})" },
     { "type": "cpu",     "key": "󰻠" },
     { "type": "gpu",     "key": "󰢮" },
@@ -35,7 +35,6 @@
     { "type": "custom", "format": "\u001b[38;2;73;73;75m────────────────────────────────\u001b[0m" },
     "break",
     { "type": "custom", "format": "\u001b[1m󰆍  Software\u001b[0m" },
-    "break",
     { "type": "kernel",       "key": "󰌽" },
     { "type": "os",           "key": "󰣇" },
     { "type": "wm",           "key": "󱂬" },   // sway é WM; o módulo "de" fica vazio
@@ -46,6 +45,7 @@
     { "type": "media", "key": "󰝚", "format": "{1:-38}{?3} - {3:-16}{?}" },   // corta com … (título longo do YouTube)
     "break",
     "colors",
+    "break",
     "break"
   ]
 }
