@@ -81,7 +81,7 @@ if (( ${#motivos[@]} )); then
 fi
 
 c=${cpu//\?/0}
-linhas+=("$(linha 󰻠 "$(barra "$c" 90 101)" "${cpu}% uso${tcpu:+  ·  ${tcpu}°}")")
+linhas+=("$(linha 󰻠 "$(barra "$c" 90 101)" "${cpu}% uso${tcpu:+ · ${tcpu}°}")")
 linhas+=("$(linha 󰍛 "$(barra "$m" 90 95)" "$(virgula "$mu") / $(virgula "$mt") GiB")")
 if [[ -n $gpu ]]; then
     # Igual à linha da RAM (barra = VRAM usada)
