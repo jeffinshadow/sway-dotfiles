@@ -90,26 +90,6 @@ tooltip label { color: @text; }
 #workspaces button.focused { color: @text; background: @accent_dk; }
 #workspaces button.urgent  { color: @on_red; background: @red; }
 
-/* Workspace vazia (só existe a focada): o waybar não tem ícone pra ela,
-   então o ícone fixo da workspace entra como fundo (SVG de 16 px em ws/,
-   gerados por tools/ws-icons.py), depois do número. */
-#workspaces button.empty label {
-  background-repeat: no-repeat;
-  background-size: 16px 16px;
-  background-position: right center;
-  padding-right: 18px;
-}
-#workspaces button#sway-workspace-1.empty label { background-image: url("ws/1-16.svg"); }
-#workspaces button#sway-workspace-2.empty label { background-image: url("ws/2-16.svg"); }
-#workspaces button#sway-workspace-3.empty label { background-image: url("ws/3-16.svg"); }
-#workspaces button#sway-workspace-4.empty label { background-image: url("ws/4-16.svg"); }
-#workspaces button#sway-workspace-5.empty label { background-image: url("ws/5-16.svg"); }
-#workspaces button#sway-workspace-6.empty label { background-image: url("ws/6-16.svg"); }
-#workspaces button#sway-workspace-7.empty label { background-image: url("ws/7-16.svg"); }
-#workspaces button#sway-workspace-8.empty label { background-image: url("ws/8-16.svg"); }
-#workspaces button#sway-workspace-9.empty label { background-image: url("ws/9-16.svg"); }
-#workspaces button#sway-workspace-10.empty label { background-image: url("ws/10-16.svg"); }
-
 #mode { color: @on_accent; background: @amber; }
 
 /* Gravando: pílula vermelha; não perturbe: sino âmbar */

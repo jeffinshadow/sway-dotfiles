@@ -21,7 +21,7 @@
     "exec": "~/.config/waybar/scripts/sistema.sh",
     "return-type": "json",
     "interval": 5,
-    "on-click": "ghostty --class=com.mitchellh.ghostty.ferramenta -e btop"
+    "on-click": "ghostty -e btop"
   },
 
   "custom/arch": {
@@ -38,8 +38,7 @@
   "sway/workspaces": {
     "disable-scroll": false,
     "all-outputs": false,
-    // Número + ícone de cada janela aberta (app_id no Wayland, class no X).
-    // Workspace vazia: o ícone fixo dela (SVG em ws/, pelo style.css).
+    // Número + ícone de cada janela aberta (app_id no Wayland, class no X)
     "format": "{name} {windows}",
     "format-window-separator": " ",
     "window-rewrite-default": "󰖯",
@@ -119,7 +118,7 @@
     "exec": "~/.config/waybar/scripts/docker.sh",
     "return-type": "json",
     "interval": 10,
-    "on-click": "ghostty --class=com.mitchellh.ghostty.ferramenta -e docker stats"
+    "on-click": "ghostty -e docker stats"
   },
 
   "custom/vpn": {

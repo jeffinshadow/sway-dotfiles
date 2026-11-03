@@ -35,19 +35,3 @@ window#waybar.eDP-1 #custom-arch {
   padding-left: 52px;
   min-height: 41px;
 }
-
-/* Workspace vazia na tela do notebook: ícone de 21 px (texto em 20) */
-window#waybar.eDP-1 #workspaces button.empty label {
-  background-size: 21px 21px;
-  padding-right: 23px;
-}
-window#waybar.eDP-1 #workspaces button#sway-workspace-1.empty label { background-image: url("ws/1-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-2.empty label { background-image: url("ws/2-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-3.empty label { background-image: url("ws/3-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-4.empty label { background-image: url("ws/4-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-5.empty label { background-image: url("ws/5-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-6.empty label { background-image: url("ws/6-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-7.empty label { background-image: url("ws/7-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-8.empty label { background-image: url("ws/8-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-9.empty label { background-image: url("ws/9-21.svg"); }
-window#waybar.eDP-1 #workspaces button#sway-workspace-10.empty label { background-image: url("ws/10-21.svg"); }
