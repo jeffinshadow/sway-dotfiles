@@ -4,10 +4,9 @@
 Em qualquer tela, a divisão alterna como no autotiling: janela mais larga
 que alta divide lado a lado; mais alta que larga divide em cima/embaixo.
 
-Em tela larga (>= LARGA_MIN px, o 32" QHD):
-  - uma janela sozinha fica centrada com 2/3 da largura (margens laterais);
-  - as três primeiras janelas viram três colunas iguais; da quarta em
-    diante, a coluna em foco é dividida no meio (e segue alternando).
+Em tela larga (>= LARGA_MIN px, o 32" QHD), as três primeiras janelas viram
+três colunas iguais; da quarta em diante, a coluna em foco é dividida no
+meio (e segue alternando).
 
 Fala direto com o IPC do sway, só com a biblioteca padrão.
 """
@@ -72,41 +71,6 @@ def caminho_do_foco(no, caminho=()):
     return None
 
 
-def margens(cmd, arvore):
-    """Janela sozinha em tela larga: margens laterais de 1/6 da largura."""
-    for saida in arvore["nodes"]:
-        if saida.get("type") != "output" or saida["name"].startswith("__"):
-            continue
-        largura = saida["rect"]["width"]
-        for ws in saida["nodes"]:
-            if ws.get("type") != "workspace":
-                continue
-            janelas = folhas(ws)
-            quer = largura // 6 if largura >= LARGA_MIN and len(janelas) <= 1 else 0
-            tem = ws["rect"]["x"] - saida["rect"]["x"]
-            if quer == tem:
-                continue
-            if janelas:
-                alvo = f'[con_id={janelas[0]["id"]}] '
-            elif caminho_ws_em_foco(arvore) == ws["id"]:
-                alvo = ""
-            else:
-                continue  # vazia e fora de foco: acerta quando ganhar foco
-            cmd(f"{alvo}gaps horizontal current set {quer}")
-
-
-def caminho_ws_em_foco(arvore):
-    """id da workspace em foco (segue a cadeia de 'focus' a partir da raiz)."""
-    no = arvore
-    while no.get("type") != "workspace":
-        ordem = no.get("focus") or []
-        filhos = {f["id"]: f for f in no.get("nodes", [])}
-        if not ordem or ordem[0] not in filhos:
-            return None
-        no = filhos[ordem[0]]
-    return no["id"]
-
-
 def divisao(cmd, arvore):
     """Prepara onde a próxima janela vai abrir, a partir da janela em foco."""
     caminho = caminho_do_foco(arvore)
@@ -152,8 +116,6 @@ def main():
         pede(comandos, RUN_COMMAND, texto)
 
     def aplica():
-        arvore = pede(comandos, GET_TREE)
-        margens(cmd, arvore)
         divisao(cmd, pede(comandos, GET_TREE))
 
     pede(eventos, SUBSCRIBE, '["window", "workspace", "output"]')
