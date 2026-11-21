@@ -9,9 +9,9 @@ profile notebook {
 
 # Notebook + 1 monitor/projetor qualquer: estendido, externo à direita.
 # Super+p alterna entre estender e espelhar (scripts/monitor.sh).
-# Modo/escala de um monitor específico ficam no sway (hosts/<host>/sway.conf,
-# pelo identificador); sem "mode" aqui o kanshi não mexe neles.
+# Modo do externo: externo-modo.sh (1080p 60 Hz, ou o melhor que ele aceitar).
 profile externo {
     output eDP-1 enable mode 1920x1080 scale 1.0 position 0,0
     output * enable position 1920,0
+    exec ~/.config/sway/scripts/externo-modo.sh
 }
