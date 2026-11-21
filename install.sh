@@ -151,6 +151,13 @@ if [[ -f "$HOSTDIR/wallpaper.png" ]]; then
 else
     link "$DOT/home/.local/share/wallpapers/shadow-principal.png" "$HOME/.local/share/wallpapers/host.png"
 fi
+# Papel de parede pra monitor em retrato (opcional; a config do sway da
+# máquina diz em qual saída ele vai)
+if [[ -f "$HOSTDIR/wallpaper-retrato.png" ]]; then
+    link "$HOSTDIR/wallpaper-retrato.png" "$HOME/.local/share/wallpapers/host-retrato.png"
+elif [[ -L "$HOME/.local/share/wallpapers/host-retrato.png" ]]; then
+    rm "$HOME/.local/share/wallpapers/host-retrato.png"
+fi
 ok "Perfil de máquina: $(basename "$HOSTDIR")"
 
 # ------------------------------------------------------------------
