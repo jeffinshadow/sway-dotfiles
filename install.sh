@@ -94,6 +94,7 @@ while IFS= read -r -d '' f; do
     rel="${f#./}"
     case "$rel" in
         *.in) continue ;;          # templates: tratados abaixo
+        .config/swaylock/config) continue ;;  # pode ganhar linhas da máquina: abaixo
     esac
     link "$DOT/home/$rel" "$HOME/$rel"
     count=$((count + 1))
@@ -157,6 +158,25 @@ if [[ -f "$HOSTDIR/wallpaper-retrato.png" ]]; then
     link "$HOSTDIR/wallpaper-retrato.png" "$HOME/.local/share/wallpapers/host-retrato.png"
 elif [[ -L "$HOME/.local/share/wallpapers/host-retrato.png" ]]; then
     rm "$HOME/.local/share/wallpapers/host-retrato.png"
+fi
+# swaylock: não lê include, então quando a máquina tem linhas próprias
+# (hosts/<host>/swaylock.conf, ex.: imagem por monitor) o config vira um
+# arquivo gerado (base + máquina); sem elas, é o symlink de sempre.
+lockcfg="$HOME/.config/swaylock/config"
+if [[ -f "$HOSTDIR/swaylock.conf" ]]; then
+    tmp="$(mktemp)"
+    { cat "$DOT/home/.config/swaylock/config"
+      echo; echo "# --- hosts/$(basename "$HOSTDIR")/swaylock.conf (gerado pelo install.sh) ---"
+      cat "$HOSTDIR/swaylock.conf"; } > "$tmp"
+    if [[ -f "$lockcfg" && ! -L "$lockcfg" ]] && cmp -s "$tmp" "$lockcfg"; then
+        rm -f "$tmp"
+    else
+        [[ -L "$lockcfg" ]] && rm -f "$lockcfg"
+        [[ -e "$lockcfg" ]] && backup "$lockcfg"
+        mkdir -p "$(dirname "$lockcfg")"; mv "$tmp" "$lockcfg"
+    fi
+else
+    link "$DOT/home/.config/swaylock/config" "$lockcfg"
 fi
 ok "Perfil de máquina: $(basename "$HOSTDIR")"
 

@@ -5,8 +5,9 @@ Em qualquer tela, a divisão alterna como no autotiling: janela mais larga
 que alta divide lado a lado; mais alta que larga divide em cima/embaixo.
 
 Em tela larga (>= LARGA_MIN px, o 32" QHD), as três primeiras janelas viram
-três colunas iguais; da quarta em diante, a coluna em foco é dividida no
-meio (e segue alternando).
+três colunas iguais; em tela em pé (mais alta que larga, o 24" em retrato),
+três linhas iguais, uma embaixo da outra. Da quarta em diante, a coluna (ou
+linha) em foco é dividida no meio (e segue alternando).
 
 Fala direto com o IPC do sway, só com a biblioteca padrão.
 """
@@ -17,7 +18,7 @@ import struct
 import sys
 
 LARGA_MIN = int(os.environ.get("LAYOUT_LARGA_MIN", "2400"))
-COLUNAS = 3
+COLUNAS = 3  # máximo de colunas (tela larga) ou linhas (tela em pé)
 MAGIC = b"i3-ipc"
 RUN_COMMAND, SUBSCRIBE, GET_TREE = 0, 2, 4
 
@@ -88,20 +89,22 @@ def divisao(cmd, arvore):
     no_topo = pai is ws or (embrulho is not None and avo is ws)
 
     quer = None
-    if no_topo and saida["rect"]["width"] >= LARGA_MIN:
-        colunas = len(ws["nodes"])
-        if colunas == 1 or (ws.get("layout") == "splith" and colunas < COLUNAS):
-            quer = "coluna"  # a próxima janela abre como coluna nova, ao lado
+    largura, altura = saida["rect"]["width"], saida["rect"]["height"]
+    eixo = "splith" if largura >= LARGA_MIN else "splitv" if altura > largura else None
+    if no_topo and eixo:
+        faixas = len(ws["nodes"])
+        if faixas == 1 or (ws.get("layout") == eixo and faixas < COLUNAS):
+            quer = "faixa"  # a próxima janela abre como coluna/linha nova
     if quer is None:
         r = janela["rect"]
         quer = "splitv" if r["height"] > r["width"] else "splith"
 
     alvo = f'[con_id={janela["id"]}] '
-    if quer == "coluna":
+    if quer == "faixa":
         if embrulho is not None:
             cmd(alvo + "split none")
-        elif ws.get("layout") != "splith":
-            cmd(alvo + "splith")  # filha única: só troca o layout da workspace
+        elif ws.get("layout") != eixo:
+            cmd(alvo + eixo)  # filha única: só troca o layout da workspace
         return
     sozinha = len(pai["nodes"]) == 1
     if sozinha and pai.get("layout") == quer:
