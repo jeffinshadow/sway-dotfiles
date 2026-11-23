@@ -16,11 +16,13 @@
         "qwen35b": {
           "modelID": "Qwen3.6 35B pesado",
           "name": "Qwen3.6 35B (agente)",
-          "capabilities": { "tools": true, "input": ["text", "image"], "output": ["text"],
-                            "reasoning": { "supported": true } },
+          "capabilities": { "tools": true, "input": ["text", "image"], "output": ["text"] },
           "limit": { "context": 65536, "output": 16384 },
+          // sem raciocínio por padrão: o Qwen raciocina em INGLÊS (traduz o pedido, ~10x mais
+          // tokens pra mesma resposta). #pensar liga pra tarefas difíceis (planejar, depurar)
+          "body": { "chat_template_kwargs": { "enable_thinking": false } },
           "variants": [
-            { "id": "rapido", "body": { "chat_template_kwargs": { "enable_thinking": false } } }
+            { "id": "pensar", "body": { "chat_template_kwargs": { "enable_thinking": true } } }
           ]
         },
         // rápido: ~42 t/s, 48k, lê imagens; sem raciocínio por padrão (loops de ferramenta mais rápidos)
