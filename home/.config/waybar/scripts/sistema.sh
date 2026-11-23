@@ -103,4 +103,6 @@ linhas+=("" "<span color='$CINZA'>Clique: btop</span>")
 classe=(normal warning critical)
 tip=$(printf '%s\\n' "${linhas[@]}"); tip=${tip%\\n}
 tip=${tip//\"/\\\"}
-printf '{"text":"󰨇","class":"%s","tooltip":"<tt>%s</tt>"}\n' "${classe[estado]}" "$tip"
+# ícone da pílula: o dragão da shadowtec (fonte ShadowTec Symbols, U+100000; tools/shadowtec-font.py)
+icone="<span font_family='ShadowTec Symbols' size='125%' rise='-1pt'>"$'\U00100000'"</span>"
+printf '{"text":"%s","class":"%s","tooltip":"<tt>%s</tt>"}\n' "$icone" "${classe[estado]}" "$tip"
