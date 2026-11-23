@@ -13,12 +13,14 @@
 #     (daria pra escapar via systemd-run); só o socket do Wayland (colar imagem, grim)
 #   - IA_SEM_SANDBOX=1 ia   roda sem isolamento (use só se souber o porquê)
 set -euo pipefail
+export PATH="$HOME/.local/bin:$PATH"          # aberto pelo painel/rofi o PATH pode não ter ~/.local/bin
+falha() { echo "$1" >&2; [[ -t 2 ]] || notify-send -a llm -u critical "Agente local" "$1"; exit 1; }
 dir="$(dirname "$(readlink -f "$0")")"
 llm="$dir/llm.sh"
 run="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 
-if [[ -e "$run/modo-jogo" ]]; then echo "Modo jogo ligado: o LLM só roda fora do jogo." >&2; exit 1; fi
-command -v opencode >/dev/null || { echo "opencode não instalado (~/.local/bin/opencode)" >&2; exit 1; }
+[[ -e "$run/modo-jogo" ]] && falha "Modo jogo ligado: o LLM só roda fora do jogo."
+command -v opencode >/dev/null || falha "opencode não instalado (~/.local/bin/opencode)"
 
 subiu=0
 if ! curl -sf http://127.0.0.1:8080/health >/dev/null; then

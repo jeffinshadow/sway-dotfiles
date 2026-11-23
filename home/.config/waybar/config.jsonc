@@ -13,7 +13,7 @@
   // enchia (latios, fonte maior). CPU/memória/temperatura/GPU/disco ficam
   // só no tooltip da pílula "sistema" (não abre mais um grupo: a webcam
   // presa no meio do monitor de 24" tampava a barra aberta).
-  "modules-right":  ["custom/jogo", "idle_inhibitor", "gamemode", "pulseaudio", "backlight",
+  "modules-right":  ["backlight",
                      "custom/sistema", "custom/docker", "custom/vpn", "custom/tunnel",
                      "battery", "tray", "clock", "custom/notificacoes", "custom/power"],
 
@@ -90,23 +90,6 @@
     }
   },
 
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": { "activated": "󰅶", "deactivated": "󰾪" },
-    "tooltip-format-activated": "Tela não apaga",
-    "tooltip-format-deactivated": "Bloqueio automático ativo"
-  },
-
-  "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-muted": "󰝟 mudo",
-    "format-bluetooth": "󰂰 {volume}%",
-    "format-icons": { "headphone": "󰋋", "default": ["󰕿", "󰖀", "󰕾"] },
-    "on-click": "pavucontrol",
-    "on-click-right": "swayosd-client --output-volume mute-toggle",
-    "scroll-step": 5
-  },
-
   "backlight": {
     "format": "{icon} {percent}%",
     "format-icons": ["󰃞", "󰃟", "󰃠"],
@@ -136,14 +119,6 @@
     "interval": 15
   },
 
-  "gamemode": {
-    "format": "{glyph}",
-    "glyph": "󰓅",
-    "use-icon": false,
-    "hide-not-running": true,
-    "tooltip-format": "Gamemode ativo ({count} jogo(s))"
-  },
-
   "battery": {
     "states": { "warning": 25, "critical": 12 },
     "format": "{icon} {capacity}%",
@@ -162,15 +137,6 @@
     "interval": 1,
     "signal": 9,
     "on-click": "~/.config/sway/scripts/record.sh"
-  },
-
-  "custom/jogo": {
-    // Modo jogo (Super+g; liga sozinho com jogo do Steam: sway/scripts/modo-jogo-auto.sh)
-    "exec": "~/.config/waybar/scripts/jogo.sh",
-    "return-type": "json",
-    "interval": 30,
-    "signal": 10,
-    "on-click": "~/.config/sway/scripts/modo-jogo.sh"
   },
 
   "custom/notificacoes": {

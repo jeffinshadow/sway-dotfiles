@@ -6,6 +6,7 @@
 #   painel.sh mic|brilho [N]    slider: sem N imprime o valor 0-100; com N define
 # Tudo num script só porque o SwayNC monta "/bin/sh -c \"<cmd>\"": aspas no config.json quebram.
 set -uo pipefail
+export PATH="$HOME/.local/bin:$PATH"   # swaync ativado pelo D-Bus não tem ~/.local/bin (opencode, rtk)
 s="$HOME/.config/sway/scripts"
 llm="$HOME/.dotfiles/apps/llm/llm.sh"
 run="${XDG_RUNTIME_DIR:-/tmp}"

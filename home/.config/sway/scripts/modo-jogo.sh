@@ -27,7 +27,6 @@ ligar() {
     swaymsg -q focus_follows_mouse no
     # inibidor (não o DND): some se o SwayNC reiniciar, não mexe num DND manual e deixa passar crítico
     swaync-client -Ia modo-jogo >/dev/null 2>&1 || true
-    pkill -RTMIN+10 waybar || true
     "$scripts/replay.sh" iniciar
     scx start --sched lavd --mode gaming
     llm="$HOME/.dotfiles/apps/llm/llm.sh"           # LLM local fora: VRAM/RAM pros jogos
@@ -41,7 +40,6 @@ desligar() {
     "$scripts/replay.sh" parar
     scx stop                                       # volta pro EEVDF
     swaync-client -Ir modo-jogo >/dev/null 2>&1 || true
-    pkill -RTMIN+10 waybar || true
     notify-send -a jogo -t 2500 -i input-gaming "Modo jogo desligado" "Foco segue o mouse e notificações de volta."
 }
 

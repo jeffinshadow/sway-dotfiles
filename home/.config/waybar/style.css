@@ -48,17 +48,13 @@ tooltip label { color: @text; }
 #mode,
 #scratchpad,
 #clock,
-#idle_inhibitor,
-#pulseaudio,
 #backlight,
 #battery,
-#gamemode,
 #custom-docker,
 #custom-tunnel,
 #custom-vpn,
 #custom-rec,
 #custom-notificacoes,
-#custom-jogo,
 #tray,
 #custom-power {
   background: @surface;
@@ -102,19 +98,14 @@ tooltip label { color: @text; }
 #custom-notificacoes.dnd-none, #custom-notificacoes.dnd-notification,
 #custom-notificacoes.dnd-inhibited-none, #custom-notificacoes.dnd-inhibited-notification { color: @amber; }
 #custom-notificacoes.inhibited-none, #custom-notificacoes.inhibited-notification { color: @green; }
-#custom-jogo { color: @text_dim; }
-#custom-jogo.ligado { color: @on_accent; background: @accent; }
 
 #clock { color: @text; font-weight: 600; }
 
-#idle_inhibitor.activated { color: @amber; }
-#pulseaudio.muted { color: @text_dim; }
 
 #battery.charging, #battery.plugged { color: @green; }
 #battery.warning:not(.charging)  { color: @amber; }
 #battery.critical:not(.charging) { color: @on_red; background: @red; }
 
-#gamemode { color: @green; }
 #custom-tunnel { color: @green; }
 #custom-sistema.warning { color: @amber; }
 #custom-sistema.critical { color: @on_red; background: @red; }
