@@ -37,7 +37,7 @@ export OPENCODE_DISABLE_AUTOUPDATE=1
 export OPENCODE_DISABLE_MODELS_FETCH=1     # nada de catálogo online
 export OPENCODE_DISABLE_FREE_MODELS=1      # nada de modelo de nuvem
 
-mkdir -p ~/.local/share/opencode ~/.local/state/opencode ~/.cache/opencode ~/Claudio ~/Documentos
+mkdir -p ~/.local/share/opencode ~/.local/state/opencode ~/.cache/opencode ~/.local/share/rtk ~/Claudio ~/Documentos
 wl="${WAYLAND_DISPLAY:-wayland-1}"
 args=(
   --ro-bind / / --dev /dev --proc /proc
@@ -53,6 +53,7 @@ args=(
   --bind "$HOME/.local/share/opencode" "$HOME/.local/share/opencode"
   --bind "$HOME/.local/state/opencode" "$HOME/.local/state/opencode"
   --bind "$HOME/.cache/opencode" "$HOME/.cache/opencode"
+  --bind "$HOME/.local/share/rtk" "$HOME/.local/share/rtk"
   --tmpfs "$HOME/.config/llm" --ro-bind "$HOME/.config/llm/mcp-token" "$HOME/.config/llm/mcp-token"
   --unsetenv DBUS_SESSION_BUS_ADDRESS --unsetenv SWAYSOCK
   --unshare-pid --unshare-ipc --unshare-uts --die-with-parent
