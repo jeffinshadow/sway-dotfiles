@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # bench-jogo %command% — wrapper da opção de inicialização do Steam. Se houver uma rodada
-# armada (bench-sched.sh jogo ...), liga o log do MangoHud por quadro, sem overlay, na pasta
+# armada (bench-sched.sh jogo ...), liga o log do MangoHud por quadro (overlay mínimo de FPS), na pasta
 # da rodada (Shift+F2 começa; para sozinho em 65 s). Sem rodada: só executa o jogo.
 r="${XDG_RUNTIME_DIR:-/tmp}/bench-sched-rodada"
 if [[ -f "$r" ]]; then
     export MANGOHUD=1
-    export MANGOHUD_CONFIG="no_display,log_interval=0,log_duration=65,toggle_logging=Shift_L+F2,output_folder=$(cat "$r")"
+    # overlay mínimo (só FPS, canto de cima): mostra quando o log está gravando, pra não perder rodada
+    export MANGOHUD_CONFIG="fps,frametime=0,cpu_stats=0,gpu_stats=0,hud_compact,position=top-right,font_size=18,background_alpha=0.3,log_interval=0,log_duration=65,toggle_logging=Shift_L+F2,output_folder=$(cat "$r")"
 fi
 exec "$@"
