@@ -56,7 +56,10 @@ def _run(cmd, timeout=20, shell=False, env=None):
 
 
 def _bg(cmd):
-    subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    """Dispara em segundo plano num scope próprio do systemd: não herda o limite de CPU do serviço
+    de voz nem morre se ele reiniciar."""
+    pre = ["systemd-run", "--user", "--scope", "--quiet", "--collect", "--"] if shutil.which("systemd-run") else []
+    subprocess.Popen(pre + list(cmd), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
     return "ok"
 
 
@@ -161,6 +164,9 @@ def modo_tv(acao):
         return f"ação: {'|'.join(ok)}"
     if acao == "estado":
         return _run([str(SCRIPTS / "modo-tv.sh"), "estado"]) + " / app: " + _run([str(SCRIPTS / "modo-tv.sh"), "app"])
+    if acao.startswith("ligar") and _run([str(SCRIPTS / "modo-tv.sh"), "estado"]) == "ligado" \
+            and _run([str(SCRIPTS / "modo-tv.sh"), "app"]) != "nenhum":
+        return "o modo TV já está ligado"
     return _bg([str(SCRIPTS / "modo-tv.sh"), *acao.split()]) and f"modo TV: {acao}"
 
 

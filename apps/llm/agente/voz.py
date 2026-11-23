@@ -15,7 +15,7 @@ O comando passa primeiro pela camada rápida (rotas.py, sem LLM); se não casar,
 (giratina.py --rofi), que sobe o LLM só fora do modo jogo.
 Modo jogo ligado ($XDG_RUNTIME_DIR/modo-jogo): para de ouvir (solta o microfone) até sair.
 """
-import collections, json, os, re, subprocess, sys, time
+import collections, difflib, json, os, re, subprocess, sys, time
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
@@ -32,7 +32,36 @@ SONS = Path("/usr/share/sounds/freedesktop/stereo")
 TAXA = 16000
 JANELA_COMANDO = 6.0                     # s pra falar o pedido depois do bipe
 GATILHO_FRASES = ["ei gira tina", "hei gira tina", "oi gira tina", "gira tina", "[unk]"]
-FRASES = json.loads((AQUI / "frases_voz.json").read_text()) + ["[unk]"]   # comandos conhecidos (gramática)
+FRASES = json.loads((AQUI / "frases_voz.json").read_text())            # comandos conhecidos
+# vocabulário do reconhecedor de comando: as frases + palavras do gatilho (absorvem o "tina" que sobra)
+VOCAB = FRASES + ["ei", "gira", "tina", "[unk]"]
+
+
+def _rota(frase):
+    fs = {f for rx, f in rotas._COMPILADAS if rx.search(rotas.normaliza(frase))}
+    return next(iter(fs)) if len(fs) == 1 else None
+
+
+CANDIDATAS = [(rotas.normaliza(f), f, _rota(f)) for f in FRASES]
+
+
+def casar(g):
+    """A Vosk monta qualquer sequência das palavras do vocabulário; aqui escolhe a frase conhecida
+    mais parecida. Recusa se a semelhança for baixa ou se dois comandos diferentes empatarem
+    (ex.: "liga" x "desliga")."""
+    g = re.sub(r"^((ei|gira|tina)\s+)+", "", g).strip()
+    if not g:
+        return None
+    if rotas.rotear_teste(g):
+        return g
+    n = rotas.normaliza(g)
+    notas = sorted(((difflib.SequenceMatcher(None, n, c).ratio(), f, r) for c, f, r in CANDIDATAS), reverse=True)
+    nota, frase, rota = notas[0]
+    rival = next((x for x in notas[1:] if x[2] is not rota), None)
+    log(f"casar: {g!r} -> {frase!r} ({nota:.2f}; rival {rival[1]!r} {rival[0]:.2f})" if rival else "")
+    if nota < 0.8 or (rival and nota - rival[0] < 0.06):
+        return None
+    return frase
 GATILHO_RX = re.compile(r"\b(e[iy]|hei|oi|o)?\s*gira\s*(a\s*)?tina\b|\bgiratina\b")
 
 
@@ -95,7 +124,7 @@ def ouvir(modelo):
     proc = subprocess.Popen(cmd + ["-"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     gat = vosk.KaldiRecognizer(modelo, TAXA, json.dumps(GATILHO_FRASES))
     livre = cmd_g = None
-    folga = collections.deque(maxlen=3)            # ~0,4 s antes do disparo
+    folga = collections.deque(maxlen=7)            # ~0,9 s antes do disparo (o começo do comando)
     ESTADO.touch(); waybar()
     log("ouvindo", src or "(fonte padrão)")
     ate = 0.0
@@ -118,9 +147,9 @@ def ouvir(modelo):
                     som("message-new-instant"); avisar("Giratina", "🎙 ouvindo…", 3000)
                     gat.Reset()
                     livre = vosk.KaldiRecognizer(modelo, TAXA)
-                    cmd_g = vosk.KaldiRecognizer(modelo, TAXA, json.dumps(FRASES, ensure_ascii=False))
+                    cmd_g = vosk.KaldiRecognizer(modelo, TAXA, json.dumps(VOCAB, ensure_ascii=False))
                     for b in folga:
-                        livre.AcceptWaveform(b)
+                        livre.AcceptWaveform(b); cmd_g.AcceptWaveform(b)
                     folga.clear()
                     partes = []
                     ate = time.time() + JANELA_COMANDO
@@ -132,15 +161,16 @@ def ouvir(modelo):
             if not fim and time.time() <= ate:
                 continue
             g = json.loads(cmd_g.Result() if fim else cmd_g.FinalResult()).get("text", "").replace("[unk]", "").strip()
-            if fim and not g and time.time() <= ate:
+            if fim and not re.sub(r"\b(ei|gira|tina)\b", "", g).strip() and time.time() <= ate:
                 continue                             # só pausa/resto do gatilho: segue esperando o comando
             t = " ".join(partes + [json.loads(livre.FinalResult()).get("text", "")]).strip()
             t = (t[GATILHO_RX.search(t).end():] if GATILHO_RX.search(t) else t).strip()
             log(f"comando: gramática={g!r} livre={t!r}")
             livre = cmd_g = None
-            if g and rotas.rotear_teste(g):
-                executar(g)
-            elif len(t.split()) >= 3:
+            frase = casar(g)
+            if frase:
+                executar(frase)
+            elif len(t.split()) >= 4:
                 executar(t)                          # pergunta aberta -> agente/LLM
             else:
                 som("dialog-warning"); avisar("Giratina", f"🎙 não entendi ({t or g or 'nada'})", 3000)

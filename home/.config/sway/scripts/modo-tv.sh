@@ -23,7 +23,15 @@ UA="Mozilla/5.0 (PS4; Leanback Shell) Gecko/20100101 Firefox/65.0 LeanbackShell/
 fechar_apps() {
     pkill -f -- "--user-data-dir=$TV/chromium" 2>/dev/null
     pkill -f -- "--profile $TV/firefox" 2>/dev/null
-    sleep 0.5
+    # espera fechar de verdade: se o Chromium antigo ainda estiver vivo, o novo entrega a janela
+    # pra ele e abre fora do kiosk (janela pequena)
+    for _ in $(seq 30); do
+        pgrep -f -- "--user-data-dir=$TV/chromium|--profile $TV/firefox" >/dev/null || break
+        sleep 0.1
+    done
+    pkill -9 -f -- "--user-data-dir=$TV/chromium" 2>/dev/null
+    pkill -9 -f -- "--profile $TV/firefox" 2>/dev/null
+    sleep 0.3
 }
 
 audio_jbl() {

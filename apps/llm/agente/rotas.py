@@ -39,7 +39,7 @@ def normaliza(t):
 
 
 def _sh(*cmd):
-    subprocess.Popen(list(cmd), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    F._bg(cmd)
 
 
 S = str(F.SCRIPTS)
