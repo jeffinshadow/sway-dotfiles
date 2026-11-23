@@ -1,6 +1,8 @@
-# LLM local (llama.cpp + Vulkan na RX 9050, 8 GB). Sob demanda: sobe pelo rofi ("LLM local",
-# "— rápido", "— pesado") e desce em "LLM local — parar" (libera a VRAM pros jogos). Só escuta em 127.0.0.1.
-# Interface web do próprio llama.cpp em http://127.0.0.1:8080 (API compatível com OpenAI em /v1).
+# LLM local (llama.cpp + Vulkan na RX 9050, 8 GB) em modo roteador: um servidor com todos os
+# modelos do modelos.ini, um carregado por vez, trocados pelo chat (chat/, servido em
+# http://127.0.0.1:8080). Sob demanda pelo llm.sh: abrir o chat sobe, fechar derruba (libera a
+# VRAM pros jogos). Só escuta em 127.0.0.1. API compatível com OpenAI em /v1 (campo "model" =
+# nome da seção do modelos.ini; carrega sozinho).
 services:
   llm:
     image: ghcr.io/ggml-org/llama.cpp:server-vulkan
@@ -12,9 +14,9 @@ services:
       - "983"   # video
     volumes:
       - ${HOME}/.local/share/llm/models:/models:ro
+      - ./modelos.ini:/config/modelos.ini:ro
+      - ./chat:/chat:ro
     ports:
       - "127.0.0.1:8080:8080"
-    # Flags vêm do perfil escolhido no llm.sh (rapido|padrao|pesado); medições de 22/11/2026
-    # (build 12627) no comentário do próprio llm.sh. Default = padrao.
-    command: ${LLM_ARGS:--m /models/Qwen3.5-9B-Q4_K_M.gguf --alias qwen3.5-9b -ngl 99 -c 32768 -fa on -ctk q8_0 -ctv q8_0 --spec-type ngram-mod --cache-ram 2048 --jinja --host 0.0.0.0 --port 8080}
+    command: --models-preset /config/modelos.ini --models-max 1 --path /chat --host 0.0.0.0 --port 8080
     restart: "no"

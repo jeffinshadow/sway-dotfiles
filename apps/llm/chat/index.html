@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chat local</title>
+<link rel="stylesheet" href="vendor/hl-tema.css">
+<script src="vendor/marked.min.js"></script>
+<script src="vendor/purify.min.js"></script>
+<script src="vendor/highlight.min.js"></script>
+<style>
+:root {
+  --base: #0C0D0E; --surface: #1A1A1C; --surface2: #2C2C2D; --outline: #323235;
+  --accent: #5294E2; --accent-lt: #8AB8F0; --text: #F0EDEE; --dim: #919093;
+  --red: #F28B82; --amber: #F2DA66; --green: #78CA9F;
+  --cor: var(--accent);               /* cor do modelo atual */
+  --sans: "Google Sans", "Inter", system-ui, sans-serif;
+  --mono: "Google Sans Code", "JetBrains Mono", monospace;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--base); color: var(--text); font: 15px/1.55 var(--sans); display: flex; overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+::selection { background: color-mix(in srgb, var(--cor) 45%, transparent); }
+::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 5px; border: 2px solid var(--base); }
+
+/* barra lateral: conversas */
+#lateral { width: 260px; flex: none; background: var(--surface); border-right: 1px solid var(--outline); display: flex; flex-direction: column; }
+#lateral header { padding: 14px 14px 10px; display: flex; gap: 8px; }
+#nova { flex: 1; background: var(--surface2); border: 1px solid var(--outline); border-radius: 10px; padding: 9px 12px; text-align: left; }
+#nova:hover { border-color: var(--cor); }
+#lista { flex: 1; overflow-y: auto; padding: 4px 8px 12px; }
+.conv { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 8px; color: var(--dim); cursor: pointer; font-size: 14px; }
+.conv:hover { background: var(--surface2); color: var(--text); }
+.conv.ativa { background: var(--surface2); color: var(--text); }
+.conv span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.conv .apagar { visibility: hidden; background: none; border: 0; color: var(--dim); padding: 0 4px; font-size: 16px; }
+.conv:hover .apagar { visibility: visible; } .conv .apagar:hover { color: var(--red); }
+#rodape-lateral { padding: 10px 14px 14px; font-size: 12px; color: var(--dim); border-top: 1px solid var(--outline); }
+
+/* principal */
+#principal { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+#topo { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-bottom: 1px solid var(--outline); background: var(--base); }
+#modelo-btn { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid color-mix(in srgb, var(--cor) 55%, var(--outline));
+  border-radius: 12px; padding: 7px 14px 7px 12px; min-width: 300px; text-align: left; }
+#modelo-btn:hover { background: var(--surface2); }
+.ponto { width: 12px; height: 12px; border-radius: 50%; background: var(--c, var(--cor)); flex: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--c, var(--cor)) 25%, transparent); }
+.ponto.carregando { animation: pulsa 1s ease-in-out infinite; }
+.ponto.descarregado { background: transparent; border: 2px solid var(--c, var(--cor)); box-shadow: none; }
+@keyframes pulsa { 50% { opacity: .3; } }
+#modelo-nome { font-weight: 600; font-size: 16px; }
+#modelo-estado { font-size: 12.5px; color: var(--dim); }
+.chev { margin-left: auto; color: var(--dim); }
+#menu { position: absolute; top: 62px; left: 20px; width: 420px; background: var(--surface); border: 1px solid var(--outline); border-radius: 14px;
+  padding: 6px; box-shadow: 0 16px 40px #000a; z-index: 10; display: none; }
+#menu.aberto { display: block; }
+.opcao { display: flex; gap: 12px; align-items: center; width: 100%; background: none; border: 0; border-radius: 10px; padding: 10px 12px; text-align: left; }
+.opcao:hover, .opcao.atual { background: var(--surface2); }
+.opcao b { display: block; font-size: 15px; } .opcao small { color: var(--dim); font-size: 12.5px; }
+.opcao kbd { margin-left: auto; font: 11px var(--mono); color: var(--dim); border: 1px solid var(--outline); border-radius: 5px; padding: 1px 6px; }
+.espaco { flex: 1; }
+.chip { display: flex; align-items: center; gap: 7px; background: var(--surface); border: 1px solid var(--outline); border-radius: 999px; padding: 6px 13px; font-size: 13.5px; color: var(--dim); }
+.chip:hover { color: var(--text); border-color: var(--dim); }
+.chip.ligado { color: var(--base); background: var(--cor); border-color: var(--cor); }
+
+#conversa { flex: 1; overflow-y: auto; scroll-behavior: smooth; }
+#msgs { max-width: 860px; margin: 0 auto; padding: 24px 24px 40px; }
+.vazio { margin-top: 18vh; text-align: center; color: var(--dim); }
+.vazio h1 { color: var(--text); font-weight: 500; font-size: 28px; margin: 0 0 8px; }
+.vazio h1 em { font-style: normal; color: var(--cor); }
+.msg { margin: 0 0 22px; }
+.msg.user { display: flex; justify-content: flex-end; }
+.msg.user .corpo { background: var(--surface2); border-radius: 16px 16px 4px 16px; padding: 10px 16px; max-width: 80%; white-space: pre-wrap; word-wrap: break-word; }
+.etiqueta { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--dim); margin-bottom: 6px; }
+.etiqueta .ponto { width: 9px; height: 9px; box-shadow: none; }
+.etiqueta b { color: var(--c); font-weight: 600; }
+.msg.assistant .corpo { word-wrap: break-word; }
+.corpo p { margin: 0 0 10px; } .corpo p:last-child { margin-bottom: 0; }
+.corpo pre { position: relative; background: #0f1012; border: 1px solid var(--outline); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font: 13.5px/1.5 var(--mono); }
+.corpo code { font-family: var(--mono); font-size: .9em; } .corpo :not(pre) > code { background: var(--surface2); padding: 1px 6px; border-radius: 5px; }
+.corpo pre code.hljs { background: none; padding: 0; }
+.corpo a { color: var(--accent-lt); }
+.corpo table { border-collapse: collapse; margin: 8px 0; } .corpo th, .corpo td { border: 1px solid var(--outline); padding: 5px 10px; }
+.corpo blockquote { margin: 8px 0; padding-left: 12px; border-left: 3px solid var(--outline); color: var(--dim); }
+.copiar { position: absolute; top: 6px; right: 6px; background: var(--surface2); border: 1px solid var(--outline); border-radius: 6px; font-size: 12px; padding: 2px 8px; color: var(--dim); opacity: 0; }
+pre:hover .copiar { opacity: 1; }
+details.pensamento { margin-bottom: 10px; border-left: 2px solid var(--outline); padding-left: 12px; color: var(--dim); font-size: 14px; }
+details.pensamento summary { cursor: pointer; user-select: none; }
+details.pensamento div { white-space: pre-wrap; margin-top: 6px; }
+.marcador { display: flex; align-items: center; gap: 10px; margin: 6px 0 22px; color: var(--dim); font-size: 12.5px; }
+.marcador::before, .marcador::after { content: ""; flex: 1; height: 1px; background: var(--outline); }
+.erro { color: var(--red); }
+.cursor::after { content: "▍"; color: var(--c); animation: pulsa 1s infinite; }
+
+#compositor { padding: 0 24px 18px; }
+#caixa { max-width: 860px; margin: 0 auto; background: var(--surface); border: 1px solid var(--outline); border-radius: 16px; display: flex; align-items: flex-end; gap: 8px; padding: 8px 8px 8px 16px; }
+#caixa:focus-within { border-color: color-mix(in srgb, var(--cor) 70%, var(--outline)); }
+#entrada { flex: 1; background: none; border: 0; outline: 0; color: var(--text); font: inherit; resize: none; max-height: 240px; padding: 7px 0; }
+#entrada::placeholder { color: var(--dim); }
+#enviar { width: 38px; height: 38px; flex: none; border: 0; border-radius: 10px; background: var(--cor); color: var(--base); font-size: 18px; font-weight: 700; }
+#enviar:disabled { opacity: .35; cursor: default; }
+#enviar.parar { background: var(--surface2); color: var(--text); }
+#dica { max-width: 860px; margin: 6px auto 0; font-size: 12px; color: var(--dim); text-align: center; }
+
+@media (max-width: 760px) { #lateral { display: none; } #modelo-btn { min-width: 0; } #menu { width: calc(100vw - 40px); } }
+</style>
+</head>
+<body>
+<aside id="lateral">
+  <header><button id="nova">＋ Nova conversa</button></header>
+  <div id="lista"></div>
+  <div id="rodape-lateral">Tudo local · conversas salvas só neste app</div>
+</aside>
+
+<main id="principal">
+  <div id="topo">
+    <button id="modelo-btn" title="Trocar de modelo (Alt+1/2/3)">
+      <span class="ponto" id="modelo-ponto"></span>
+      <span><div id="modelo-nome">…</div><div id="modelo-estado">conectando</div></span>
+      <span class="chev">▾</span>
+    </button>
+    <div id="menu"></div>
+    <div class="espaco"></div>
+    <button class="chip" id="pensar" title="Raciocínio do modelo: respostas melhores em problemas difíceis, mas bem mais lentas">💭 Pensar</button>
+    <button class="chip" id="liberar" title="Descarrega o modelo e libera a VRAM (o chat continua aberto)">⏏ Liberar VRAM</button>
+  </div>
+
+  <div id="conversa"><div id="msgs"></div></div>
+
+  <div id="compositor">
+    <div id="caixa">
+      <textarea id="entrada" rows="1" placeholder="Mensagem…" autofocus></textarea>
+      <button id="enviar" title="Enviar (Enter)">↑</button>
+    </div>
+    <div id="dica">Enter envia · Shift+Enter quebra linha · Alt+1/2/3 troca de modelo · Esc para a resposta</div>
+  </div>
+</main>
+
+<script>
+// ---------------------------------------------------------------- modelos conhecidos (nomes = seções do modelos.ini)
+const INFO = {
+  "Qwen3.5 9B":          { cor: "#5294E2", curto: "9B",   desc: "Padrão · ~42 t/s · 32k de contexto" },
+  "Qwen3 8B rápido":     { cor: "#78CA9F", curto: "8B",   desc: "Rápido · ~54 t/s · 24k · respostas curtas" },
+  "Qwen3.6 35B pesado":  { cor: "#F2DA66", curto: "35B",  desc: "Pesado · ~19 t/s · melhor em código · ~30 s pra carregar" },
+};
+const info = id => INFO[id] || { cor: "#919093", desc: "" };
+const ESTADOS = { loaded: "pronto", loading: "carregando…", unloaded: "descarregado — carrega ao enviar", failed: "falhou ao carregar" };
+const SISTEMA = "Você é um assistente local rodando no PC do usuário (Linux, CachyOS). Responda em português do Brasil, de forma direta. Use markdown quando ajudar (listas, blocos de código).";
+
+const $ = s => document.querySelector(s);
+let modelos = [], atual = null, pensar = false, gerando = null;
+let conversas = [], conv = null;
+
+// ---------------------------------------------------------------- armazenamento
+function carregarConversas() {
+  try { conversas = JSON.parse(localStorage.getItem("conversas") || "[]"); } catch { conversas = []; }
+  try { pensar = localStorage.getItem("pensar") === "1"; atual = localStorage.getItem("modelo"); } catch {}
+}
+function salvar() { try { localStorage.setItem("conversas", JSON.stringify(conversas.slice(0, 200))); } catch {} }
+
+// ---------------------------------------------------------------- modelos
+async function atualizarModelos() {
+  try {
+    const r = await fetch("/models"); const d = await r.json();
+    modelos = d.data.map(m => ({ id: m.id, estado: m.status?.value || "unloaded" }));
+    modelos.sort((a, b) => Object.keys(INFO).indexOf(a.id) - Object.keys(INFO).indexOf(b.id));
+    const carregado = modelos.find(m => m.estado === "loaded" || m.estado === "loading");
+    if (!atual || !modelos.some(m => m.id === atual)) atual = carregado?.id || modelos[0]?.id;
+  } catch { modelos = []; }
+  desenharModelo();
+  clearTimeout(atualizarModelos.t);
+  atualizarModelos.t = setTimeout(atualizarModelos, modelos.some(m => m.estado === "loading") ? 1000 : 5000);
+}
+function estadoDe(id) { return modelos.find(m => m.id === id)?.estado || "unloaded"; }
+function desenharModelo() {
+  const i = info(atual), est = estadoDe(atual);
+  document.documentElement.style.setProperty("--cor", i.cor);
+  $("#modelo-nome").textContent = atual || "servidor fora do ar";
+  $("#modelo-estado").textContent = modelos.length ? (ESTADOS[est] || est) : "o llama-server não respondeu";
+  $("#modelo-ponto").className = "ponto " + (est === "loading" ? "carregando" : est === "loaded" ? "" : "descarregado");
+  document.title = `${atual || "?"} — Chat local`;
+  $("#menu").innerHTML = modelos.map((m, n) => {
+    const x = info(m.id), e = m.estado;
+    return `<button class="opcao ${m.id === atual ? "atual" : ""}" data-id="${esc(m.id)}">
+      <span class="ponto ${e === "loading" ? "carregando" : e === "loaded" ? "" : "descarregado"}" style="--c:${x.cor}"></span>
+      <span><b>${esc(m.id)}</b><small>${esc(x.desc)}${e === "loaded" ? " · carregado" : e === "loading" ? " · carregando" : ""}</small></span>
+      <kbd>Alt+${n + 1}</kbd></button>`;
+  }).join("");
+  $("#pensar").classList.toggle("ligado", pensar);
+  if (!conv || !conv.msgs.length) desenharConversa();
+}
+async function escolher(id) {
+  $("#menu").classList.remove("aberto");
+  if (!id || id === atual) return;
+  const antes = atual; atual = id;
+  try { localStorage.setItem("modelo", id); } catch {}
+  if (conv && conv.msgs.length && conv.msgs.at(-1).role !== "marcador") {
+    conv.msgs.push({ role: "marcador", content: `trocou de ${antes} para ${id}` }); salvar(); desenharConversa();
+  }
+  desenharModelo();
+  if (estadoDe(id) !== "loaded") {
+    fetch("/models/load", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: id }) })
+      .finally(() => setTimeout(atualizarModelos, 300));
+    const m = modelos.find(m => m.id === id); if (m) m.estado = "loading";
+    modelos.forEach(m => { if (m.id !== id && m.estado === "loaded") m.estado = "unloaded"; });
+    desenharModelo();
+  }
+}
+
+// ---------------------------------------------------------------- conversas
+function novaConversa() {
+  conv = { id: Date.now().toString(36), titulo: "Nova conversa", msgs: [] };
+  desenharLista(); desenharConversa(); $("#entrada").focus();
+}
+function desenharLista() {
+  $("#lista").innerHTML = conversas.map(c => `<div class="conv ${conv && c.id === conv.id ? "ativa" : ""}" data-id="${c.id}">
+      <span>${esc(c.titulo)}</span><button class="apagar" title="Apagar">×</button></div>`).join("");
+}
+function desenharConversa() {
+  const el = $("#msgs");
+  if (!conv || !conv.msgs.length) {
+    el.innerHTML = `<div class="vazio"><h1>Conversando com <em>${esc(atual || "…")}</em></h1>
+      <div>${esc(info(atual).desc)}</div></div>`;
+    return;
+  }
+  el.innerHTML = "";
+  conv.msgs.forEach(m => el.appendChild(elMsg(m)));
+  rolar(true);
+}
+function elMsg(m) {
+  const d = document.createElement("div");
+  if (m.role === "marcador") { d.className = "marcador"; d.textContent = m.content; return d; }
+  d.className = "msg " + m.role;
+  if (m.role === "user") { d.innerHTML = `<div class="corpo"></div>`; d.firstChild.textContent = m.content; return d; }
+  const i = info(m.model);
+  d.style.setProperty("--c", i.cor);
+  d.innerHTML = `<div class="etiqueta"><span class="ponto"></span><b>${esc(m.model || "?")}</b><span class="tps">${m.tps ? `· ${m.tps} t/s` : ""}</span></div>
+    <div class="corpo"></div>`;
+  preencher(d, m);
+  return d;
+}
+function preencher(d, m, digitando = false) {
+  const corpo = d.querySelector(".corpo");
+  let html = "";
+  if (m.reasoning) html += `<details class="pensamento" ${digitando && !m.content ? "open" : ""}><summary>Raciocínio</summary><div>${esc(m.reasoning)}</div></details>`;
+  if (m.erro) html += `<p class="erro">${esc(m.erro)}</p>`;
+  else if (m.content) html += DOMPurify.sanitize(marked.parse(m.content));
+  else if (digitando && !m.reasoning) html += `<p style="color:var(--dim)">${estadoDe(m.model) === "loaded" ? "" : "carregando o modelo…"}</p>`;
+  corpo.innerHTML = html;
+  corpo.classList.toggle("cursor", digitando);
+  corpo.querySelectorAll("pre code").forEach(c => { try { hljs.highlightElement(c); } catch {} });
+  corpo.querySelectorAll("pre").forEach(p => {
+    const b = document.createElement("button"); b.className = "copiar"; b.textContent = "copiar";
+    b.onclick = () => { navigator.clipboard.writeText(p.querySelector("code")?.innerText || p.innerText); b.textContent = "copiado"; setTimeout(() => b.textContent = "copiar", 1200); };
+    p.appendChild(b);
+  });
+  d.querySelector(".tps") && (d.querySelector(".tps").textContent = m.tps ? `· ${m.tps} t/s` : "");
+}
+function rolar(forcar) {
+  const c = $("#conversa");
+  if (forcar || c.scrollHeight - c.scrollTop - c.clientHeight < 160) c.scrollTop = c.scrollHeight;
+}
+
+// ---------------------------------------------------------------- envio (streaming)
+async function enviar() {
+  const txt = $("#entrada").value.trim();
+  if (!txt || gerando || !atual) return;
+  if (!conv) novaConversa();
+  if (!conversas.includes(conv)) { conv.titulo = txt.slice(0, 48); conversas.unshift(conv); }
+  conv.msgs.push({ role: "user", content: txt });
+  const resp = { role: "assistant", model: atual, content: "", reasoning: "" };
+  conv.msgs.push(resp);
+  $("#entrada").value = ""; ajustar(); desenharLista(); desenharConversa();
+  const el = $("#msgs").lastChild;
+  preencher(el, resp, true);
+
+  const hist = conv.msgs.slice(0, -1).filter(m => m.role === "user" || (m.role === "assistant" && m.content))
+    .map(m => ({ role: m.role, content: m.content }));
+  gerando = new AbortController(); botao();
+  let pendente = false, vivo = true;
+  const redesenha = () => { if (pendente) return; pendente = true; requestAnimationFrame(() => { pendente = false; if (vivo) { preencher(el, resp, true); rolar(); } }); };
+  try {
+    const r = await fetch("/v1/chat/completions", {
+      method: "POST", signal: gerando.signal, headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: atual, stream: true, messages: [{ role: "system", content: SISTEMA }, ...hist],
+        chat_template_kwargs: { enable_thinking: pensar }, timings_per_token: false,
+        ...(pensar ? { temperature: 0.6, top_p: 0.95 } : { temperature: 0.7, top_p: 0.8 }) }),
+    });
+    if (!r.ok) throw new Error((await r.text()).slice(0, 300) || r.statusText);
+    setTimeout(atualizarModelos, 200);
+    const leitor = r.body.getReader(), dec = new TextDecoder(); let buf = "";
+    while (true) {
+      const { value, done } = await leitor.read(); if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let i;
+      while ((i = buf.indexOf("\n")) >= 0) {
+        const linha = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+        if (!linha.startsWith("data:")) continue;
+        const dado = linha.slice(5).trim(); if (dado === "[DONE]") continue;
+        let j; try { j = JSON.parse(dado); } catch { continue; }
+        const delta = j.choices?.[0]?.delta || {};
+        if (delta.reasoning_content) resp.reasoning += delta.reasoning_content;
+        if (delta.content) resp.content += delta.content;
+        if (j.timings?.predicted_per_second) resp.tps = j.timings.predicted_per_second.toFixed(1);
+        redesenha();
+      }
+    }
+  } catch (e) {
+    if (e.name !== "AbortError") resp.erro = "Erro: " + (e.message || e);
+  } finally {
+    vivo = false; gerando = null; botao();
+    if (!resp.content && !resp.erro && !resp.reasoning) resp.erro = "(resposta interrompida)";
+    preencher(el, resp, false); salvar(); rolar(); atualizarModelos();
+  }
+}
+function botao() {
+  const b = $("#enviar");
+  b.classList.toggle("parar", !!gerando);
+  b.textContent = gerando ? "■" : "↑";
+  b.title = gerando ? "Parar (Esc)" : "Enviar (Enter)";
+}
+function ajustar() { const t = $("#entrada"); t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 240) + "px"; }
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// ---------------------------------------------------------------- eventos
+$("#modelo-btn").onclick = e => { e.stopPropagation(); $("#menu").classList.toggle("aberto"); };
+$("#menu").onclick = e => { const o = e.target.closest(".opcao"); if (o) { escolher(o.dataset.id); $("#entrada").focus(); } };
+document.addEventListener("click", e => { if (!e.target.closest("#menu")) $("#menu").classList.remove("aberto"); });
+$("#pensar").onclick = () => { pensar = !pensar; try { localStorage.setItem("pensar", pensar ? "1" : "0"); } catch {} desenharModelo(); };
+$("#liberar").onclick = async () => {
+  for (const m of modelos.filter(m => m.estado === "loaded" || m.estado === "loading"))
+    await fetch("/models/unload", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: m.id }) }).catch(() => {});
+  setTimeout(atualizarModelos, 300);
+};
+$("#nova").onclick = novaConversa;
+$("#lista").onclick = e => {
+  const c = e.target.closest(".conv"); if (!c) return;
+  if (e.target.classList.contains("apagar")) {
+    conversas = conversas.filter(x => x.id !== c.dataset.id); salvar();
+    if (conv && conv.id === c.dataset.id) conv = null;
+    desenharLista(); desenharConversa(); return;
+  }
+  conv = conversas.find(x => x.id === c.dataset.id); desenharLista(); desenharConversa();
+};
+$("#enviar").onclick = () => gerando ? gerando.abort() : enviar();
+$("#entrada").addEventListener("input", ajustar);
+$("#entrada").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); enviar(); } });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") { if (gerando) gerando.abort(); $("#menu").classList.remove("aberto"); }
+  if (e.altKey && /^[1-9]$/.test(e.key)) { const m = modelos[+e.key - 1]; if (m) { e.preventDefault(); escolher(m.id); } return; }
+  // digitou com o foco fora da caixa: manda pra caixa
+  if (!e.ctrlKey && !e.altKey && !e.metaKey && e.key.length === 1 && document.activeElement !== $("#entrada")) $("#entrada").focus();
+  if (e.ctrlKey && e.key.toLowerCase() === "n") { e.preventDefault(); novaConversa(); }
+});
+
+marked.setOptions({ breaks: true, gfm: true });
+carregarConversas(); desenharLista(); desenharConversa(); atualizarModelos();
+</script>
+</body>
+</html>

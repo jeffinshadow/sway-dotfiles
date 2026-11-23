@@ -1,58 +1,48 @@
 #!/usr/bin/env bash
-# llm.sh abrir|subir [padrao|rapido|pesado] | parar | estado — LLM local sob demanda (compose.yaml ao lado).
-#   abrir: sobe o perfil (troca se outro estiver no ar), espera carregar e abre a interface web
-#   subir: idem, sem abrir o navegador (usado pelo assistente giratina); sai 0 quando estiver pronto
-#   parar: derruba o container e libera a VRAM (e a RAM do perfil pesado)
-#
-# Perfis, medidos na RX 9050 em 22/11/2026 (llama.cpp build 12627, Vulkan; desktop ocupa ~1,1 GB):
-#   padrao  Qwen3.5-9B Q4_K_M, 32k   ~42 t/s; contexto quase não pesa (atenção híbrida); 7,1 GB VRAM
-#   rapido  Qwen3-8B IQ4_XS, 24k     ~54 t/s em respostas curtas; cai mais com contexto longo
-#   pesado  Qwen3.6-35B-A3B MoE, 32k ~19 t/s; especialistas na RAM (--n-cpu-moe 32, ~17 GB em
-#           cache); o mais forte em código/agente. -t 12 (HT atrapalha); ub 2048. NUNCA ub 4096
-#           com ngram-mod (trava o servidor).
-# Comum: FA ligado, KV q8_0, --spec-type ngram-mod (4-6x ao reescrever arquivo/config, custo zero
-# no resto), cache de prompt na RAM limitado a 2 GB, tool calling (--jinja), /v1 e /v1/messages.
+# llm.sh — LLM local sob demanda (llama.cpp em modo roteador; compose.yaml e modelos.ini ao lado).
+#   abrir [modelo]   sobe o servidor e abre o Chat local (janela própria); FECHAR A JANELA DERRUBA
+#                    o servidor e libera a VRAM. Se o chat já estiver aberto, só traz pra frente.
+#   subir [modelo]   só o servidor (pra usar a API em http://127.0.0.1:8080/v1); derrubar com parar
+#   parar            derruba e libera a VRAM (e a RAM do modelo pesado)
+#   estado           "rodando: <modelo carregado>" ou "parado"
+# Modelos (nomes = seções do modelos.ini): "Qwen3.5 9B" (padrão), "Qwen3 8B rápido", "Qwen3.6 35B pesado".
+# Nunca sobe no modo jogo; o modo-jogo.sh derruba o LLM ao ligar.
 set -euo pipefail
 dir="$(dirname "$(readlink -f "$0")")"
 url="http://127.0.0.1:8080"
-modelos="$HOME/.local/share/llm/models"
-atual="${XDG_RUNTIME_DIR:-/tmp}/llm-perfil"
+perfil="$HOME/.local/share/llm/chat-app"          # perfil próprio do Chromium (conversas ficam aqui)
 dc() { docker compose -f "$dir/compose.yaml" -p llm "$@"; }
-comum="-fa on -ctk q8_0 -ctv q8_0 --spec-type ngram-mod --cache-ram 2048 --jinja --host 0.0.0.0 --port 8080"
+aviso() { notify-send -a llm -t "${2:-4000}" -i applications-science "LLM local" "$1"; }
 
-perfil() {
-  case "$1" in
-    padrao) arq=Qwen3.5-9B-Q4_K_M.gguf; nome="Qwen3.5 9B"
-            args="-m /models/$arq --alias qwen3.5-9b -ngl 99 -c 32768 $comum" ;;
-    rapido) arq=Qwen3-8B-IQ4_XS.gguf; nome="Qwen3 8B (rápido)"
-            args="-m /models/$arq --alias qwen3-8b -ngl 99 -c 24576 $comum" ;;
-    pesado) arq=Qwen3.6-35B-A3B-UD-IQ4_XS.gguf; nome="Qwen3.6 35B (pesado)"
-            args="-m /models/$arq --alias qwen3.6-35b -ngl 99 --n-cpu-moe 32 -t 12 -b 2048 -ub 2048 -c 32768 $comum" ;;
-    *) echo "perfil: padrao|rapido|pesado" >&2; exit 2 ;;
-  esac
+subir() {
+  if [[ -e "${XDG_RUNTIME_DIR:-/tmp}/modo-jogo" ]]; then aviso "Modo jogo ligado: o LLM só roda fora do jogo."; exit 1; fi
+  if ! curl -sf "$url/health" >/dev/null; then
+    dc up -d >/dev/null 2>&1
+    for _ in $(seq 1 60); do curl -sf "$url/health" >/dev/null && break; sleep 0.5; done
+    curl -sf "$url/health" >/dev/null || { aviso "Não subiu: docker logs llm" 8000; exit 1; }
+  fi
+  if [[ -n "${1:-}" ]]; then        # pré-carrega o modelo pedido
+    curl -sf "$url/models/load" -H 'Content-Type: application/json' -d "{\"model\":\"$1\"}" >/dev/null || true
+  fi
 }
 
 case "${1:-abrir}" in
-  abrir|subir)
-    acao="$1"; p="${2:-padrao}"; perfil "$p"
-    if [[ -e "${XDG_RUNTIME_DIR:-/tmp}/modo-jogo" ]]; then     # jogando: LLM fica fora
-      notify-send -a llm -t 4000 -i applications-science "LLM local" "Modo jogo ligado: o LLM só roda fora do jogo."; exit 1
+  abrir)
+    if pgrep -f -- "--user-data-dir=$perfil" >/dev/null; then
+      swaymsg -q '[title="Chat local$"] focus' 2>/dev/null; exit 0
     fi
-    if curl -sf "$url/health" >/dev/null && [[ "$(cat "$atual" 2>/dev/null)" == "$p" ]]; then
-      [[ "$acao" == abrir ]] && { xdg-open "$url" >/dev/null 2>&1 & }
-      exit 0
-    fi
-    [[ -f "$modelos/$arq" ]] || { notify-send -a llm -u critical "LLM local" "Modelo não encontrado: $arq"; exit 1; }
-    notify-send -a llm -t 4000 -i applications-science "LLM local" "Carregando $nome…"
-    LLM_ARGS="$args" dc up -d --force-recreate >/dev/null 2>&1
-    echo "$p" > "$atual"
-    for _ in $(seq 1 180); do curl -sf "$url/health" >/dev/null && break; sleep 1; done
-    curl -sf "$url/health" >/dev/null || { notify-send -a llm -u critical "LLM local" "Não subiu: docker logs llm"; exit 1; }
-    [[ "$acao" == abrir ]] && { xdg-open "$url" >/dev/null 2>&1 & }
-    exit 0 ;;
-  parar)
-    dc down >/dev/null 2>&1; rm -f "$atual"
-    notify-send -a llm -t 3000 -i applications-science "LLM local" "Parado (VRAM liberada)." ;;
-  estado) curl -sf "$url/health" >/dev/null && echo "rodando: $(cat "$atual" 2>/dev/null || echo ?)" || echo parado ;;
-  *) echo "uso: $0 abrir|subir [padrao|rapido|pesado] | parar | estado" >&2; exit 2 ;;
+    subir "${2:-}"
+    mkdir -p "$perfil"
+    # roda em primeiro plano: quando a janela fecha, o servidor desce
+    chromium --user-data-dir="$perfil" --app="$url/" --class=llm-chat --lang=pt-BR \
+      --no-first-run --no-default-browser-check >/dev/null 2>&1 || true
+    dc down >/dev/null 2>&1; aviso "Chat fechado: LLM parado, VRAM liberada." 2500 ;;
+  subir) subir "${2:-}" ;;
+  parar) dc down >/dev/null 2>&1; aviso "Parado (VRAM liberada)." 3000 ;;
+  estado)
+    if curl -sf "$url/health" >/dev/null; then
+      m=$(curl -sf "$url/models" | python3 -c "import json,sys;print(', '.join(x['id'] for x in json.load(sys.stdin)['data'] if x['status']['value'] in ('loaded','loading')) or 'nenhum modelo carregado')" 2>/dev/null)
+      echo "rodando: ${m:-?}"
+    else echo parado; fi ;;
+  *) echo "uso: $0 abrir [modelo] | subir [modelo] | parar | estado" >&2; exit 2 ;;
 esac

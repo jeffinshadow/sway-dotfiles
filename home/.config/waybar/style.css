@@ -57,7 +57,6 @@ tooltip label { color: @text; }
 #custom-rec,
 #custom-dnd,
 #custom-jogo,
-#custom-voz,
 #tray,
 #custom-power {
   background: @surface;
@@ -99,8 +98,6 @@ tooltip label { color: @text; }
 #custom-dnd { color: @text_dim; }
 #custom-dnd.dnd { color: @amber; }
 #custom-jogo { color: @text_dim; }
-#custom-voz { color: @text_dim; }
-#custom-voz.on { color: @accent; }
 #custom-jogo.ligado { color: @on_accent; background: @accent; }
 
 #clock { color: @text; font-weight: 600; }

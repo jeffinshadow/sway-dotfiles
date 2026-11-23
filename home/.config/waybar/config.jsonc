@@ -13,7 +13,7 @@
   // enchia (latios, fonte maior). CPU/memória/temperatura/GPU/disco ficam
   // só no tooltip da pílula "sistema" (não abre mais um grupo: a webcam
   // presa no meio do monitor de 24" tampava a barra aberta).
-  "modules-right":  ["custom/voz", "custom/jogo", "idle_inhibitor", "gamemode", "pulseaudio", "backlight",
+  "modules-right":  ["custom/jogo", "idle_inhibitor", "gamemode", "pulseaudio", "backlight",
                      "custom/sistema", "custom/docker", "custom/vpn", "custom/tunnel",
                      "battery", "tray", "clock", "custom/dnd", "custom/power"],
 
@@ -161,15 +161,6 @@
     "interval": 1,
     "signal": 9,
     "on-click": "~/.config/sway/scripts/record.sh"
-  },
-
-  "custom/voz": {
-    // Giratina ouvindo "ei giratina" (Super+Shift+z); some em máquina sem o serviço
-    "exec": "~/.config/sway/scripts/giratina-voz.sh estado",
-    "return-type": "json",
-    "interval": 30,
-    "signal": 11,
-    "on-click": "~/.config/sway/scripts/giratina-voz.sh"
   },
 
   "custom/jogo": {

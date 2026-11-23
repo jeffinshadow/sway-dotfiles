@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=LLM local — pesado
-GenericName=Qwen3.6 35B MoE: o mais forte em código, mais lento (usa ~17 GB de RAM)
-Exec=/home/shadow/.dotfiles/apps/llm/llm.sh abrir pesado
-Icon=applications-science
-Terminal=false
-Categories=Development;
-Keywords=ia;ai;llm;chat;qwen;pesado;

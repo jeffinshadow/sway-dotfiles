@@ -1,10 +1,11 @@
 [Desktop Entry]
 Type=Application
-Name=LLM local
-GenericName=Qwen3.5 9B na GPU (llama.cpp), 32k de contexto
-Comment=Sobe o LLM local e abre a interface web
+Name=Chat local
+GenericName=Conversar com os LLMs locais (Qwen 9B / 8B rápido / 35B pesado)
+Comment=Abre o chat e sobe o llama.cpp; fechar a janela libera a VRAM. Não abre no modo jogo.
 Exec=/home/shadow/.dotfiles/apps/llm/llm.sh abrir
 Icon=applications-science
 Terminal=false
-Categories=Development;
-Keywords=ia;ai;llm;chat;qwen;llama;
+Categories=Utility;
+Keywords=llm;ia;ai;chat;qwen;llama;local;
+StartupWMClass=llm-chat
