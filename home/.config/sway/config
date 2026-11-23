@@ -9,3 +9,6 @@
 include /etc/sway/config.d/*
 
 include ~/.config/sway/config.d/*.conf
+
+# Jogos XWayland (ETS2 etc.) usam o monitor primario do X: deixar o UltraGear como primario
+exec_always sleep 1 && xrandr --output DP-1 --primary

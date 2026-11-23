@@ -12,7 +12,12 @@ dot=${cfg%/home/.config/sway/config}
 faltam=()
 while IFS= read -r -d '' f; do
     rel=${f#"$dot/home/"}
-    [[ "$(readlink -f "$HOME/$rel" 2>/dev/null)" == "$f" ]] || faltam+=("$rel")
+    [[ "$(readlink -f "$HOME/$rel" 2>/dev/null)" == "$f" ]] && continue
+    # Arquivo que o install.sh gera em vez de ligar (ex.: swaylock/config
+    # com as linhas da máquina, porque o swaylock não lê include): não é link.
+    [[ -f "$HOME/$rel" && ! -L "$HOME/$rel" ]] \
+        && grep -q '(gerado pelo install.sh)' "$HOME/$rel" 2>/dev/null && continue
+    faltam+=("$rel")
 done < <(find "$dot/home" -type f ! -name '*.in' -print0)
 
 (( ${#faltam[@]} )) || exit 0
