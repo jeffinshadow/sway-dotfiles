@@ -1,0 +1,7 @@
+// Modo jogo da giratina: o usuário da sessão local ativa troca o escalonador sched_ext sem senha
+// (sway/scripts/modo-jogo.sh liga o scx_lavd com jogo do Steam aberto). Instalar em
+// /etc/polkit-1/rules.d/50-scx-loader.rules (root).
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.scx.loader.manage-schedulers" && subject.user == "shadow" && subject.local && subject.active)
+        return polkit.Result.YES;
+});

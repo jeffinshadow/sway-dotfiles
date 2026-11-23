@@ -5,7 +5,7 @@ estado="${XDG_RUNTIME_DIR:-/tmp}/modo-jogo"
 if [[ -e "$estado" ]]; then
     origem=$(cat "$estado" 2>/dev/null)
     [[ "$origem" == auto ]] && quem="ligado sozinho (jogo do Steam aberto)" || quem="ligado na mão"
-    printf '{"text":"󰊗","class":"ligado","tooltip":"Modo jogo %s\\nFoco preso · não perturbe · replay (Super+Shift+g salva)\\nClique: desligar"}\n' "$quem"
+    printf '{"text":"󰊗","class":"ligado","tooltip":"Modo jogo %s\\nFoco preso · não perturbe · LAVD · replay (Super+Shift+g salva)\\nClique: desligar"}\n' "$quem"
 else
     echo '{"text":"󰊗","class":"desligado","tooltip":"Modo jogo desligado (liga sozinho com jogo do Steam)\nClique: ligar"}'
 fi
