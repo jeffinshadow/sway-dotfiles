@@ -4,3 +4,5 @@ ttf-google-sans-code-vf
 bibata-cursor-theme-bin
 papirus-folders
 sway-audio-idle-inhibit-git
+wlrctl
+gpu-screen-recorder

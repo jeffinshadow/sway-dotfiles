@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# record.sh area|tela — grava a tela com wf-recorder (sem áudio).
+# record.sh area|tela — grava a tela com wf-recorder pela GPU (VA-API, H.264) com o
+# áudio do sistema (monitor da saída padrão; o microfone não entra).
 #   area → seleciona com o slurp (Esc cancela)
 #   tela → a tela focada inteira
 # Chamar de novo (qualquer um dos dois) para a gravação. Enquanto grava,
@@ -29,10 +30,15 @@ dir="$(xdg-user-dir VIDEOS 2>/dev/null || echo "$HOME/Videos")/Gravações"
 mkdir -p "$dir"
 file="$dir/$(date +%Y-%m-%d_%H-%M-%S).mp4"
 
+# Encoder da GPU quando houver (a CPU, x264, é o recurso escasso); áudio = o que sai na saída padrão
+opts=()
+[[ -e /dev/dri/renderD128 ]] && opts+=(-c h264_vaapi -d /dev/dri/renderD128)
+sink=$(pactl get-default-sink 2>/dev/null || true)
+[[ -n "$sink" ]] && opts+=(--audio="$sink.monitor")
 if [[ -n "${geom:-}" ]]; then
-    wf-recorder -g "$geom" -f "$file" &>/dev/null &
+    wf-recorder "${opts[@]}" -g "$geom" -f "$file" &>/dev/null &
 else
-    wf-recorder -o "$out" -f "$file" &>/dev/null &
+    wf-recorder "${opts[@]}" -o "$out" -f "$file" &>/dev/null &
 fi
 printf '%s\n%s\n' "$file" "$(date +%s)" > "$estado"
 sleep 0.3; waybar
