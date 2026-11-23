@@ -50,7 +50,12 @@ case "$item" in
             wpctl set-volume @DEFAULT_AUDIO_SOURCE@ "${arg%.*}%"
         fi ;;
     brilho)
-        if [[ -z "$arg" ]]; then cat "$run/brilho" 2>/dev/null || echo 50
+        if [[ -z "$arg" ]]; then         # sem quebra de linha: o slider do SwayNC não lê "50\n"
+            if [[ ! -s "$run/brilho" && -s "$run/ddc-buses" ]]; then   # 1ª vez: lê o 32" e guarda
+                ddcutil --bus "$(tail -1 "$run/ddc-buses")" --brief getvcp 10 2>/dev/null \
+                    | awk '{print $4}' > "$run/brilho"
+            fi
+            printf '%s' "$(cat "$run/brilho" 2>/dev/null || echo 50)"
         else "$s/brilho.sh" definir "${arg%.*}" --quieto; fi ;;
     *) echo "uso: $0 <item> [estado|valor]" >&2; exit 2 ;;
 esac

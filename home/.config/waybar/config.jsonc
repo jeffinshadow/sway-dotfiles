@@ -15,7 +15,7 @@
   // presa no meio do monitor de 24" tampava a barra aberta).
   "modules-right":  ["custom/jogo", "idle_inhibitor", "gamemode", "pulseaudio", "backlight",
                      "custom/sistema", "custom/docker", "custom/vpn", "custom/tunnel",
-                     "battery", "tray", "clock", "custom/dnd", "custom/power"],
+                     "battery", "tray", "clock", "custom/notificacoes", "custom/power"],
 
   "custom/sistema": {
     "exec": "~/.config/waybar/scripts/sistema.sh",
@@ -173,14 +173,21 @@
     "on-click": "~/.config/sway/scripts/modo-jogo.sh"
   },
 
-  "custom/dnd": {
-    // Não perturbe do mako (Super+Shift+n)
-    "exec": "~/.config/waybar/scripts/dnd.sh",
+  "custom/notificacoes": {
+    // SwayNC: clique abre o painel de configurações rápidas (Super+,); direito = não perturbe.
+    // Por assinatura (-swb): o ícone muda na hora, sem sinal.
+    "exec": "swaync-client -swb",
     "return-type": "json",
-    "interval": 30,
-    "signal": 8,
-    "on-click": "~/.config/sway/scripts/dnd.sh",
-    "on-click-right": "makoctl restore"
+    "escape": true,
+    "format": "{icon}",
+    "format-icons": {
+      "none": "󰂚", "notification": "󱅫",
+      "dnd-none": "󰂛", "dnd-notification": "󰂛",
+      "inhibited-none": "󰪑", "inhibited-notification": "󰪑",
+      "dnd-inhibited-none": "󰂛", "dnd-inhibited-notification": "󰂛"
+    },
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "~/.config/sway/scripts/dnd.sh"
   },
 
   "custom/power": {

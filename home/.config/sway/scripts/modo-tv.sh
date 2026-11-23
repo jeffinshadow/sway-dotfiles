@@ -53,7 +53,7 @@ case "${1:-alternar}" in
     alternar) [[ -e "$estado" ]] && exec "$0" desligar || exec "$0" ligar ;;
     ligar)
         touch "$estado"
-        makoctl mode -a do-not-disturb >/dev/null 2>&1; pkill -RTMIN+8 waybar
+        swaync-client -Ia modo-tv >/dev/null 2>&1
         "$HOME/.config/sway/scripts/idle.sh" pausar tv     # nada de bloquear/apagar no meio do filme
         [[ "${2:-}" == vertical ]] || swaymsg -q 'output HDMI-A-1 power off'
         swaymsg -q 'focus output DP-1; workspace TV'
@@ -66,7 +66,7 @@ case "${1:-alternar}" in
         swaymsg -q 'output DP-1 scale 1'                      # desfaz o zoom do YouTube
         swaymsg -q 'workspace 1'
         "$HOME/.config/sway/scripts/idle.sh" retomar tv
-        makoctl mode -r do-not-disturb >/dev/null 2>&1; pkill -RTMIN+8 waybar ;;
+        swaync-client -Ir modo-tv >/dev/null 2>&1 ;;
     youtube)
         [[ -e "$estado" ]] || exec "$0" ligar
         fechar_apps; swaymsg -q 'focus output DP-1; workspace TV'; swaymsg -q 'output DP-1 scale 1'

@@ -141,6 +141,7 @@
       "label": "󰃟",
       "min": 0,
       "max": 100,
+      "max_limit": 100,
       "min_limit": 5,
       "cmd_getter": "~/.config/sway/scripts/painel.sh brilho",
       "cmd_setter": "~/.config/sway/scripts/painel.sh brilho $value"
