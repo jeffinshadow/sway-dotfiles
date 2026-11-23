@@ -13,9 +13,9 @@
   // enchia (latios, fonte maior). CPU/memória/temperatura/GPU/disco ficam
   // só no tooltip da pílula "sistema" (não abre mais um grupo: a webcam
   // presa no meio do monitor de 24" tampava a barra aberta).
-  "modules-right":  ["backlight",
-                     "custom/sistema", "custom/docker", "custom/vpn", "custom/tunnel",
-                     "battery", "tray", "clock", "custom/notificacoes", "custom/power"],
+  // Módulos da direita: ~/.config/waybar/host.jsonc (hosts/<máquina>/waybar.jsonc) e, se a máquina
+  // não definir, padrao.jsonc. No include do waybar vale o PRIMEIRO arquivo que define a chave.
+  "include": ["~/.config/waybar/host.jsonc", "~/.config/waybar/padrao.jsonc"],
 
   "custom/sistema": {
     "exec": "~/.config/waybar/scripts/sistema.sh",
@@ -137,6 +137,15 @@
     "interval": 1,
     "signal": 9,
     "on-click": "~/.config/sway/scripts/record.sh"
+  },
+
+  "custom/cafeina": {
+    // Cafeína: tela não bloqueia nem apaga (idle.sh). Mesmo estado do botão do painel (Super+,).
+    "exec": "~/.config/sway/scripts/painel.sh cafeina waybar",
+    "return-type": "json",
+    "interval": 30,
+    "signal": 11,
+    "on-click": "~/.config/sway/scripts/painel.sh cafeina alternar"
   },
 
   "custom/notificacoes": {

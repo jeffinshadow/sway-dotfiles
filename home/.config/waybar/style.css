@@ -54,6 +54,7 @@ tooltip label { color: @text; }
 #custom-tunnel,
 #custom-vpn,
 #custom-rec,
+#custom-cafeina,
 #custom-notificacoes,
 #tray,
 #custom-power {
@@ -93,6 +94,8 @@ tooltip label { color: @text; }
 
 /* Gravando: pílula vermelha; não perturbe: sino âmbar */
 #custom-rec { color: @on_red; background: @red; font-weight: 600; }
+#custom-cafeina { color: @text_dim; }
+#custom-cafeina.ligado { color: @on_accent; background: @amber; }
 #custom-notificacoes { color: @text_dim; }
 #custom-notificacoes.notification { color: @accent_lt; }
 #custom-notificacoes.dnd-none, #custom-notificacoes.dnd-notification,

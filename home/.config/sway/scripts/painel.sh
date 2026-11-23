@@ -16,12 +16,23 @@ tf() { if "$@" >/dev/null 2>&1; then echo true; else echo false; fi; }
 fecha() { swaync-client -cp >/dev/null 2>&1; }
 
 item="${1:-}"; arg="${2:-}"
+if [[ "$item" == cafeina && "$arg" == waybar ]]; then       # módulo custom/cafeina da waybar
+    if [[ -e "$run/idle-pausa/cafeina" ]]; then
+        echo '{"text":"󰅶","class":"ligado","tooltip":"Cafeína ligada: a tela não bloqueia nem apaga (clique desliga)"}'
+    else
+        echo '{"text":"󰾪","class":"desligado","tooltip":"Cafeína desligada (clique liga)"}'
+    fi
+    exit 0
+fi
+if [[ "$item" == cafeina && "$arg" == alternar ]]; then     # clique na waybar
+    [[ -e "$run/idle-pausa/cafeina" ]] && SWAYNC_TOGGLE_STATE=false || SWAYNC_TOGGLE_STATE=true
+fi
 if [[ "$arg" == estado ]]; then
     case "$item" in
         jogo)     tf test -e "$run/modo-jogo" ;;
         tv)       tf test -e "$run/modo-tv" ;;
         dnd)      swaync-client -D ;;
-        cafeina)  tf test -e "$run/cafeina" ;;
+        cafeina)  tf test -e "$run/idle-pausa/cafeina" ;;
         luz)      tf pgrep -x gammastep ;;
         freesync) "$s/freesync.sh" DP-1 estado ;;
         replay)   tf pgrep -f "gpu-screen-recorder .*-r 60" ;;
@@ -35,7 +46,8 @@ case "$item" in
     jogo)     liga && a=ligar || a=desligar; setsid -f "$s/modo-jogo.sh" "$a" ;;
     tv)       fecha; liga && a=ligar || a=desligar; setsid -f "$s/modo-tv.sh" "$a" ;;
     dnd)      liga && swaync-client -dn || swaync-client -df ;;
-    cafeina)  liga && "$s/idle.sh" pausar cafeina || "$s/idle.sh" retomar cafeina ;;
+    cafeina)  liga && "$s/idle.sh" pausar cafeina || "$s/idle.sh" retomar cafeina
+              pkill -RTMIN+11 waybar ;;
     luz)      if liga; then setsid -f gammastep >/dev/null 2>&1; else pkill -x gammastep; fi ;;
     freesync) liga && a=on || a=off; "$s/freesync.sh" DP-1 "$a" ;;
     replay)   liga && a=iniciar || a=parar; "$s/replay.sh" "$a" ;;

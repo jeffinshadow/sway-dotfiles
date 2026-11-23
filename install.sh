@@ -134,6 +134,9 @@ fi
 link "$HOSTDIR/sway.conf" "$HOME/.config/sway/config.d/90-host.conf"
 link "$HOSTDIR/ghostty"   "$HOME/.config/ghostty/host"
 link "$HOSTDIR/waybar.css" "$HOME/.config/waybar/host.css"
+# Módulos da waybar por máquina (opcional; sem o arquivo vale home/.config/waybar/padrao.jsonc)
+if [[ -f "$HOSTDIR/waybar.jsonc" ]]; then link "$HOSTDIR/waybar.jsonc" "$HOME/.config/waybar/host.jsonc"
+else link "$DOT/hosts/default/waybar.jsonc" "$HOME/.config/waybar/host.jsonc"; fi
 # Ajustes do fastfetch na máquina (opcional; argumentos de linha de comando)
 if [[ -f "$HOSTDIR/fastfetch.args" ]]; then
     link "$HOSTDIR/fastfetch.args" "$HOME/.config/fastfetch/host.args"

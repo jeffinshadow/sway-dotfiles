@@ -1,0 +1,5 @@
+// giratina (desktop): sem brilho (monitores por DDC, controle no painel) e sem bateria
+{
+  "modules-right": ["custom/cafeina", "custom/sistema", "custom/docker", "custom/vpn", "custom/tunnel",
+                    "tray", "clock", "custom/notificacoes", "custom/power"]
+}
