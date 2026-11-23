@@ -84,12 +84,12 @@ def _vou_jogar(m):
 
 # (padrão, ação) — a ação recebe o match; devolve texto pro usuário
 INTENCOES = [
-    (rf"^{LIGA} (o )?modo tv( (com|e) (o )?(monitor )?vertical( ligado| aceso)?| vertical)$", lambda m: F.modo_tv("ligar vertical")),
-    (rf"^{LIGA} (o )?modo tv$|^modo tv$", lambda m: F.modo_tv("ligar")),
+    (rf"^{LIGA} (o |no )?modo tv( (com|e) (o )?(monitor )?vertical( ligado| aceso)?| vertical)$", lambda m: F.modo_tv("ligar vertical")),
+    (rf"^{LIGA} (o |no )?modo tv$|^modo tv$", lambda m: F.modo_tv("ligar")),
     (rf"^{DESLIGA} (do |o )?modo tv$|^desliga (a )?tv$", lambda m: F.modo_tv("desligar")),
     (rf"^({LIGA} |toca |quero ver )?(o )?youtube( na tv)?$", lambda m: F.modo_tv("youtube")),
-    (rf"^({LIGA} |toca )?(o )?(youtube music|musica|music)( na tv)?$", lambda m: F.modo_tv("music")),
-    (rf"^({LIGA} |quero ver )?(o )?(hbo|max|hbo max)( na tv)?$", lambda m: F.modo_tv("max")),
+    (rf"^({LIGA} |toca )?(o |a )?(youtube music|youtube musica|musica|music)( na tv)?$", lambda m: F.modo_tv("music")),
+    (rf"^({LIGA} |quero ver )?(o |a )?(hbo|max|hbo max)( na tv)?$", lambda m: F.modo_tv("max")),
     (r"^(pausa|pause|para a musica|para o video|pausar)$", lambda m: F.midia("pause")),
     (r"^(continua|play|toca|despausa|volta a tocar)$", lambda m: F.midia("play")),
     (r"^(proxima|proximo|pula|passa)( musica| video)?$", lambda m: F.midia("next")),
@@ -108,19 +108,25 @@ INTENCOES = [
     (rf"^{LIGA} (o )?nao perturbe$", lambda m: F.nao_perturbe(True)),
     (rf"^{DESLIGA} (o )?nao perturbe$", lambda m: F.nao_perturbe(False)),
     (r"^(salva|grava|guarda)( o)? replay$", lambda m: F.captura("salvar_replay")),
-    (r"^(tira|bate)( um)? (print|captura)( da tela)?$", lambda m: F.captura("tela")),
+    (r"^(tira|bate)( um| 1)? (print|captura)( da tela)?$", lambda m: F.captura("tela")),
     (r"^(cade|onde ta|acha|toca)( o)? (meu )?celular$", lambda m: F.celular("tocar")),
     (r"^(bateria do celular|quanto de bateria( tem)? no celular)$", lambda m: F.celular("bateria") + "%"),
     (r"^(reconecta|conecta|liga)( a)? (caixinha|caixa|jbl|caixa de som)$", lambda m: _reconecta_jbl()),
     (r"^boa noite( giratina)?$", lambda m: _boa_noite()),
     (r"^(apaga|desliga)( as)? telas?$", lambda m: (_sh("swaymsg", "output * power off"), "telas apagadas")[1]),
-    (r"^(relatorio|status|como ta|como esta)( da| a)? (maquina|pc|sistema)$", lambda m: _relatorio()),
+    (r"^(relatorio|status|como ta|como esta)( da| a| do| o)? (maquina|pc|sistema)$", lambda m: _relatorio()),
     (r"^tem atualiza\w*$|^(ha|tem) (alguma )?atualiza\w*$", lambda m: F.atualizacoes()),
     (r"^(que horas sao|que hora e|horas)$", lambda m: time.strftime("São %H:%M.")),
     (r"^(que dia e hoje|que dia e|data de hoje)$", lambda m: time.strftime("Hoje é %d/%m/%Y.")),
     (r"^vou jogar( (?P<jogo>assetto( corsa)?|ac|ets\w*|caminhao|truck|cyberpunk))?$", _vou_jogar),
 ]
 _COMPILADAS = [(re.compile(p), f) for p, f in INTENCOES]
+
+
+def rotear_teste(texto):
+    """True se o texto casa com exatamente uma rota (sem executar)."""
+    t = normaliza(texto)
+    return len({f for rx, f in _COMPILADAS if rx.search(t)}) == 1 or t in ("cancela", "esquece")
 
 
 def rotear(texto):

@@ -32,6 +32,7 @@ SONS = Path("/usr/share/sounds/freedesktop/stereo")
 TAXA = 16000
 JANELA_COMANDO = 6.0                     # s pra falar o pedido depois do bipe
 GATILHO_FRASES = ["ei gira tina", "hei gira tina", "oi gira tina", "gira tina", "[unk]"]
+FRASES = json.loads((AQUI / "frases_voz.json").read_text()) + ["[unk]"]   # comandos conhecidos (gramática)
 GATILHO_RX = re.compile(r"\b(e[iy]|hei|oi|o)?\s*gira\s*(a\s*)?tina\b|\bgiratina\b")
 
 
@@ -93,7 +94,7 @@ def ouvir(modelo):
         cmd += ["--target", src]
     proc = subprocess.Popen(cmd + ["-"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     gat = vosk.KaldiRecognizer(modelo, TAXA, json.dumps(GATILHO_FRASES))
-    livre = None
+    livre = cmd_g = None
     folga = collections.deque(maxlen=3)            # ~0,4 s antes do disparo
     ESTADO.touch(); waybar()
     log("ouvindo", src or "(fonte padrão)")
@@ -117,23 +118,32 @@ def ouvir(modelo):
                     som("message-new-instant"); avisar("Giratina", "🎙 ouvindo…", 3000)
                     gat.Reset()
                     livre = vosk.KaldiRecognizer(modelo, TAXA)
+                    cmd_g = vosk.KaldiRecognizer(modelo, TAXA, json.dumps(FRASES, ensure_ascii=False))
                     for b in folga:
                         livre.AcceptWaveform(b)
                     folga.clear()
+                    partes = []
                     ate = time.time() + JANELA_COMANDO
                 continue
-            fim = livre.AcceptWaveform(dados)
-            t = json.loads(livre.Result()).get("text", "") if fim else ""
-            if not fim and time.time() > ate:
-                t = json.loads(livre.FinalResult()).get("text", ""); fim = True
-            if not fim:
+            # comando: gramática fechada (precisa) + transcrição livre (pro LLM) em paralelo
+            fim = cmd_g.AcceptWaveform(dados)
+            if livre.AcceptWaveform(dados):
+                partes.append(json.loads(livre.Result()).get("text", ""))
+            if not fim and time.time() <= ate:
                 continue
-            log("ouvi:", t or "(nada)")
-            if t and executar(t):
-                livre = None
-            elif time.time() > ate:
-                log("janela do comando expirou"); avisar("Giratina", "🎙 não entendi", 2000)
-                livre = None
+            g = json.loads(cmd_g.Result() if fim else cmd_g.FinalResult()).get("text", "").replace("[unk]", "").strip()
+            if fim and not g and time.time() <= ate:
+                continue                             # só pausa/resto do gatilho: segue esperando o comando
+            t = " ".join(partes + [json.loads(livre.FinalResult()).get("text", "")]).strip()
+            t = (t[GATILHO_RX.search(t).end():] if GATILHO_RX.search(t) else t).strip()
+            log(f"comando: gramática={g!r} livre={t!r}")
+            livre = cmd_g = None
+            if g and rotas.rotear_teste(g):
+                executar(g)
+            elif len(t.split()) >= 3:
+                executar(t)                          # pergunta aberta -> agente/LLM
+            else:
+                som("dialog-warning"); avisar("Giratina", f"🎙 não entendi ({t or g or 'nada'})", 3000)
     finally:
         proc.terminate()
         ESTADO.unlink(missing_ok=True); waybar()
