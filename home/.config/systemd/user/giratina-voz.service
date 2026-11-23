@@ -1,6 +1,7 @@
 [Unit]
-Description=Giratina: escuta "ei giratina" (Vosk, CPU, áudio só em memória)
-After=pipewire.service wireplumber.service graphical-session.target
+Description=Giratina: escuta "giratina" (Vosk, CPU, áudio só em memória)
+After=pipewire.service wireplumber.service graphical-session.target giratina-aec.service
+Wants=giratina-aec.service
 PartOf=graphical-session.target
 
 [Service]

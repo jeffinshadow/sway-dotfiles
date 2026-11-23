@@ -46,11 +46,17 @@ SISTEMA = textwrap.dedent("""\
 
 # ------------------------------------------------------------------ interface (terminal / rofi)
 class UI:
-    def __init__(self, rofi=False):
+    def __init__(self, rofi=False, falar=False):
         self.rofi = rofi
+        self.falar = falar
         self.interativo = sys.stdin.isatty()
 
     def mostrar(self, texto, titulo="Giratina"):
+        if self.falar:                                 # pedido veio por voz: responde falando
+            fala = texto if len(texto) <= 300 else texto[:300].rsplit(". ", 1)[0] + ". O resto está na notificação."
+            subprocess.Popen([str(Path.home() / ".local/share/giratina-voz/venv/bin/python"),
+                              str(Path(__file__).resolve().parent / "falar.py"), fala],
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
         if self.rofi:
             subprocess.run(["notify-send", "-a", "giratina", "-t", "12000", titulo, texto[:900]])
         else:
@@ -193,8 +199,9 @@ def main():
     args = sys.argv[1:]
     pensar = "--pensar" in args
     rofi = "--rofi" in args
-    args = [a for a in args if a not in ("--pensar", "--rofi")]
-    ui = UI(rofi)
+    falar = "--falar" in args
+    args = [a for a in args if a not in ("--pensar", "--rofi", "--falar")]
+    ui = UI(rofi, falar)
     historico = []
     if rofi:
         pedido = " ".join(args) or ui.pedir()

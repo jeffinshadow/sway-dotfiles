@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""voz.py — escuta "ei giratina, ..." e executa (protótipo com Vosk, tudo na CPU, nada gravado em disco).
+"""voz.py — escuta "giratina, ..." e executa (protótipo com Vosk, tudo na CPU, nada gravado em disco).
 
 Roda pelo venv ~/.local/share/giratina-voz/venv (pip install vosk) como serviço de usuário
 (giratina-voz.service). Modelo: vosk-model-small-pt-0.3 em ~/.local/share/giratina-voz/modelos.
@@ -9,7 +9,7 @@ vai, em memória, pra DOIS reconhecedores:
   - gatilho: gramática fechada só com a frase "ei gira tina" (o modelo não tem "giratina", tem
     "gira" e "tina" — soa igual); mais preciso pra detectar o chamado;
   - livre: transcreve a fala pra pegar o comando.
-Falou tudo junto ("ei giratina, liga o modo tv") → executa o que veio depois do gatilho.
+Falou tudo junto ("giratina, liga o modo tv") → executa o que veio depois do gatilho.
 Falou só o gatilho → bipe e escuta o próximo pedido por até 6 s.
 O comando passa primeiro pela camada rápida (rotas.py, sem LLM); se não casar, vai pro agente
 (giratina.py --rofi), que sobe o LLM só fora do modo jogo.
@@ -29,6 +29,8 @@ RUN = Path(os.environ.get("XDG_RUNTIME_DIR", "/tmp"))
 MODO_JOGO = RUN / "modo-jogo"
 ESTADO = RUN / "giratina-voz"           # existe enquanto está ouvindo (indicador da waybar)
 SONS = Path("/usr/share/sounds/freedesktop/stereo")
+FALANDO = RUN / "giratina-falando"        # criado pelo falar.py: não escuta a própria voz
+PY = BASE / "venv/bin/python"
 TAXA = 16000
 JANELA_COMANDO = 6.0                     # s pra falar o pedido depois do bipe
 GATILHO_FRASES = ["ei gira tina", "hei gira tina", "oi gira tina", "gira tina", "[unk]"]
@@ -86,8 +88,41 @@ def waybar():
 
 
 def fonte():
+    """Prefere o microfone com cancelamento de eco (giratina-aec.service: tira o som da JBL)."""
     fontes = subprocess.run(["pactl", "list", "short", "sources"], capture_output=True, text=True).stdout
-    return "easyeffects_source" if "easyeffects_source" in fontes else None
+    for f in ("giratina_aec_source", "easyeffects_source"):
+        if f in fontes:
+            return f
+    return None
+
+
+def falar(texto):
+    subprocess.Popen([str(PY), str(AQUI / "falar.py"), texto], stdout=subprocess.DEVNULL,
+                     stderr=subprocess.DEVNULL, start_new_session=True)
+
+
+FALAS = [   # resultado da ferramenta -> frase curta falada
+    (r"^modo TV: ligar", "Ligando o modo TV."), (r"^modo TV: desligar", "Desligando o modo TV."),
+    (r"^modo TV: youtube", "Abrindo o YouTube."), (r"^modo TV: music", "Abrindo o YouTube Music."),
+    (r"^modo TV: max", "Abrindo o Max."), (r"^modo jogo: ligar", "Modo jogo ligado."),
+    (r"^modo jogo: desligar", "Modo jogo desligado."), (r"^volume em (\d+)", r"Volume em \1."),
+    (r"^brilho em (\d+)", r"Brilho em \1."), (r"^salvar_replay", "Replay salvo."), (r"^tela: ok", "Print tirado."),
+    (r"^não perturbe (\w+)", r"Não perturbe \1."), (r"^boa noite", "Boa noite!"),
+    (r"^telas apagadas", "Apagando as telas."), (r"^(Playing|Paused): (.+?) \(", r"Tocando \2."),
+]
+
+
+def resposta_falada(r):
+    r = str(r).strip()
+    for rx, f in FALAS:
+        m = re.search(rx, r)
+        if m:
+            return m.expand(f)
+    if not r or r.startswith("(ok") or r in ("ok",) or r.startswith("No players"):
+        return "Feito." if not r.startswith("No players") else "Nada tocando agora."
+    if len(r) > 140 or "\n" in r:
+        return "Pronto, mandei os detalhes na notificação."
+    return r
 
 
 def midia_tocando():
@@ -106,20 +141,21 @@ def executar(texto):
     if not pedido:
         return False
     if re.fullmatch(r"(cancela|esquece|nada|deixa)( pra la)?", rotas.normaliza(pedido)):
-        som("dialog-information"); avisar("Giratina", "cancelado"); return True
+        avisar("Giratina", "cancelado"); falar("Ok, cancelado."); return True
     log("pedido:", pedido)
     try:
         r = rotas.rotear(pedido)
     except Exception as e:
         r = (f"erro: {e}", "")
     if r:
-        som("complete")
         avisar("Giratina", f"🎙 “{pedido}”\n{r[0]}", 6000)
+        falar(resposta_falada(r[0]))
         return True
     if MODO_JOGO.exists():
-        som("dialog-warning"); avisar("Giratina", f"🎙 “{pedido}”\nModo jogo: só comandos rápidos."); return True
-    avisar("Giratina", f"🎙 “{pedido}”\npensando…")
-    subprocess.Popen(["python3", str(AQUI / "giratina.py"), "--rofi", pedido],
+        avisar("Giratina", f"🎙 “{pedido}”\nModo jogo: só comandos rápidos."); falar("No modo jogo eu só faço comandos rápidos.")
+        return True
+    avisar("Giratina", f"🎙 “{pedido}”\npensando…"); falar("Deixa eu ver.")
+    subprocess.Popen(["python3", str(AQUI / "giratina.py"), "--rofi", "--falar", pedido],
                      stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
     return True
 
@@ -152,8 +188,7 @@ def ouvir(modelo):
                 txt = json.loads(gat.Result() if fim else gat.PartialResult()).get("text" if fim else "partial", "")
                 if fim and txt and txt != "[unk]":
                     log("gatilho ouviu:", txt)
-                exige = r"\b(ei|oi|hei) gira tina\b" if midia_tocando() else r"gira tina"
-                if re.search(exige, txt) and time.time() > calma:
+                if "gira tina" in txt and time.time() > calma and not FALANDO.exists():
                     log("gatilho:", txt)
                     som("message-new-instant"); avisar("Giratina", "🎙 ouvindo…", 3000)
                     gat.Reset()
@@ -189,7 +224,7 @@ def ouvir(modelo):
             elif len(t.split()) >= 4 and not tocando:
                 executar(t)                          # pergunta aberta -> agente/LLM
             else:
-                som("dialog-warning"); avisar("Giratina", f"🎙 não entendi ({t or g or 'nada'})", 3000)
+                avisar("Giratina", f"🎙 não entendi ({t or g or 'nada'})", 3000); falar("Não entendi.")
     finally:
         proc.terminate()
         ESTADO.unlink(missing_ok=True); waybar()
