@@ -148,7 +148,7 @@ def brilho(acao, valor=None):
     if acao in ("mais", "menos"):
         return _run([str(SCRIPTS / "brilho.sh"), acao], timeout=30)
     if acao == "definir" and valor is not None:
-        v = max(0, min(100, int(valor)))
+        v = max(10, min(100, int(valor)))             # nunca apagar a tela por engano
         buses = Path(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "ddc-buses")
         lista = buses.read_text().split() if buses.exists() else ["6", "4"]
         for b in lista:

@@ -55,11 +55,13 @@ def casar(g):
     if rotas.rotear_teste(g):
         return g
     n = rotas.normaliza(g)
-    notas = sorted(((difflib.SequenceMatcher(None, n, c).ratio(), f, r) for c, f, r in CANDIDATAS), reverse=True)
+    tem_num = bool(re.search(r"\d", n))          # "brilho" sozinho não vira "brilho zero"
+    notas = sorted(((difflib.SequenceMatcher(None, n, c).ratio(), f, r) for c, f, r in CANDIDATAS
+                    if tem_num or not re.search(r"\d", c)), reverse=True)
     nota, frase, rota = notas[0]
     rival = next((x for x in notas[1:] if x[2] is not rota), None)
     log(f"casar: {g!r} -> {frase!r} ({nota:.2f}; rival {rival[1]!r} {rival[0]:.2f})" if rival else "")
-    if nota < 0.8 or (rival and nota - rival[0] < 0.06):
+    if nota < 0.85 or len(n) < 0.75 * len(rotas.normaliza(frase)) or (rival and nota - rival[0] < 0.06):
         return None
     return frase
 GATILHO_RX = re.compile(r"\b(e[iy]|hei|oi|o)?\s*gira\s*(a\s*)?tina\b|\bgiratina\b")
@@ -86,6 +88,14 @@ def waybar():
 def fonte():
     fontes = subprocess.run(["pactl", "list", "short", "sources"], capture_output=True, text=True).stdout
     return "easyeffects_source" if "easyeffects_source" in fontes else None
+
+
+def midia_tocando():
+    """Modo TV ligado ou algum player tocando: o som da JBL pode imitar o gatilho."""
+    if (RUN / "modo-tv").exists():
+        return True
+    r = subprocess.run(["playerctl", "-a", "status"], capture_output=True, text=True)
+    return "Playing" in r.stdout
 
 
 def executar(texto):
@@ -124,10 +134,10 @@ def ouvir(modelo):
     proc = subprocess.Popen(cmd + ["-"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     gat = vosk.KaldiRecognizer(modelo, TAXA, json.dumps(GATILHO_FRASES))
     livre = cmd_g = None
-    folga = collections.deque(maxlen=7)            # ~0,9 s antes do disparo (o começo do comando)
+    folga = collections.deque(maxlen=16)           # ~2 s antes do disparo (o começo do comando)
     ESTADO.touch(); waybar()
     log("ouvindo", src or "(fonte padrão)")
-    ate = 0.0
+    ate = calma = 0.0
     try:
         while True:
             if MODO_JOGO.exists():
@@ -142,7 +152,8 @@ def ouvir(modelo):
                 txt = json.loads(gat.Result() if fim else gat.PartialResult()).get("text" if fim else "partial", "")
                 if fim and txt and txt != "[unk]":
                     log("gatilho ouviu:", txt)
-                if "gira tina" in txt:
+                exige = r"\b(ei|oi|hei) gira tina\b" if midia_tocando() else r"gira tina"
+                if re.search(exige, txt) and time.time() > calma:
                     log("gatilho:", txt)
                     som("message-new-instant"); avisar("Giratina", "🎙 ouvindo…", 3000)
                     gat.Reset()
@@ -167,10 +178,15 @@ def ouvir(modelo):
             t = (t[GATILHO_RX.search(t).end():] if GATILHO_RX.search(t) else t).strip()
             log(f"comando: gramática={g!r} livre={t!r}")
             livre = cmd_g = None
+            calma = time.time() + 2.0
             frase = casar(g)
+            tocando = midia_tocando()
+            if frase and tocando and len(t.split()) > len(frase.split()) + 4:
+                log("descartado: fala demais pra um comando (provavelmente o áudio da TV)")
+                frase = None; t = ""
             if frase:
                 executar(frase)
-            elif len(t.split()) >= 4:
+            elif len(t.split()) >= 4 and not tocando:
                 executar(t)                          # pergunta aberta -> agente/LLM
             else:
                 som("dialog-warning"); avisar("Giratina", f"🎙 não entendi ({t or g or 'nada'})", 3000)
