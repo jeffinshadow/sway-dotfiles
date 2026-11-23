@@ -1,0 +1,3 @@
+# Extras só da giratina (somados aos de packages/pacman.txt pelo install.sh)
+# Backup diário no Google Drive (hosts/shadowtec-giratina/backup) e mDNS do controle da TV
+restic rclone avahi

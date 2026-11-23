@@ -1,0 +1,13 @@
+# O que vai pro Drive (um caminho por linha; ~ = home)
+~/Documentos
+~/Imagens
+~/Vídeos
+~/Claudio
+~/.dotfiles
+~/backups
+~/.ssh
+~/.gnupg
+~/.local/share/keyrings
+~/.local/share/easyeffects
+~/.config
+/srv/docker

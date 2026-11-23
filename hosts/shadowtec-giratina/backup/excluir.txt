@@ -1,0 +1,19 @@
+# Fica de fora (padrões do restic)
+node_modules
+.venv
+__pycache__
+.next
+.cache
+*.tmp
+# navegadores: só cache e dados de sites (favoritos, senhas e extensões entram)
+/home/shadow/.config/chromium/*/Service Worker
+/home/shadow/.config/chromium/*/IndexedDB
+/home/shadow/.config/chromium/*/GPUCache
+/home/shadow/.config/chromium/*/Code Cache
+/home/shadow/.config/chromium/Default/Cache
+/home/shadow/.config/mozilla/firefox/*/storage
+/home/shadow/.config/mozilla/firefox/*/cache2
+/home/shadow/.config/vesktop/Cache
+/home/shadow/.config/vesktop/Code Cache
+/home/shadow/.config/vesktop/GPUCache
+/home/shadow/.config/vesktop/Service Worker

@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup diário no Google Drive às 05:15 (depois da cópia da produção, 04:40)
+
+[Timer]
+OnCalendar=*-*-* 05:15:00
+Persistent=true
+RandomizedDelaySec=10min
+
+[Install]
+WantedBy=timers.target
