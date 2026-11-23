@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Agente local
+GenericName=Agente de terminal com os LLMs locais (OpenCode)
+Comment=Estilo Claude Code: lê/edita arquivos, roda comandos, pesquisa na web, vê imagens. Isolado; não abre no modo jogo.
+Exec=ghostty --working-directory=/home/shadow -e /home/shadow/.dotfiles/apps/llm/ia.sh
+Icon=utilities-terminal
+Terminal=false
+Categories=Utility;Development;
+Keywords=ia;ai;llm;agente;opencode;qwen;local;

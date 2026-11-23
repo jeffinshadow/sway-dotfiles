@@ -1,0 +1,15 @@
+# SearXNG do agente local: só escuta na rede do compose (e em 127.0.0.1:8888 pra depuração).
+# A chave secreta vem de SEARXNG_SECRET (~/.config/llm/servicos.env, fora do git).
+use_default_settings: true
+general:
+  instance_name: "busca local"
+server:
+  limiter: false          # só acessível da própria máquina
+  image_proxy: false
+  public_instance: false
+search:
+  safe_search: 0
+  default_lang: "all"
+  formats: [html, json]   # o MCP usa JSON
+ui:
+  default_locale: "pt-BR"

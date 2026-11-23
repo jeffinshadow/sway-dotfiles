@@ -20,3 +20,40 @@ services:
       - "127.0.0.1:8080:8080"
     command: --models-preset /config/modelos.ini --models-max 1 --path /chat --host 0.0.0.0 --port 8080
     restart: "no"
+
+  # pesquisa web privada pro agente (OpenCode): SearXNG + MCP de busca/leitura de páginas.
+  # Sobem e descem junto com o LLM; só em 127.0.0.1; MCP exige token (~/.config/llm/mcp-token).
+  searxng:
+    image: searxng/searxng:2026.11.21-c6ee3e9fd
+    container_name: llm-searxng
+    env_file: ${HOME}/.config/llm/servicos.env
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+    ports:
+      - "127.0.0.1:8888:8080"
+    cap_drop: [ALL]
+    cap_add: [CHOWN, SETGID, SETUID, DAC_OVERRIDE]
+    restart: "no"
+
+  mcp-web:
+    image: isokoliuk/mcp-searxng:2.11.0
+    container_name: llm-mcp-web
+    env_file: ${HOME}/.config/llm/servicos.env
+    environment:
+      SEARXNG_URL: http://searxng:8080
+      MCP_HTTP_PORT: "3010"
+      MCP_HTTP_HOST: 0.0.0.0
+      MCP_HTTP_HARDEN: "true"
+      MCP_HTTP_ALLOWED_HOSTS: "127.0.0.1:3010,localhost:3010"
+      MCP_HTTP_ALLOWED_ORIGINS: "http://127.0.0.1:3010"   # sem navegador: só clientes CLI
+      SEARXNG_LITE_TOOLS: "true"          # esquemas mínimos: poupa contexto do modelo local
+      SEARXNG_MAX_RESULTS: "8"
+      SEARXNG_MAX_RESULT_CHARS: "400"
+      URL_READ_MAX_CHARS: "12000"
+    ports:
+      - "127.0.0.1:3010:3010"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    depends_on: [searxng]
+    restart: "no"

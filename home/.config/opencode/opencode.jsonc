@@ -1,0 +1,177 @@
+// OpenCode v2 — agente local (estilo Claude Code) com os modelos do llama-server da giratina.
+// Abra pelo `ia` (apps/llm/ia.sh): sobe o LLM, roda isolado (bubblewrap) e derruba o LLM ao sair.
+// Modelos = seções do ~/.dotfiles/apps/llm/modelos.ini; as chaves daqui são apelidos sem espaço.
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "llama/qwen35b",
+
+  "providers": {
+    "llama": {
+      "name": "LLM local (llama.cpp)",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": { "baseURL": "http://127.0.0.1:8080/v1", "headerTimeout": 900000 },
+      "compatibility": { "maxTokensField": "max_tokens", "reasoningField": "reasoning_content" },
+      "models": {
+        // agente: o melhor em código (SWE-bench V 73,4), ~16-18 t/s, 64k, lê imagens
+        "qwen35b": {
+          "modelID": "Qwen3.6 35B pesado",
+          "name": "Qwen3.6 35B (agente)",
+          "capabilities": { "tools": true, "input": ["text", "image"], "output": ["text"],
+                            "reasoning": { "supported": true } },
+          "limit": { "context": 65536, "output": 16384 },
+          "variants": [
+            { "id": "rapido", "body": { "chat_template_kwargs": { "enable_thinking": false } } }
+          ]
+        },
+        // rápido: ~42 t/s, 48k, lê imagens; sem raciocínio por padrão (loops de ferramenta mais rápidos)
+        "qwen9b": {
+          "modelID": "Qwen3.5 9B",
+          "name": "Qwen3.5 9B (rápido)",
+          "capabilities": { "tools": true, "input": ["text", "image"], "output": ["text"] },
+          "limit": { "context": 49152, "output": 8192 },
+          "body": { "chat_template_kwargs": { "enable_thinking": false } },
+          "variants": [
+            { "id": "pensar", "body": { "chat_template_kwargs": { "enable_thinking": true } } }
+          ]
+        },
+        "qwen8b": {
+          "modelID": "Qwen3 8B rápido",
+          "name": "Qwen3 8B (respostas curtas)",
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 24576, "output": 4096 },
+          "body": { "chat_template_kwargs": { "enable_thinking": false } }
+        }
+      }
+    }
+  },
+
+  // contexto pequeno: o padrão (reservar 15%, no mínimo 16k) compactaria cedo demais
+  "compaction": { "auto": true, "buffer": 8192, "keep": { "tokens": 8000 } },
+
+  // pesquisa web privada: SearXNG local + MCP (sobe junto com o LLM; token fora do git)
+  "mcp": {
+    "servers": {
+      "web": {
+        "type": "remote",
+        "url": "http://127.0.0.1:3010/mcp",
+        "oauth": false,
+        "headers": { "Authorization": "Bearer {file:~/.config/llm/mcp-token}" }
+      }
+    }
+  },
+
+  // Permissões: vale a ÚLTIMA regra que casar. São a 1ª camada (pegam o erro honesto);
+  // a barreira real é o bubblewrap do ia.sh (sem docker.sock, sem ~/.ssh, sistema só leitura).
+  "permissions": [
+    { "action": "*", "resource": "*", "effect": "ask" },
+
+    { "action": "read", "resource": "*", "effect": "allow" },
+    { "action": "glob", "resource": "*", "effect": "allow" },
+    { "action": "grep", "resource": "*", "effect": "allow" },
+    { "action": "skill", "resource": "*", "effect": "allow" },
+    { "action": "subagent", "resource": "*", "effect": "allow" },
+    { "action": "question", "resource": "*", "effect": "allow" },
+    { "action": "edit", "resource": "*", "effect": "ask" },
+
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
+    { "action": "external_directory", "resource": "~/.dotfiles/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/.config/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/Documentos/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/Claudio/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "/srv/docker/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" },
+
+    // web: busca liberada; ler página pergunta (o resultado pode trazer instruções maliciosas)
+    { "action": "web_searxng_web_search", "resource": "*", "effect": "allow" },
+    { "action": "web_searxng_search_suggestions", "resource": "*", "effect": "allow" },
+    { "action": "web_web_url_read", "resource": "*", "effect": "ask" },
+    { "action": "webfetch", "resource": "*", "effect": "ask" },
+    { "action": "webfetch", "resource": "https://wiki.archlinux.org/*", "effect": "allow" },
+    { "action": "webfetch", "resource": "https://wiki.cachyos.org/*", "effect": "allow" },
+    // busca embutida usa serviços pagos externos (Exa/Tavily...): fora, usar o MCP "web"
+    { "action": "websearch", "resource": "*", "effect": "deny" },
+    // modo código do MCP atrapalha modelo pequeno: lista as ferramentas direto
+    { "action": "execute", "resource": "*", "effect": "deny" },
+
+    // shell: pergunta por padrão; leitura/diagnóstico liberados
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    { "action": "shell", "resource": "ls*", "effect": "allow" },
+    { "action": "shell", "resource": "cat *", "effect": "allow" },
+    { "action": "shell", "resource": "head *", "effect": "allow" },
+    { "action": "shell", "resource": "tail *", "effect": "allow" },
+    { "action": "shell", "resource": "wc *", "effect": "allow" },
+    { "action": "shell", "resource": "grep *", "effect": "allow" },
+    { "action": "shell", "resource": "rg *", "effect": "allow" },
+    { "action": "shell", "resource": "find *", "effect": "allow" },
+    { "action": "shell", "resource": "readlink *", "effect": "allow" },
+    { "action": "shell", "resource": "stat *", "effect": "allow" },
+    { "action": "shell", "resource": "file *", "effect": "allow" },
+    { "action": "shell", "resource": "pwd", "effect": "allow" },
+    { "action": "shell", "resource": "which *", "effect": "allow" },
+    { "action": "shell", "resource": "git status*", "effect": "allow" },
+    { "action": "shell", "resource": "git diff*", "effect": "allow" },
+    { "action": "shell", "resource": "git log*", "effect": "allow" },
+    { "action": "shell", "resource": "git show*", "effect": "allow" },
+    { "action": "shell", "resource": "git branch*", "effect": "allow" },
+    { "action": "shell", "resource": "sway -C *", "effect": "allow" },
+    { "action": "shell", "resource": "swaymsg -t get_*", "effect": "allow" },
+    { "action": "shell", "resource": "journalctl *", "effect": "allow" },
+    { "action": "shell", "resource": "systemctl --user status *", "effect": "allow" },
+    { "action": "shell", "resource": "systemctl status *", "effect": "allow" },
+    { "action": "shell", "resource": "systemctl --failed*", "effect": "allow" },
+    { "action": "shell", "resource": "pacman -Q*", "effect": "allow" },
+    { "action": "shell", "resource": "pacman -Ss *", "effect": "allow" },
+    { "action": "shell", "resource": "pacman -Si *", "effect": "allow" },
+    { "action": "shell", "resource": "paru -Ss *", "effect": "allow" },
+    { "action": "shell", "resource": "checkupdates*", "effect": "allow" },
+    { "action": "shell", "resource": "magick identify *", "effect": "allow" },
+    { "action": "shell", "resource": "df *", "effect": "allow" },
+    { "action": "shell", "resource": "free *", "effect": "allow" },
+    { "action": "shell", "resource": "lsblk*", "effect": "allow" },
+    { "action": "shell", "resource": "uname *", "effect": "allow" },
+
+    // negados (mesmo se o usuário aprovar sem ler)
+    { "action": "shell", "resource": "sudo *", "effect": "deny" },
+    { "action": "shell", "resource": "su *", "effect": "deny" },
+    { "action": "shell", "resource": "pkexec *", "effect": "deny" },
+    { "action": "shell", "resource": "doas *", "effect": "deny" },
+    { "action": "shell", "resource": "rm -rf *", "effect": "deny" },
+    { "action": "shell", "resource": "rm -fr *", "effect": "deny" },
+    { "action": "shell", "resource": "rm -r *", "effect": "deny" },
+    { "action": "shell", "resource": "find * -delete*", "effect": "deny" },
+    { "action": "shell", "resource": "find * -exec rm*", "effect": "deny" },
+    { "action": "shell", "resource": "git push*", "effect": "deny" },
+    { "action": "shell", "resource": "git reset --hard*", "effect": "deny" },
+    { "action": "shell", "resource": "git clean *", "effect": "deny" },
+    { "action": "shell", "resource": "docker *", "effect": "deny" },
+    { "action": "shell", "resource": "*llm.sh*", "effect": "deny" },
+    { "action": "shell", "resource": "*modo-jogo.sh*", "effect": "deny" },
+    { "action": "shell", "resource": "pacman -S*", "effect": "deny" },
+    { "action": "shell", "resource": "pacman -R*", "effect": "deny" },
+    { "action": "shell", "resource": "pacman -U*", "effect": "deny" },
+    { "action": "shell", "resource": "paru -S*", "effect": "deny" },
+    { "action": "shell", "resource": "paru -R*", "effect": "deny" },
+    { "action": "shell", "resource": "dd *", "effect": "deny" },
+    { "action": "shell", "resource": "mkfs*", "effect": "deny" },
+    { "action": "shell", "resource": "chown *", "effect": "deny" },
+    { "action": "shell", "resource": "chmod -R *", "effect": "deny" },
+    { "action": "shell", "resource": "sed -i*.config/*", "effect": "deny" },
+    { "action": "shell", "resource": "curl * | *sh*", "effect": "deny" },
+    { "action": "shell", "resource": "wget * | *sh*", "effect": "deny" },
+
+    { "action": "edit", "resource": "/etc/*", "effect": "deny" },
+    { "action": "edit", "resource": "/usr/*", "effect": "deny" },
+    { "action": "edit", "resource": "*/.git/*", "effect": "deny" },
+    { "action": "edit", "resource": "~/.config/opencode/*", "effect": "deny" },
+    { "action": "edit", "resource": "~/.dotfiles/home/.config/opencode/*", "effect": "deny" },
+    { "action": "read", "resource": "*/.env", "effect": "deny" },
+    { "action": "read", "resource": "*/.env.*", "effect": "deny" },
+    { "action": "read", "resource": "*.env.example", "effect": "allow" },
+    { "action": "read", "resource": "~/.ssh/*", "effect": "deny" },
+    { "action": "read", "resource": "~/.config/llm/*", "effect": "deny" },
+    { "action": "read", "resource": "~/.config/restic/*", "effect": "deny" },
+    { "action": "read", "resource": "~/.config/rclone/*", "effect": "deny" },
+    { "action": "read", "resource": "/srv/docker/*/backups/*", "effect": "deny" },
+    { "action": "read", "resource": "/srv/docker/*/.deploy/*", "effect": "deny" }
+  ]
+}
