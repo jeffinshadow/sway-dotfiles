@@ -1,0 +1,15 @@
+# Undervolt da RX 9050 (-50 mV no offset de tensão da GPU). O LACT aceita a opção mas não
+# aplica nesta placa (RDNA4), então vai direto no sysfs: no boot e sempre que o LACT
+# (re)inicia, depois dele. Instalar em /etc/systemd/system e: systemctl enable --now gpu-undervolt
+# Instável (driver resetando em jogo)? Trocar -50 por -30 ou desativar o serviço.
+[Unit]
+Description=Undervolt da GPU (RX 9050, -50 mV)
+After=lactd.service
+ConditionPathExists=/sys/bus/pci/devices/0000:09:00.0/pp_od_clk_voltage
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'f=/sys/bus/pci/devices/0000:09:00.0/pp_od_clk_voltage; echo "vo -50" > "$f" && echo c > "$f"'
+
+[Install]
+WantedBy=multi-user.target lactd.service
