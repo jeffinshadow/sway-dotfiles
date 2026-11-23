@@ -88,7 +88,7 @@ def ouvir(modelo):
     """Só o detector de gatilho (gramática fechada, leve) roda o tempo todo. Ao ouvir "gira tina"
     (já no resultado parcial), liga o reconhecedor livre pro comando, com ~0,4 s de áudio de folga."""
     src = fonte()
-    cmd = ["pw-record", "--rate", str(TAXA), "--channels", "1", "--format", "s16", "--latency", "100ms"]
+    cmd = ["pw-record", "--raw", "--rate", str(TAXA), "--channels", "1", "--format", "s16", "--latency", "100ms"]
     if src:
         cmd += ["--target", src]
     proc = subprocess.Popen(cmd + ["-"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
@@ -110,6 +110,8 @@ def ouvir(modelo):
                 folga.append(dados)
                 fim = gat.AcceptWaveform(dados)
                 txt = json.loads(gat.Result() if fim else gat.PartialResult()).get("text" if fim else "partial", "")
+                if fim and txt and txt != "[unk]":
+                    log("gatilho ouviu:", txt)
                 if "gira tina" in txt:
                     log("gatilho:", txt)
                     som("message-new-instant"); avisar("Giratina", "🎙 ouvindo…", 3000)
