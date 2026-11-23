@@ -118,7 +118,8 @@
     "exec": "~/.config/waybar/scripts/docker.sh",
     "return-type": "json",
     "interval": 10,
-    "on-click": "ghostty -e docker stats"
+    "on-click": "ghostty -e docker stats",
+    "on-click-right": "~/.config/sway/scripts/homolog.sh"
   },
 
   "custom/vpn": {

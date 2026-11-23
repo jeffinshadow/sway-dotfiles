@@ -1,0 +1,163 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "positionX": "right",
+  "positionY": "top",
+  "layer": "overlay",
+  "control-center-layer": "overlay",
+  "layer-shell": true,
+  "cssPriority": "user",
+  "control-center-width": 440,
+  "control-center-height": -1,
+  "fit-to-screen": false,
+  "control-center-margin-top": 8,
+  "control-center-margin-right": 8,
+  "notification-window-preferred-output": "HDMI-A-1",
+  "notification-window-width": 400,
+  "notification-icon-size": 48,
+  "notification-body-image-height": 120,
+  "notification-body-image-width": 200,
+  "timeout": 8,
+  "timeout-low": 4,
+  "timeout-critical": 0,
+  "notification-grouping": true,
+  "keyboard-shortcuts": true,
+  "hide-on-clear": true,
+  "hide-on-action": true,
+  "image-visibility": "when-available",
+  "transition-time": 150,
+  "script-fail-notify": true,
+  "notification-visibility": {
+    "brilho-e-volume-sem-historico": {
+      "state": "transient",
+      "app-name": "^(brilho|dnd|floating)$"
+    }
+  },
+  "widgets": [
+    "title",
+    "buttons-grid",
+    "volume",
+    "slider#mic",
+    "slider#brilho",
+    "mpris",
+    "inhibitors",
+    "notifications"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "Giratina",
+      "clear-all-button": true,
+      "button-text": "Limpar"
+    },
+    "buttons-grid": {
+      "buttons-per-row": 4,
+      "actions": [
+        {
+          "label": "󰊴\nJogo",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh jogo estado",
+          "command": "~/.config/sway/scripts/painel.sh jogo"
+        },
+        {
+          "label": "󰔂\nTV",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh tv estado",
+          "command": "~/.config/sway/scripts/painel.sh tv"
+        },
+        {
+          "label": "󰂛\nNão perturbe",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh dnd estado",
+          "command": "~/.config/sway/scripts/painel.sh dnd"
+        },
+        {
+          "label": "󰅶\nCafeína",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh cafeina estado",
+          "command": "~/.config/sway/scripts/painel.sh cafeina"
+        },
+        {
+          "label": "󰖔\nLuz noturna",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh luz estado",
+          "command": "~/.config/sway/scripts/painel.sh luz"
+        },
+        {
+          "label": "󰍹\nFreeSync",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh freesync estado",
+          "command": "~/.config/sway/scripts/painel.sh freesync"
+        },
+        {
+          "label": "󰑋\nReplay",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh replay estado",
+          "command": "~/.config/sway/scripts/painel.sh replay"
+        },
+        {
+          "label": "󰂰\nJBL",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh jbl estado",
+          "command": "~/.config/sway/scripts/painel.sh jbl"
+        },
+        {
+          "label": "󰭹\nChat local",
+          "type": "toggle",
+          "update-command": "~/.config/sway/scripts/painel.sh chat estado",
+          "command": "~/.config/sway/scripts/painel.sh chat"
+        },
+        {
+          "label": "󱚣\nAgente local",
+          "command": "~/.config/sway/scripts/painel.sh agente"
+        },
+        {
+          "label": "󰄀\nSalvar replay",
+          "command": "~/.config/sway/scripts/painel.sh salvar-replay"
+        },
+        {
+          "label": "󰹑\nCaptura",
+          "command": "~/.config/sway/scripts/painel.sh captura"
+        }
+      ]
+    },
+    "volume": {
+      "label": "󰂰",
+      "show-per-app": true,
+      "show-per-app-icon": true,
+      "show-per-app-label": false,
+      "expand-per-app": false,
+      "empty-list-label": "Nada tocando",
+      "expand-button-label": "󰅀",
+      "collapse-button-label": "󰅃"
+    },
+    "slider#mic": {
+      "label": "󰍬",
+      "min": 0,
+      "max": 100,
+      "max_limit": 100,
+      "cmd_getter": "~/.config/sway/scripts/painel.sh mic",
+      "cmd_setter": "~/.config/sway/scripts/painel.sh mic $value"
+    },
+    "slider#brilho": {
+      "label": "󰃟",
+      "min": 0,
+      "max": 100,
+      "min_limit": 5,
+      "cmd_getter": "~/.config/sway/scripts/painel.sh brilho",
+      "cmd_setter": "~/.config/sway/scripts/painel.sh brilho $value"
+    },
+    "mpris": {
+      "show-album-art": "always",
+      "autohide": true,
+      "loop-carousel": false,
+      "blacklist": [
+        "playerctld",
+        "kdeconnect"
+      ]
+    },
+    "inhibitors": {
+      "text": "Silenciado por",
+      "button-text": "Liberar",
+      "clear-all-button": true
+    }
+  }
+}

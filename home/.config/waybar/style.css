@@ -9,6 +9,7 @@
 @define-color base      #0C0D0E;
 @define-color surface   #1A1A1C;
 @define-color surface2  #2C2C2D;
+@define-color container #222324;   /* "contêiner alto" da paleta: menus e popups (igual ao rofi) */
 @define-color outline   #323235;
 @define-color accent    #5294E2;
 @define-color accent_lt #8AB8F0;
@@ -35,7 +36,7 @@ window#waybar {
 }
 
 tooltip {
-  background: @surface2;
+  background: @container;
   border: 1px solid @outline;
   border-radius: 8px;
 }
@@ -54,6 +55,7 @@ tooltip label { color: @text; }
 #gamemode,
 #custom-docker,
 #custom-tunnel,
+#custom-vpn,
 #custom-rec,
 #custom-dnd,
 #custom-jogo,

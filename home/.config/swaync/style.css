@@ -1,0 +1,99 @@
+/* ~/.config/swaync/style.css — Shadow Materia (SwayNC 0.12.x, GTK4: variáveis CSS do próprio swaync) */
+:root {
+  --cc-bg: rgba(12, 13, 14, 0.94);          /* base #0C0D0E */
+  --noti-bg: 38, 47, 60;                    /* #262F3C, igual ao mako (rgb sem alpha) */
+  --noti-bg-alpha: 0.97;
+  --noti-bg-darker: #1A1A1C;                /* surface */
+  --noti-bg-hover: #2C2C2D;                 /* surface2 */
+  --noti-bg-focus: rgba(82, 148, 226, 0.18);
+  --noti-close-bg: #2C2C2D;
+  --noti-close-bg-hover: #F28B82;
+  --noti-border-color: #323235;             /* outline */
+  --text-color: #F0EDEE;
+  --text-color-disabled: #919093;
+  --bg-selected: #5294E2;                   /* accent */
+  --border-radius: 14px;
+  --notification-icon-size: 48px;
+  --font-size-body: 14px;
+  --font-size-summary: 15px;
+  --mpris-album-art-overlay: rgba(12, 13, 14, 0.62);
+  --mpris-album-art-icon-size: 72px;
+}
+
+* { font-family: "Google Sans", "Symbols Nerd Font", sans-serif; }
+
+/* ---------- popups ---------- */
+.notification {
+  border: 2px solid #5294E2;
+  border-radius: var(--border-radius);
+}
+.notification.low      { border-color: #49494B; background: #222324; color: #ACABAD; }
+.notification.critical { border: 3px solid #F28B82; }
+.notification .summary { font-weight: 700; }
+.notification progressbar progress { background: #5294E2; border-radius: 4px; }
+
+/* ---------- control center ---------- */
+.control-center {
+  background: var(--cc-bg);
+  border: 1px solid #323235;
+  border-radius: 18px;
+  padding: 10px 6px;
+}
+.control-center .notification { border-width: 1px; border-color: #323235; }
+.notification-group-header { color: #919093; font-weight: 600; }
+
+.widget-title > label { font-size: 1.15rem; font-weight: 700; color: #F0EDEE; }
+.widget-title > button {
+  background: #1A1A1C; border: 1px solid #323235; border-radius: 10px; padding: 4px 12px;
+}
+.widget-title > button:hover { background: #F28B82; color: #0B0D10; }
+
+/* Botões estilo quick settings: pílula escura -> azul quando ligado */
+.widget-buttons-grid { padding: 6px 10px; }
+.widget-buttons-grid flowboxchild > button {
+  min-height: 62px;
+  margin: 3px;
+  border-radius: 16px;
+  background: #1A1A1C;
+  border: 1px solid #323235;
+  color: #F0EDEE;
+  font-size: 0.82rem;
+  transition: background 120ms ease;
+}
+.widget-buttons-grid flowboxchild > button label { font-size: 0.82rem; }
+.widget-buttons-grid flowboxchild > button:hover { background: #2C2C2D; }
+.widget-buttons-grid flowboxchild > button.toggle:checked {
+  background: #5294E2;
+  border-color: #8AB8F0;
+  color: #0B0D10;
+  font-weight: 700;
+}
+.widget-buttons-grid flowboxchild > button.toggle:checked:hover { background: #8AB8F0; }
+/* ordem fixa do grid: 1 = Jogo (verde), 2 = TV (âmbar) ganham cor própria quando ligados */
+.widget-buttons-grid flowboxchild:nth-child(1) > button.toggle:checked { background: #78CA9F; border-color: #78CA9F; }
+.widget-buttons-grid flowboxchild:nth-child(2) > button.toggle:checked { background: #F2DA66; border-color: #F2DA66; }
+
+/* Sliders (volume JBL, mic, brilho) */
+.widget-volume, .widget-slider {
+  background: #1A1A1C;
+  border: 1px solid #323235;
+  border-radius: 16px;
+  margin: 4px 12px;
+  padding: 6px 12px;
+}
+.widget-volume > box > label, .widget-slider > label { font-size: 1.2rem; min-width: 28px; color: #8AB8F0; }
+scale trough { background: #2C2C2D; min-height: 8px; border-radius: 6px; }
+scale highlight { background: #5294E2; border-radius: 6px; }
+scale slider { background: #F0EDEE; min-width: 16px; min-height: 16px; border-radius: 50%; box-shadow: none; }
+.per-app-volume { padding-top: 4px; }
+
+/* Player */
+.widget-mpris .widget-mpris-player { margin: 8px 12px; border-radius: 16px; border: 1px solid #323235; }
+.widget-mpris .widget-mpris-subtitle { color: #ACABAD; }
+
+/* Inibidores (modo jogo / modo TV seguram as notificações) */
+.widget-inhibitors {
+  margin: 4px 12px; padding: 6px 12px; border-radius: 12px;
+  background: rgba(242, 218, 102, 0.12); color: #F2DA66;
+}
+.widget-inhibitors > button { background: transparent; color: #F2DA66; border: 1px solid #F2DA66; border-radius: 10px; }

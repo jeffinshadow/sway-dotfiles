@@ -1,6 +1,9 @@
 /* ~/.config/rofi/config.rasi */
 configuration {
-    modi:                "drun,run,window";
+    modi:                "drun,run,window,ssh";
+    /* SSH (Super+Shift+s): hosts do ~/.ssh/config, abre no terminal com o nome do host no título */
+    ssh-command:         "{terminal} --title='ssh {host}' -e {ssh-client} {host}";
+    parse-known-hosts:   false;
     show-icons:          true;
     icon-theme:          "Papirus-Dark";
     font:                "Google Sans 11";
