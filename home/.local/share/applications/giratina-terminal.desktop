@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Giratina — conversa
+GenericName=Assistente local no terminal (conversa com histórico)
+Exec=foot -a giratina /home/shadow/.dotfiles/apps/llm/agente/giratina.py
+Icon=utilities-terminal
+Terminal=false
+Categories=Utility;
+Keywords=assistente;ia;llm;giratina;chat;

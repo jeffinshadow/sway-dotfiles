@@ -3,6 +3,8 @@
 #  - foco NÃO segue o mouse (o cursor que escorrega pro monitor vertical não rouba o jogo);
 #  - não perturbe (alertas críticos continuam aparecendo);
 #  - replay buffer dos últimos 60 s (replay.sh; Super+Shift+g salva);
+#  - fecha o LLM local se estiver rodando (a VRAM e a RAM são dos jogos; o LLM só roda quando
+#    chamado explicitamente e fora do jogo);
 #  - escalonador sched_ext LAVD (modo Gaming) no lugar do EEVDF do kernel: no teste de 22/11/2026
 #    (apps/bench-sched, Cyberpunk) deu 0,1% low +27% e 20x menos travadas sem carga, e +32% de
 #    FPS com build pesado rodando junto; fora do jogo o EEVDF tem latência melhor, então volta.
@@ -28,6 +30,8 @@ ligar() {
     pkill -RTMIN+8 waybar || true; pkill -RTMIN+10 waybar || true
     "$scripts/replay.sh" iniciar
     scx start --sched lavd --mode gaming
+    llm="$HOME/.dotfiles/apps/llm/llm.sh"           # LLM local fora: VRAM/RAM pros jogos
+    [[ -x "$llm" ]] && "$llm" estado 2>/dev/null | grep -q rodando && setsid -f "$llm" parar >/dev/null 2>&1
 }
 
 desligar() {

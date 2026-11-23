@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# llm.sh abrir [padrao|rapido|pesado] | parar | estado — LLM local sob demanda (compose.yaml ao lado).
+# llm.sh abrir|subir [padrao|rapido|pesado] | parar | estado — LLM local sob demanda (compose.yaml ao lado).
 #   abrir: sobe o perfil (troca se outro estiver no ar), espera carregar e abre a interface web
+#   subir: idem, sem abrir o navegador (usado pelo assistente giratina); sai 0 quando estiver pronto
 #   parar: derruba o container e libera a VRAM (e a RAM do perfil pesado)
 #
 # Perfis, medidos na RX 9050 em 22/11/2026 (llama.cpp build 12627, Vulkan; desktop ocupa ~1,1 GB):
@@ -32,10 +33,14 @@ perfil() {
 }
 
 case "${1:-abrir}" in
-  abrir)
-    p="${2:-padrao}"; perfil "$p"
+  abrir|subir)
+    acao="$1"; p="${2:-padrao}"; perfil "$p"
+    if [[ -e "${XDG_RUNTIME_DIR:-/tmp}/modo-jogo" ]]; then     # jogando: LLM fica fora
+      notify-send -a llm -t 4000 -i applications-science "LLM local" "Modo jogo ligado: o LLM só roda fora do jogo."; exit 1
+    fi
     if curl -sf "$url/health" >/dev/null && [[ "$(cat "$atual" 2>/dev/null)" == "$p" ]]; then
-      xdg-open "$url" >/dev/null 2>&1 & exit 0
+      [[ "$acao" == abrir ]] && { xdg-open "$url" >/dev/null 2>&1 & }
+      exit 0
     fi
     [[ -f "$modelos/$arq" ]] || { notify-send -a llm -u critical "LLM local" "Modelo não encontrado: $arq"; exit 1; }
     notify-send -a llm -t 4000 -i applications-science "LLM local" "Carregando $nome…"
@@ -43,10 +48,11 @@ case "${1:-abrir}" in
     echo "$p" > "$atual"
     for _ in $(seq 1 180); do curl -sf "$url/health" >/dev/null && break; sleep 1; done
     curl -sf "$url/health" >/dev/null || { notify-send -a llm -u critical "LLM local" "Não subiu: docker logs llm"; exit 1; }
-    xdg-open "$url" >/dev/null 2>&1 & ;;
+    [[ "$acao" == abrir ]] && { xdg-open "$url" >/dev/null 2>&1 & }
+    exit 0 ;;
   parar)
     dc down >/dev/null 2>&1; rm -f "$atual"
     notify-send -a llm -t 3000 -i applications-science "LLM local" "Parado (VRAM liberada)." ;;
   estado) curl -sf "$url/health" >/dev/null && echo "rodando: $(cat "$atual" 2>/dev/null || echo ?)" || echo parado ;;
-  *) echo "uso: $0 abrir [padrao|rapido|pesado] | parar | estado" >&2; exit 2 ;;
+  *) echo "uso: $0 abrir|subir [padrao|rapido|pesado] | parar | estado" >&2; exit 2 ;;
 esac
