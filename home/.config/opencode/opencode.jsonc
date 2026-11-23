@@ -22,7 +22,8 @@
           // tokens pra mesma resposta). #pensar liga pra tarefas difíceis (planejar, depurar)
           "body": { "chat_template_kwargs": { "enable_thinking": false } },
           "variants": [
-            { "id": "pensar", "body": { "chat_template_kwargs": { "enable_thinking": true } } }
+            { "id": "pensar", "body": { "chat_template_kwargs": { "enable_thinking": true },
+                                        "thinking_budget_tokens": 2048 } }
           ]
         },
         // rápido: ~42 t/s, 48k, lê imagens; sem raciocínio por padrão (loops de ferramenta mais rápidos)
@@ -33,7 +34,8 @@
           "limit": { "context": 49152, "output": 8192 },
           "body": { "chat_template_kwargs": { "enable_thinking": false } },
           "variants": [
-            { "id": "pensar", "body": { "chat_template_kwargs": { "enable_thinking": true } } }
+            { "id": "pensar", "body": { "chat_template_kwargs": { "enable_thinking": true },
+                                        "thinking_budget_tokens": 2048 } }
           ]
         },
         "qwen8b": {
@@ -45,6 +47,13 @@
         }
       }
     }
+  },
+
+  // raciocínio sob demanda: o agente principal trabalha sem raciocinar (rápido) e chama o
+  // subagente "pensador" (mesmo modelo, raciocínio ligado com teto de 2048 tokens) nos problemas
+  // difíceis; o modo planejar (Tab) também raciocina. Mesmo modelo = sem troca no roteador.
+  "agents": {
+    "plan": { "model": "llama/qwen35b#pensar" }
   },
 
   // contexto pequeno: o padrão (reservar 15%, no mínimo 16k) compactaria cedo demais

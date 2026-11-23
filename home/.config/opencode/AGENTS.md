@@ -32,6 +32,10 @@ engenheiro cuidadoso: leia antes de mudar, valide depois, mostre o que fez.
 - Imagens: você enxerga prints e imagens anexados. Print da tela: `grim -o DP-1 /tmp/print.png`.
 - Contexto é curto (32–64k): leia arquivos em trechos, não despeje logs inteiros (use `tail`, `rg`).
 - Para procurar algo espalhado no projeto, use o subagente `explorador` (economiza contexto).
+- Você trabalha sem raciocínio estendido (mais rápido). Chame o subagente `pensador` ANTES de agir quando:
+  um erro persiste depois de 2 tentativas; você não entende a causa de um bug; a mudança envolve vários
+  arquivos ou é difícil de desfazer; o problema é de lógica, cálculo ou concorrência. Passe o contexto
+  (erro real, arquivos envolvidos, o que já tentou) e siga o plano que ele devolver.
 
 ## Estilo
 - Curto e direto, pt-BR, sem emoji. Diga o que fez, o que testou e o que falta.
