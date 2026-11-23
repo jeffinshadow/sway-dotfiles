@@ -38,3 +38,5 @@ zsh-completions starship fastfetch btop tmux fzf zoxide
 gammastep easyeffects kdeconnect
 # Controle remoto do modo TV e atalhos (teclado virtual do wlroots)
 wtype
+# Calculadora e emoji no rofi
+rofi-calc rofi-emoji
