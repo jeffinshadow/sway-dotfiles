@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=LLM local — rápido
+GenericName=Qwen3 8B, respostas curtas mais rápidas
+Exec=/home/shadow/.dotfiles/apps/llm/llm.sh abrir rapido
+Icon=applications-science
+Terminal=false
+Categories=Development;
+Keywords=ia;ai;llm;chat;qwen;rapido;
