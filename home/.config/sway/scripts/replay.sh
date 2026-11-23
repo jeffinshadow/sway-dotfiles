@@ -2,7 +2,7 @@
 # replay.sh iniciar|parar|salvar — replay buffer com o gpu-screen-recorder (AUR):
 # grava sem parar na memória os últimos 60 s do monitor principal (HEVC pela GPU,
 # com o áudio do sistema) e só grava em disco quando você pede (salvar).
-# Quem liga/desliga é o modo-jogo.sh; o atalho Super+Ctrl+Print salva.
+# Quem liga/desliga é o modo-jogo.sh; o atalho Super+Shift+g salva.
 set -euo pipefail
 OUT="DP-1"                                     # monitor de jogo
 dir="$(xdg-user-dir VIDEOS 2>/dev/null || echo "$HOME/Videos")/Replays"
