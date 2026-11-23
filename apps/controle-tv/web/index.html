@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#131314">
+<title>Controle TV</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<style>
+  :root {
+    --bg0: #0C0D0E; --bg: #131314; --c1: #1A1A1C; --c2: #222324; --c3: #2C2C2D;
+    --tx: #E6E3E4; --tx2: #9A989A; --ac: #5294E2; --ac2: #183A61; --ok: #6FCF97; --bad: #E26D5A;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+  html, body { margin: 0; background: var(--bg0); color: var(--tx); height: 100%; overflow: hidden;
+    font-family: "Google Sans", "Roboto", system-ui, sans-serif; overscroll-behavior: none; }
+  main { max-width: 480px; margin: 0 auto; padding: max(14px, env(safe-area-inset-top)) 16px
+    max(14px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px;
+    height: 100dvh; }   /* cabe na tela: o touchpad (flex: 1) fica com o espaço que sobra */
+  main > * { flex-shrink: 0; }
+  header { display: flex; align-items: center; gap: 12px; }
+  header h1 { font-size: 20px; font-weight: 600; margin: 0; flex: 1; }
+  .chip { font-size: 13px; padding: 5px 11px; border-radius: 99px; background: var(--c2); color: var(--tx2); }
+  .chip.on { background: #1d3a2a; color: var(--ok); }
+  button { font: inherit; color: var(--tx); background: var(--c1); border: 0; border-radius: 16px;
+    padding: 0; cursor: pointer; touch-action: manipulation; transition: background .08s, transform .08s; }
+  button:active { background: var(--c3); transform: scale(.96); }
+  .power { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; }
+  .power.on { background: var(--ac2); color: #cfe2fa; }
+  .now { font-size: 13px; color: var(--tx2); min-height: 18px; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; margin-top: -6px; }
+  .apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .apps button { height: 46px; font-size: 14px; font-weight: 600; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 1px; border-radius: 13px; }
+  .apps small { font-weight: 400; font-size: 10px; color: var(--tx2); }
+  .nav { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+  .lado { display: grid; grid-template-rows: repeat(3, 56px); gap: 6px; }
+  .lado button { font-size: 13px; border-radius: 14px; display: flex; align-items: center; gap: 8px;
+    padding: 0 14px; justify-content: flex-start; }
+  .lado button span { font-size: 16px; width: 18px; text-align: center; }
+  .pad { display: grid; grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(3, 56px); gap: 6px; }
+  .pad button { font-size: 20px; border-radius: 16px; }
+  .pad .ok { background: var(--ac2); color: #cfe2fa; font-size: 15px; font-weight: 600; border-radius: 50%; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .row button { height: 40px; font-size: 16px; border-radius: 12px; }
+  .row button.txt { font-size: 13px; }
+  .touch { flex: 1 1 auto !important; min-height: 120px; border-radius: 20px; background: var(--c1); display: grid; place-items: center;
+    color: var(--tx2); font-size: 13px; touch-action: none; border: 1px solid var(--c2); }
+  .touch.ativo { border-color: var(--ac); }
+  .clicks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: -2px; }
+  .clicks button { height: 36px; font-size: 12px; color: var(--tx2); border-radius: 12px; }
+  .texto { display: flex; gap: 8px; }
+  .texto input { flex: 1; min-width: 0; font: inherit; font-size: 16px; color: var(--tx); background: var(--c1);
+    border: 1px solid var(--c2); border-radius: 12px; padding: 9px 12px; user-select: text; }
+  .texto input:focus { outline: none; border-color: var(--ac); }
+  .texto button { width: 46px; font-size: 16px; border-radius: 12px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--tx2); margin: 4px 0 -4px;
+    font-weight: 500; }
+  button:disabled { opacity: .3; pointer-events: none; }
+  .menu-btn { width: 42px; height: 42px; border-radius: 50%; font-size: 20px; }
+  .menu { display: none; flex-direction: column; gap: 8px; background: var(--c1); border: 1px solid var(--c2);
+    border-radius: 16px; padding: 12px; }
+  .menu.vis { display: flex; }
+  .menu h3 { margin: 0 0 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--tx2); font-weight: 500; }
+  .menu .grade { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .menu button { height: 42px; font-size: 14px; border-radius: 12px; background: var(--c2); }
+  .menu button.perigo { color: #f2b8ad; }
+  .menu button.confirmar { background: #6b2a22; color: #fff; }
+  .menu p { margin: 0; font-size: 12px; color: var(--tx2); }
+  .erro { display: none; background: #3a1d1a; color: #f2b8ad; padding: 12px 14px; border-radius: 14px; font-size: 14px; }
+  .erro.vis { display: block; }
+  svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Controle TV</h1>
+    <span class="chip" id="chip">…</span>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu de energia do PC">⋯</button>
+    <button class="power" id="power" aria-label="Ligar ou desligar o modo TV">
+      <svg viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M6.3 6.3a8 8 0 1 0 11.4 0"/></svg>
+    </button>
+  </header>
+  <div class="now" id="now"></div>
+  <div class="menu" id="menu">
+    <h3>Energia do PC</h3>
+    <div class="grade">
+      <button data-power="telas-off">Apagar telas</button>
+      <button data-power="telas-on">Acender telas</button>
+      <button class="perigo" data-power="reboot" data-confirma="1">Reiniciar</button>
+      <button class="perigo" data-power="poweroff" data-confirma="1">Desligar PC</button>
+    </div>
+    <p>Desligar para a homologação e os backups da madrugada (eles rodam quando o PC ligar de novo).</p>
+  </div>
+  <div class="erro" id="erro"></div>
+
+  <div class="apps">
+    <button data-tv="youtube">YouTube<small>na TV</small></button>
+    <button data-tv="music">Music<small>YouTube</small></button>
+    <button data-tv="max">HBO Max<small>filmes e séries</small></button>
+  </div>
+
+  <div class="touch" id="touch">touchpad · toque = clique · dois dedos = rolar</div>
+  <div class="clicks">
+    <button data-click="left">Clique</button>
+    <button data-click="right">Clique direito</button>
+  </div>
+
+  <div class="nav">
+    <div class="lado">
+      <button data-key="back"><span>↩</span>Voltar</button>
+      <button id="fs"><span>⛶</span>Tela cheia</button>
+      <button data-tv="fechar"><span>✕</span>Fechar app</button>
+    </div>
+    <div class="pad">
+      <span></span><button data-key="up" aria-label="Cima">▲</button><span></span>
+      <button data-key="left" aria-label="Esquerda">◀</button>
+      <button data-key="ok" class="ok">OK</button>
+      <button data-key="right" aria-label="Direita">▶</button>
+      <span></span><button data-key="down" aria-label="Baixo">▼</button><span></span>
+    </div>
+  </div>
+
+  <h2>Zoom da tela</h2>
+  <div class="row">
+    <button data-zoom="out" aria-label="Diminuir zoom">🔍−</button>
+    <button class="txt" data-zoom="reset">100%</button>
+    <button data-zoom="in" aria-label="Aumentar zoom">🔍+</button>
+  </div>
+
+  <h2>Mídia e volume</h2>
+  <div class="row">
+    <button data-media="previous" aria-label="Anterior">⏮</button>
+    <button data-media="play-pause" aria-label="Tocar ou pausar">⏯</button>
+    <button data-media="next" aria-label="Próximo">⏭</button>
+  </div>
+  <div class="row">
+    <button data-vol="down" aria-label="Diminuir volume">🔉</button>
+    <button data-vol="mute" aria-label="Mudo">🔇</button>
+    <button data-vol="up" aria-label="Aumentar volume">🔊</button>
+  </div>
+
+  <h2>Digitar</h2>
+  <div class="texto">
+    <input id="txt" type="text" placeholder="Buscar, senha…" autocomplete="off" enterkeyhint="send">
+    <button id="enviar" aria-label="Enviar texto">➤</button>
+    <button data-key="backspace" aria-label="Apagar">⌫</button>
+  </div>
+</main>
+<script>
+(() => {
+  const q = new URLSearchParams(location.search);
+  if (q.get("k")) { localStorage.setItem("token", q.get("k")); history.replaceState(null, "", "/"); }
+  const token = localStorage.getItem("token") || "";
+  const $ = (s) => document.querySelector(s);
+  const erro = (m) => { $("#erro").textContent = m; $("#erro").classList.toggle("vis", !!m); };
+  if (!token) erro("Sem token: abra o link enviado pelo PC uma vez (com ?k=...).");
+
+  const vib = () => navigator.vibrate && navigator.vibrate(12);
+  async function api(d) {
+    try {
+      const r = await fetch("/api", { method: "POST", keepalive: true,
+        headers: { "Content-Type": "application/json", "X-Token": token }, body: JSON.stringify(d) });
+      if (r.status === 403) erro("Token inválido: abra de novo o link enviado pelo PC.");
+      else erro("");
+    } catch (e) { erro("Sem conexão com a giratina."); }
+  }
+  const tap = (sel, fn) => document.querySelectorAll(sel).forEach((b) =>
+    b.addEventListener("click", () => { vib(); fn(b); }));
+  tap("[data-key]", (b) => api({ t: "key", k: b.dataset.key }));
+  tap("[data-tv]", (b) => { api({ t: "tv", a: b.dataset.tv }); setTimeout(status, 1500); });
+  tap("[data-media]", (b) => api({ t: "media", a: b.dataset.media }));
+  tap("[data-vol]", (b) => api({ t: "vol", a: b.dataset.vol }));
+  tap("[data-click]", (b) => api({ t: "click", b: b.dataset.click }));
+  tap("[data-zoom]", (b) => api({ t: "zoom", a: b.dataset.zoom }));
+  tap("#menuBtn", () => $("#menu").classList.toggle("vis"));
+  // Reiniciar/Desligar: 1º toque arma (fica vermelho por 3 s), 2º toque executa
+  tap("[data-power]", (b) => {
+    if (b.dataset.confirma && !b.classList.contains("confirmar")) {
+      const txt = b.textContent; b.classList.add("confirmar"); b.textContent = "Toque de novo";
+      setTimeout(() => { b.classList.remove("confirmar"); b.textContent = txt; }, 3000);
+      return;
+    }
+    api({ t: "power", a: b.dataset.power });
+    if (b.dataset.confirma) { b.textContent = "Ok…"; erro(b.dataset.power === "poweroff" ? "Desligando o PC…" : "Reiniciando o PC…"); }
+    else $("#menu").classList.remove("vis");
+  });
+  tap("#fs", () => api({ t: "key", k: "f" }));
+  tap("#power", () => { api({ t: "tv", a: tvLigada ? "desligar" : "ligar" }); setTimeout(status, 1500); });
+  const enviar = () => { const s = $("#txt").value; if (s) { api({ t: "text", s }); $("#txt").value = ""; } };
+  tap("#enviar", enviar);
+  $("#txt").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); enviar(); } });
+
+  // Touchpad: 1 dedo move (com aceleração), toque = clique, 2 dedos = rolar, toque com 2 = clique direito
+  const pad = $("#touch");
+  let mx = 0, my = 0, sy = 0, last = null, t0 = 0, moved = 0, fingers = 0;
+  pad.addEventListener("touchstart", (e) => {
+    e.preventDefault(); pad.classList.add("ativo");
+    fingers = Math.max(fingers, e.touches.length);
+    const t = e.touches[0]; last = { x: t.clientX, y: t.clientY };
+    if (e.touches.length === 1) { t0 = performance.now(); moved = 0; }
+  }, { passive: false });
+  pad.addEventListener("touchmove", (e) => {
+    e.preventDefault(); const t = e.touches[0];
+    const dx = t.clientX - last.x, dy = t.clientY - last.y; last = { x: t.clientX, y: t.clientY };
+    moved += Math.abs(dx) + Math.abs(dy);
+    if (e.touches.length >= 2) { sy += dy; return; }
+    const v = Math.hypot(dx, dy), k = 1.6 + Math.min(v / 6, 2.4);   // aceleração
+    mx += dx * k; my += dy * k;
+  }, { passive: false });
+  pad.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    if (e.touches.length === 0) {
+      pad.classList.remove("ativo");
+      if (moved < 8 && performance.now() - t0 < 250) { vib(); api({ t: "click", b: fingers >= 2 ? "right" : "left" }); }
+      fingers = 0;
+    } else { const t = e.touches[0]; last = { x: t.clientX, y: t.clientY }; }
+  }, { passive: false });
+  setInterval(() => {
+    if (Math.abs(mx) >= 1 || Math.abs(my) >= 1) {
+      const dx = Math.trunc(mx), dy = Math.trunc(my); mx -= dx; my -= dy; api({ t: "move", dx, dy });
+    }
+    // rolagem: 1 px de dedo = 2 unidades de eixo do Wayland (~15 = um "clique" da roda)
+    if (Math.abs(sy) >= 2) { const n = Math.trunc(sy); sy -= n; api({ t: "scroll", dy: -n * 2 }); }
+  }, 25);
+
+  // Estado: modo TV ligado? o que está tocando?
+  let tvLigada = false;
+  async function status() {
+    if (!token || document.hidden) return;
+    try {
+      const r = await fetch("/api/status", { headers: { "X-Token": token } });
+      if (!r.ok) return;
+      const s = await r.json(); tvLigada = s.tv;
+      $("#chip").textContent = s.tv ? "Modo TV ligado" : "Desligado";
+      $("#chip").classList.toggle("on", s.tv); $("#power").classList.toggle("on", s.tv);
+      document.querySelectorAll("[data-zoom]").forEach((b) => b.disabled = s.app === "youtube");
+      $("#now").textContent = s.titulo ? (s.status === "Playing" ? "▶ " : "⏸ ") + s.titulo : "";
+    } catch (e) { erro("Sem conexão com a giratina."); }
+  }
+  status(); setInterval(status, 4000);
+  document.addEventListener("visibilitychange", status);
+
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js");
+})();
+</script>
+</body>
+</html>
