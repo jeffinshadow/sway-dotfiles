@@ -35,7 +35,7 @@ Rodar de novo é seguro.
 | Lançador | Rofi 2 (Wayland nativo), centralizado |
 | Terminal | Ghostty: GTK4, imagens (protocolo kitty), Nerd Font |
 | Arquivos | Nautilus |
-| Notificações / OSD | mako / swayosd |
+| Notificações, painel rápido / OSD | swaync (Super+,) / swayosd |
 | Bloqueio | swaylock + swayidle |
 | Login | greetd + tuigreet (configurado pelo deploy da máquina) |
 | Tema GTK3 | adw-gtk3-dark + paleta em `gtk-3.0/gtk.css` |

@@ -1,6 +1,6 @@
 ---
 name: dotfiles-sway
-description: Editar config do Sway, waybar, rofi, mako, ghostty, foot, MangoHud ou scripts em ~/.config/sway/scripts; atalhos de teclado; regras de janela; recarregar o desktop.
+description: Editar config do Sway, waybar, rofi, swaync (painel e notificações, ~/.config/swaync + scripts/painel.sh), ghostty, foot, MangoHud ou scripts em ~/.config/sway/scripts; atalhos de teclado; regras de janela; recarregar o desktop.
 ---
 # Dotfiles e Sway
 
