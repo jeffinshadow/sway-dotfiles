@@ -1,0 +1,14 @@
+[Unit]
+Description=Giratina: escuta "ei giratina" (Vosk, CPU, áudio só em memória)
+After=pipewire.service wireplumber.service graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/share/giratina-voz/venv/bin/python -u %h/.dotfiles/apps/llm/agente/voz.py
+Restart=on-failure
+RestartSec=5
+Nice=5
+CPUQuota=150%
+
+[Install]
+WantedBy=graphical-session.target

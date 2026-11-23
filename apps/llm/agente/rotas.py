@@ -30,7 +30,11 @@ def normaliza(t):
         return str(d + u)
     t = re.sub(r"\b(" + "|".join(DEZENAS) + r")\b( e (" + "|".join(UNIDADES) + r"))?", num, t)
     t = re.sub(r"\b(" + "|".join(UNIDADES) + r")\b", lambda m: str(UNIDADES[m.group(1)]), t)
-    t = re.sub(r"\btv\b|\bteve\b|\bt v\b|\btelevisao\b|\bteh ve\b", "tv", t)
+    # formas faladas que o reconhecedor de voz devolve (o modelo não tem "tv", "hbo", "jbl")
+    t = re.sub(r"\b(tv|teve|t v|te ve|tele ve|televisao|tevezinha)\b", "tv", t)
+    t = re.sub(r"\b(aga be o|agabeo|a g b o|h b o)\b", "hbo", t)
+    t = re.sub(r"\b(jota be ele|j b l)\b", "jbl", t)
+    t = re.sub(r"\b(iu tubi|you tube|iutubi|iutube)\b", "youtube", t)
     return re.sub(r"\s+", " ", t).strip()
 
 
