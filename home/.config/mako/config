@@ -33,3 +33,7 @@ default-timeout=0
 
 [mode=do-not-disturb]
 invisible=1
+
+# Alertas críticos (disco, link quebrado, bateria) aparecem mesmo no não perturbe
+[mode=do-not-disturb urgency=critical]
+invisible=0

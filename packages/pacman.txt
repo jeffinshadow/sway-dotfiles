@@ -33,3 +33,8 @@ nwg-clipman tesseract tesseract-data-por tesseract-data-eng imagemagick
 # Shell
 zsh zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search
 zsh-completions starship fastfetch btop tmux fzf zoxide
+
+# Áudio, luz noturna e celular
+gammastep easyeffects kdeconnect
+# Controle remoto do modo TV e atalhos (teclado virtual do wlroots)
+wtype
