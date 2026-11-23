@@ -1,0 +1,24 @@
+# LLM local (llama.cpp + Vulkan na RX 9050, 8 GB). Sob demanda: sobe pelo rofi ("LLM local")
+# e desce em "LLM local — parar" (libera a VRAM pros jogos). Só escuta em 127.0.0.1.
+# Interface web do próprio llama.cpp em http://127.0.0.1:8080 (API compatível com OpenAI em /v1).
+services:
+  llm:
+    image: ghcr.io/ggml-org/llama.cpp:server-vulkan
+    container_name: llm
+    devices:
+      - /dev/dri:/dev/dri
+    group_add:
+      - "987"   # render (GID do host)
+      - "983"   # video
+    volumes:
+      - ${HOME}/.local/share/llm/models:/models:ro
+    ports:
+      - "127.0.0.1:8080:8080"
+    command: >
+      -m /models/Qwen3-8B-Q4_K_M.gguf
+      --alias qwen3-8b
+      -ngl 99 -c 16384
+      -fa on -ctk q8_0 -ctv q8_0
+      --jinja
+      --host 0.0.0.0 --port 8080
+    restart: "no"

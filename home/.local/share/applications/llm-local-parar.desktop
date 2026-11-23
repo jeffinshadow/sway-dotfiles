@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=LLM local — parar
+Comment=Derruba o LLM local e libera a VRAM
+Exec=/home/shadow/.dotfiles/apps/llm/llm.sh parar
+Icon=process-stop
+Terminal=false
+Categories=Development;
+Keywords=ia;ai;llm;parar;

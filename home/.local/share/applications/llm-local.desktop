@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=LLM local
+GenericName=Qwen3 8B na GPU (llama.cpp)
+Comment=Sobe o LLM local e abre a interface web
+Exec=/home/shadow/.dotfiles/apps/llm/llm.sh abrir
+Icon=applications-science
+Terminal=false
+Categories=Development;
+Keywords=ia;ai;llm;chat;qwen;llama;
